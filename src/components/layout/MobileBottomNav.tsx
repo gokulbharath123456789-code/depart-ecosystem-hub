@@ -4,13 +4,20 @@ import { cn } from "@/lib/utils";
 import { useCartCount } from "@/store/cart";
 import { useUI } from "@/store/ui";
 
-const items = [
+type NavItem = {
+  to: "/" | "/shop" | "/wishlist" | "/cart";
+  label: string;
+  icon: typeof Home;
+  badge?: boolean;
+};
+
+const items: NavItem[] = [
   { to: "/", label: "Home", icon: Home },
   { to: "/shop", label: "Shop", icon: Search },
   { to: "/wishlist", label: "Saved", icon: Heart },
   { to: "/cart", label: "Cart", icon: ShoppingBag, badge: true },
   { to: "/", label: "Account", icon: User },
-] as const;
+];
 
 export function MobileBottomNav() {
   const pathname = useRouterState({ select: (s) => s.location.pathname });
