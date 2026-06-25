@@ -3,6 +3,7 @@ import { useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight, Heart, Minus, Plus, Star, Truck, ShieldCheck, RotateCcw, Clock } from "lucide-react";
 import { productBySlug, products } from "@/mock/products";
+import type { Product } from "@/types";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProductMedia } from "@/components/storefront/ProductMedia";
@@ -35,7 +36,7 @@ export const Route = createFileRoute("/product/$slug")({
 });
 
 function ProductPage() {
-  const { product } = Route.useLoaderData();
+  const { product } = Route.useLoaderData() as { product: Product };
   const [qty, setQty] = useState(1);
   const [activeImg, setActiveImg] = useState(0);
   const add = useCart((s) => s.add);
