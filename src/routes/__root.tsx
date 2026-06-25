@@ -11,6 +11,8 @@ import { useEffect, type ReactNode } from "react";
 
 import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
+import { StoreLayout } from "../components/layout/StoreLayout";
+import { Toaster } from "../components/ui/sonner";
 
 function NotFoundComponent() {
   return (
@@ -77,14 +79,14 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "Lovable App" },
-      { name: "description", content: "Lovable Generated Project" },
-      { name: "author", content: "Lovable" },
-      { property: "og:title", content: "Lovable App" },
-      { property: "og:description", content: "Lovable Generated Project" },
+      { title: "DEPART — Your supermarket, delivered in 10 minutes" },
+      { name: "description", content: "Shop 12,000+ fresh and premium groceries from DEPART, India's most thoughtful supermarket. 10-minute delivery." },
+      { name: "author", content: "DEPART Retail" },
+      { property: "og:title", content: "DEPART — Your supermarket, delivered in 10 minutes" },
+      { property: "og:description", content: "Fresh produce, premium pantry, household essentials — beautifully merchandised, delivered fast." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
-      { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:site", content: "@DEPART" },
     ],
     links: [
       {
@@ -118,8 +120,10 @@ function RootComponent() {
 
   return (
     <QueryClientProvider client={queryClient}>
-      {/* Required: nested routes render here. Removing <Outlet /> breaks all child routes. */}
-      <Outlet />
+      <StoreLayout>
+        <Outlet />
+      </StoreLayout>
+      <Toaster position="top-center" richColors />
     </QueryClientProvider>
   );
 }
