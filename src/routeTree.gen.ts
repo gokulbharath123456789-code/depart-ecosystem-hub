@@ -22,6 +22,7 @@ import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountWalletRouteImport } from './routes/account.wallet'
 import { Route as AccountTrackingRouteImport } from './routes/account.tracking'
 import { Route as AccountOrdersRouteImport } from './routes/account.orders'
+import { Route as AccountInvoicesRouteImport } from './routes/account.invoices'
 import { Route as AccountCouponsRouteImport } from './routes/account.coupons'
 import { Route as AccountAddressesRouteImport } from './routes/account.addresses'
 
@@ -90,6 +91,11 @@ const AccountOrdersRoute = AccountOrdersRouteImport.update({
   path: '/orders',
   getParentRoute: () => AccountRoute,
 } as any)
+const AccountInvoicesRoute = AccountInvoicesRouteImport.update({
+  id: '/invoices',
+  path: '/invoices',
+  getParentRoute: () => AccountRoute,
+} as any)
 const AccountCouponsRoute = AccountCouponsRouteImport.update({
   id: '/coupons',
   path: '/coupons',
@@ -110,6 +116,7 @@ export interface FileRoutesByFullPath {
   '/wishlist': typeof WishlistRoute
   '/account/addresses': typeof AccountAddressesRoute
   '/account/coupons': typeof AccountCouponsRoute
+  '/account/invoices': typeof AccountInvoicesRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
@@ -126,6 +133,7 @@ export interface FileRoutesByTo {
   '/wishlist': typeof WishlistRoute
   '/account/addresses': typeof AccountAddressesRoute
   '/account/coupons': typeof AccountCouponsRoute
+  '/account/invoices': typeof AccountInvoicesRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
@@ -144,6 +152,7 @@ export interface FileRoutesById {
   '/wishlist': typeof WishlistRoute
   '/account/addresses': typeof AccountAddressesRoute
   '/account/coupons': typeof AccountCouponsRoute
+  '/account/invoices': typeof AccountInvoicesRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
@@ -163,6 +172,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/account/addresses'
     | '/account/coupons'
+    | '/account/invoices'
     | '/account/orders'
     | '/account/tracking'
     | '/account/wallet'
@@ -179,6 +189,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/account/addresses'
     | '/account/coupons'
+    | '/account/invoices'
     | '/account/orders'
     | '/account/tracking'
     | '/account/wallet'
@@ -196,6 +207,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/account/addresses'
     | '/account/coupons'
+    | '/account/invoices'
     | '/account/orders'
     | '/account/tracking'
     | '/account/wallet'
@@ -309,6 +321,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountOrdersRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/invoices': {
+      id: '/account/invoices'
+      path: '/invoices'
+      fullPath: '/account/invoices'
+      preLoaderRoute: typeof AccountInvoicesRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/account/coupons': {
       id: '/account/coupons'
       path: '/coupons'
@@ -329,6 +348,7 @@ declare module '@tanstack/react-router' {
 interface AccountRouteChildren {
   AccountAddressesRoute: typeof AccountAddressesRoute
   AccountCouponsRoute: typeof AccountCouponsRoute
+  AccountInvoicesRoute: typeof AccountInvoicesRoute
   AccountOrdersRoute: typeof AccountOrdersRoute
   AccountTrackingRoute: typeof AccountTrackingRoute
   AccountWalletRoute: typeof AccountWalletRoute
@@ -339,6 +359,7 @@ interface AccountRouteChildren {
 const AccountRouteChildren: AccountRouteChildren = {
   AccountAddressesRoute: AccountAddressesRoute,
   AccountCouponsRoute: AccountCouponsRoute,
+  AccountInvoicesRoute: AccountInvoicesRoute,
   AccountOrdersRoute: AccountOrdersRoute,
   AccountTrackingRoute: AccountTrackingRoute,
   AccountWalletRoute: AccountWalletRoute,
