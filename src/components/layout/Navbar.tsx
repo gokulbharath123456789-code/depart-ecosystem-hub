@@ -75,9 +75,13 @@ export function Navbar() {
               </motion.span>
             )}
           </button>
-          <Button variant="ghost" size="icon" className="hidden rounded-full md:flex" aria-label="Account">
+          <Link
+            to="/account"
+            aria-label="Account"
+            className="hidden h-10 w-10 place-items-center rounded-full text-foreground/80 transition hover:bg-muted md:grid"
+          >
             <User className="h-5 w-5" />
-          </Button>
+          </Link>
           <Button variant="ghost" size="icon" className="rounded-full md:hidden" aria-label="Menu">
             <Menu className="h-5 w-5" />
           </Button>

@@ -22,6 +22,7 @@ import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountWalletRouteImport } from './routes/account.wallet'
 import { Route as AccountTrackingRouteImport } from './routes/account.tracking'
 import { Route as AccountSupportRouteImport } from './routes/account.support'
+import { Route as AccountSettingsRouteImport } from './routes/account.settings'
 import { Route as AccountReviewsRouteImport } from './routes/account.reviews'
 import { Route as AccountReturnsRouteImport } from './routes/account.returns'
 import { Route as AccountOrdersRouteImport } from './routes/account.orders'
@@ -95,6 +96,11 @@ const AccountSupportRoute = AccountSupportRouteImport.update({
   path: '/support',
   getParentRoute: () => AccountRoute,
 } as any)
+const AccountSettingsRoute = AccountSettingsRouteImport.update({
+  id: '/settings',
+  path: '/settings',
+  getParentRoute: () => AccountRoute,
+} as any)
 const AccountReviewsRoute = AccountReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
@@ -145,6 +151,7 @@ export interface FileRoutesByFullPath {
   '/account/orders': typeof AccountOrdersRoute
   '/account/returns': typeof AccountReturnsRoute
   '/account/reviews': typeof AccountReviewsRoute
+  '/account/settings': typeof AccountSettingsRoute
   '/account/support': typeof AccountSupportRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
@@ -166,6 +173,7 @@ export interface FileRoutesByTo {
   '/account/orders': typeof AccountOrdersRoute
   '/account/returns': typeof AccountReturnsRoute
   '/account/reviews': typeof AccountReviewsRoute
+  '/account/settings': typeof AccountSettingsRoute
   '/account/support': typeof AccountSupportRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
@@ -189,6 +197,7 @@ export interface FileRoutesById {
   '/account/orders': typeof AccountOrdersRoute
   '/account/returns': typeof AccountReturnsRoute
   '/account/reviews': typeof AccountReviewsRoute
+  '/account/settings': typeof AccountSettingsRoute
   '/account/support': typeof AccountSupportRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
@@ -213,6 +222,7 @@ export interface FileRouteTypes {
     | '/account/orders'
     | '/account/returns'
     | '/account/reviews'
+    | '/account/settings'
     | '/account/support'
     | '/account/tracking'
     | '/account/wallet'
@@ -234,6 +244,7 @@ export interface FileRouteTypes {
     | '/account/orders'
     | '/account/returns'
     | '/account/reviews'
+    | '/account/settings'
     | '/account/support'
     | '/account/tracking'
     | '/account/wallet'
@@ -256,6 +267,7 @@ export interface FileRouteTypes {
     | '/account/orders'
     | '/account/returns'
     | '/account/reviews'
+    | '/account/settings'
     | '/account/support'
     | '/account/tracking'
     | '/account/wallet'
@@ -369,6 +381,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountSupportRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/settings': {
+      id: '/account/settings'
+      path: '/settings'
+      fullPath: '/account/settings'
+      preLoaderRoute: typeof AccountSettingsRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/account/reviews': {
       id: '/account/reviews'
       path: '/reviews'
@@ -429,6 +448,7 @@ interface AccountRouteChildren {
   AccountOrdersRoute: typeof AccountOrdersRoute
   AccountReturnsRoute: typeof AccountReturnsRoute
   AccountReviewsRoute: typeof AccountReviewsRoute
+  AccountSettingsRoute: typeof AccountSettingsRoute
   AccountSupportRoute: typeof AccountSupportRoute
   AccountTrackingRoute: typeof AccountTrackingRoute
   AccountWalletRoute: typeof AccountWalletRoute
@@ -444,6 +464,7 @@ const AccountRouteChildren: AccountRouteChildren = {
   AccountOrdersRoute: AccountOrdersRoute,
   AccountReturnsRoute: AccountReturnsRoute,
   AccountReviewsRoute: AccountReviewsRoute,
+  AccountSettingsRoute: AccountSettingsRoute,
   AccountSupportRoute: AccountSupportRoute,
   AccountTrackingRoute: AccountTrackingRoute,
   AccountWalletRoute: AccountWalletRoute,
