@@ -18,6 +18,7 @@ import { Route as IndexRouteImport } from './routes/index'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountTrackingRouteImport } from './routes/account.tracking'
 import { Route as AccountOrdersRouteImport } from './routes/account.orders'
 
@@ -66,6 +67,11 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
   path: '/category/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AccountWishlistRoute = AccountWishlistRouteImport.update({
+  id: '/wishlist',
+  path: '/wishlist',
+  getParentRoute: () => AccountRoute,
+} as any)
 const AccountTrackingRoute = AccountTrackingRouteImport.update({
   id: '/tracking',
   path: '/tracking',
@@ -86,6 +92,7 @@ export interface FileRoutesByFullPath {
   '/wishlist': typeof WishlistRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
+  '/account/wishlist': typeof AccountWishlistRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account/': typeof AccountIndexRoute
@@ -98,6 +105,7 @@ export interface FileRoutesByTo {
   '/wishlist': typeof WishlistRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
+  '/account/wishlist': typeof AccountWishlistRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account': typeof AccountIndexRoute
@@ -112,6 +120,7 @@ export interface FileRoutesById {
   '/wishlist': typeof WishlistRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
+  '/account/wishlist': typeof AccountWishlistRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account/': typeof AccountIndexRoute
@@ -127,6 +136,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/account/orders'
     | '/account/tracking'
+    | '/account/wishlist'
     | '/category/$slug'
     | '/product/$slug'
     | '/account/'
@@ -139,6 +149,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/account/orders'
     | '/account/tracking'
+    | '/account/wishlist'
     | '/category/$slug'
     | '/product/$slug'
     | '/account'
@@ -152,6 +163,7 @@ export interface FileRouteTypes {
     | '/wishlist'
     | '/account/orders'
     | '/account/tracking'
+    | '/account/wishlist'
     | '/category/$slug'
     | '/product/$slug'
     | '/account/'
@@ -233,6 +245,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategorySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/account/wishlist': {
+      id: '/account/wishlist'
+      path: '/wishlist'
+      fullPath: '/account/wishlist'
+      preLoaderRoute: typeof AccountWishlistRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/account/tracking': {
       id: '/account/tracking'
       path: '/tracking'
@@ -253,12 +272,14 @@ declare module '@tanstack/react-router' {
 interface AccountRouteChildren {
   AccountOrdersRoute: typeof AccountOrdersRoute
   AccountTrackingRoute: typeof AccountTrackingRoute
+  AccountWishlistRoute: typeof AccountWishlistRoute
   AccountIndexRoute: typeof AccountIndexRoute
 }
 
 const AccountRouteChildren: AccountRouteChildren = {
   AccountOrdersRoute: AccountOrdersRoute,
   AccountTrackingRoute: AccountTrackingRoute,
+  AccountWishlistRoute: AccountWishlistRoute,
   AccountIndexRoute: AccountIndexRoute,
 }
 
