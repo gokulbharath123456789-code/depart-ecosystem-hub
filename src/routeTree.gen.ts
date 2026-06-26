@@ -22,6 +22,7 @@ import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountWalletRouteImport } from './routes/account.wallet'
 import { Route as AccountTrackingRouteImport } from './routes/account.tracking'
 import { Route as AccountOrdersRouteImport } from './routes/account.orders'
+import { Route as AccountCouponsRouteImport } from './routes/account.coupons'
 import { Route as AccountAddressesRouteImport } from './routes/account.addresses'
 
 const WishlistRoute = WishlistRouteImport.update({
@@ -89,6 +90,11 @@ const AccountOrdersRoute = AccountOrdersRouteImport.update({
   path: '/orders',
   getParentRoute: () => AccountRoute,
 } as any)
+const AccountCouponsRoute = AccountCouponsRouteImport.update({
+  id: '/coupons',
+  path: '/coupons',
+  getParentRoute: () => AccountRoute,
+} as any)
 const AccountAddressesRoute = AccountAddressesRouteImport.update({
   id: '/addresses',
   path: '/addresses',
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
   '/account/addresses': typeof AccountAddressesRoute
+  '/account/coupons': typeof AccountCouponsRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
   '/account/addresses': typeof AccountAddressesRoute
+  '/account/coupons': typeof AccountCouponsRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
@@ -135,6 +143,7 @@ export interface FileRoutesById {
   '/shop': typeof ShopRoute
   '/wishlist': typeof WishlistRoute
   '/account/addresses': typeof AccountAddressesRoute
+  '/account/coupons': typeof AccountCouponsRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
@@ -153,6 +162,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/wishlist'
     | '/account/addresses'
+    | '/account/coupons'
     | '/account/orders'
     | '/account/tracking'
     | '/account/wallet'
@@ -168,6 +178,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/wishlist'
     | '/account/addresses'
+    | '/account/coupons'
     | '/account/orders'
     | '/account/tracking'
     | '/account/wallet'
@@ -184,6 +195,7 @@ export interface FileRouteTypes {
     | '/shop'
     | '/wishlist'
     | '/account/addresses'
+    | '/account/coupons'
     | '/account/orders'
     | '/account/tracking'
     | '/account/wallet'
@@ -297,6 +309,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountOrdersRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/coupons': {
+      id: '/account/coupons'
+      path: '/coupons'
+      fullPath: '/account/coupons'
+      preLoaderRoute: typeof AccountCouponsRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/account/addresses': {
       id: '/account/addresses'
       path: '/addresses'
@@ -309,6 +328,7 @@ declare module '@tanstack/react-router' {
 
 interface AccountRouteChildren {
   AccountAddressesRoute: typeof AccountAddressesRoute
+  AccountCouponsRoute: typeof AccountCouponsRoute
   AccountOrdersRoute: typeof AccountOrdersRoute
   AccountTrackingRoute: typeof AccountTrackingRoute
   AccountWalletRoute: typeof AccountWalletRoute
@@ -318,6 +338,7 @@ interface AccountRouteChildren {
 
 const AccountRouteChildren: AccountRouteChildren = {
   AccountAddressesRoute: AccountAddressesRoute,
+  AccountCouponsRoute: AccountCouponsRoute,
   AccountOrdersRoute: AccountOrdersRoute,
   AccountTrackingRoute: AccountTrackingRoute,
   AccountWalletRoute: AccountWalletRoute,
