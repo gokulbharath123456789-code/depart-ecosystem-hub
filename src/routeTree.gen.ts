@@ -25,6 +25,7 @@ import { Route as AccountSupportRouteImport } from './routes/account.support'
 import { Route as AccountReviewsRouteImport } from './routes/account.reviews'
 import { Route as AccountReturnsRouteImport } from './routes/account.returns'
 import { Route as AccountOrdersRouteImport } from './routes/account.orders'
+import { Route as AccountNotificationsRouteImport } from './routes/account.notifications'
 import { Route as AccountInvoicesRouteImport } from './routes/account.invoices'
 import { Route as AccountCouponsRouteImport } from './routes/account.coupons'
 import { Route as AccountAddressesRouteImport } from './routes/account.addresses'
@@ -109,6 +110,11 @@ const AccountOrdersRoute = AccountOrdersRouteImport.update({
   path: '/orders',
   getParentRoute: () => AccountRoute,
 } as any)
+const AccountNotificationsRoute = AccountNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
+  getParentRoute: () => AccountRoute,
+} as any)
 const AccountInvoicesRoute = AccountInvoicesRouteImport.update({
   id: '/invoices',
   path: '/invoices',
@@ -135,6 +141,7 @@ export interface FileRoutesByFullPath {
   '/account/addresses': typeof AccountAddressesRoute
   '/account/coupons': typeof AccountCouponsRoute
   '/account/invoices': typeof AccountInvoicesRoute
+  '/account/notifications': typeof AccountNotificationsRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/returns': typeof AccountReturnsRoute
   '/account/reviews': typeof AccountReviewsRoute
@@ -155,6 +162,7 @@ export interface FileRoutesByTo {
   '/account/addresses': typeof AccountAddressesRoute
   '/account/coupons': typeof AccountCouponsRoute
   '/account/invoices': typeof AccountInvoicesRoute
+  '/account/notifications': typeof AccountNotificationsRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/returns': typeof AccountReturnsRoute
   '/account/reviews': typeof AccountReviewsRoute
@@ -177,6 +185,7 @@ export interface FileRoutesById {
   '/account/addresses': typeof AccountAddressesRoute
   '/account/coupons': typeof AccountCouponsRoute
   '/account/invoices': typeof AccountInvoicesRoute
+  '/account/notifications': typeof AccountNotificationsRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/returns': typeof AccountReturnsRoute
   '/account/reviews': typeof AccountReviewsRoute
@@ -200,6 +209,7 @@ export interface FileRouteTypes {
     | '/account/addresses'
     | '/account/coupons'
     | '/account/invoices'
+    | '/account/notifications'
     | '/account/orders'
     | '/account/returns'
     | '/account/reviews'
@@ -220,6 +230,7 @@ export interface FileRouteTypes {
     | '/account/addresses'
     | '/account/coupons'
     | '/account/invoices'
+    | '/account/notifications'
     | '/account/orders'
     | '/account/returns'
     | '/account/reviews'
@@ -241,6 +252,7 @@ export interface FileRouteTypes {
     | '/account/addresses'
     | '/account/coupons'
     | '/account/invoices'
+    | '/account/notifications'
     | '/account/orders'
     | '/account/returns'
     | '/account/reviews'
@@ -378,6 +390,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountOrdersRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/notifications': {
+      id: '/account/notifications'
+      path: '/notifications'
+      fullPath: '/account/notifications'
+      preLoaderRoute: typeof AccountNotificationsRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/account/invoices': {
       id: '/account/invoices'
       path: '/invoices'
@@ -406,6 +425,7 @@ interface AccountRouteChildren {
   AccountAddressesRoute: typeof AccountAddressesRoute
   AccountCouponsRoute: typeof AccountCouponsRoute
   AccountInvoicesRoute: typeof AccountInvoicesRoute
+  AccountNotificationsRoute: typeof AccountNotificationsRoute
   AccountOrdersRoute: typeof AccountOrdersRoute
   AccountReturnsRoute: typeof AccountReturnsRoute
   AccountReviewsRoute: typeof AccountReviewsRoute
@@ -420,6 +440,7 @@ const AccountRouteChildren: AccountRouteChildren = {
   AccountAddressesRoute: AccountAddressesRoute,
   AccountCouponsRoute: AccountCouponsRoute,
   AccountInvoicesRoute: AccountInvoicesRoute,
+  AccountNotificationsRoute: AccountNotificationsRoute,
   AccountOrdersRoute: AccountOrdersRoute,
   AccountReturnsRoute: AccountReturnsRoute,
   AccountReviewsRoute: AccountReviewsRoute,
