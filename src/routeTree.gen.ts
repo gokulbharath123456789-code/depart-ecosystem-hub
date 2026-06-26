@@ -21,6 +21,7 @@ import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountWalletRouteImport } from './routes/account.wallet'
 import { Route as AccountTrackingRouteImport } from './routes/account.tracking'
+import { Route as AccountSupportRouteImport } from './routes/account.support'
 import { Route as AccountReviewsRouteImport } from './routes/account.reviews'
 import { Route as AccountReturnsRouteImport } from './routes/account.returns'
 import { Route as AccountOrdersRouteImport } from './routes/account.orders'
@@ -88,6 +89,11 @@ const AccountTrackingRoute = AccountTrackingRouteImport.update({
   path: '/tracking',
   getParentRoute: () => AccountRoute,
 } as any)
+const AccountSupportRoute = AccountSupportRouteImport.update({
+  id: '/support',
+  path: '/support',
+  getParentRoute: () => AccountRoute,
+} as any)
 const AccountReviewsRoute = AccountReviewsRouteImport.update({
   id: '/reviews',
   path: '/reviews',
@@ -132,6 +138,7 @@ export interface FileRoutesByFullPath {
   '/account/orders': typeof AccountOrdersRoute
   '/account/returns': typeof AccountReturnsRoute
   '/account/reviews': typeof AccountReviewsRoute
+  '/account/support': typeof AccountSupportRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
@@ -151,6 +158,7 @@ export interface FileRoutesByTo {
   '/account/orders': typeof AccountOrdersRoute
   '/account/returns': typeof AccountReturnsRoute
   '/account/reviews': typeof AccountReviewsRoute
+  '/account/support': typeof AccountSupportRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
@@ -172,6 +180,7 @@ export interface FileRoutesById {
   '/account/orders': typeof AccountOrdersRoute
   '/account/returns': typeof AccountReturnsRoute
   '/account/reviews': typeof AccountReviewsRoute
+  '/account/support': typeof AccountSupportRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
@@ -194,6 +203,7 @@ export interface FileRouteTypes {
     | '/account/orders'
     | '/account/returns'
     | '/account/reviews'
+    | '/account/support'
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
@@ -213,6 +223,7 @@ export interface FileRouteTypes {
     | '/account/orders'
     | '/account/returns'
     | '/account/reviews'
+    | '/account/support'
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
@@ -233,6 +244,7 @@ export interface FileRouteTypes {
     | '/account/orders'
     | '/account/returns'
     | '/account/reviews'
+    | '/account/support'
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
@@ -338,6 +350,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountTrackingRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/support': {
+      id: '/account/support'
+      path: '/support'
+      fullPath: '/account/support'
+      preLoaderRoute: typeof AccountSupportRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/account/reviews': {
       id: '/account/reviews'
       path: '/reviews'
@@ -390,6 +409,7 @@ interface AccountRouteChildren {
   AccountOrdersRoute: typeof AccountOrdersRoute
   AccountReturnsRoute: typeof AccountReturnsRoute
   AccountReviewsRoute: typeof AccountReviewsRoute
+  AccountSupportRoute: typeof AccountSupportRoute
   AccountTrackingRoute: typeof AccountTrackingRoute
   AccountWalletRoute: typeof AccountWalletRoute
   AccountWishlistRoute: typeof AccountWishlistRoute
@@ -403,6 +423,7 @@ const AccountRouteChildren: AccountRouteChildren = {
   AccountOrdersRoute: AccountOrdersRoute,
   AccountReturnsRoute: AccountReturnsRoute,
   AccountReviewsRoute: AccountReviewsRoute,
+  AccountSupportRoute: AccountSupportRoute,
   AccountTrackingRoute: AccountTrackingRoute,
   AccountWalletRoute: AccountWalletRoute,
   AccountWishlistRoute: AccountWishlistRoute,
