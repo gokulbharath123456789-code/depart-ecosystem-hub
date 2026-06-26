@@ -21,6 +21,7 @@ import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountWalletRouteImport } from './routes/account.wallet'
 import { Route as AccountTrackingRouteImport } from './routes/account.tracking'
+import { Route as AccountReturnsRouteImport } from './routes/account.returns'
 import { Route as AccountOrdersRouteImport } from './routes/account.orders'
 import { Route as AccountInvoicesRouteImport } from './routes/account.invoices'
 import { Route as AccountCouponsRouteImport } from './routes/account.coupons'
@@ -86,6 +87,11 @@ const AccountTrackingRoute = AccountTrackingRouteImport.update({
   path: '/tracking',
   getParentRoute: () => AccountRoute,
 } as any)
+const AccountReturnsRoute = AccountReturnsRouteImport.update({
+  id: '/returns',
+  path: '/returns',
+  getParentRoute: () => AccountRoute,
+} as any)
 const AccountOrdersRoute = AccountOrdersRouteImport.update({
   id: '/orders',
   path: '/orders',
@@ -118,6 +124,7 @@ export interface FileRoutesByFullPath {
   '/account/coupons': typeof AccountCouponsRoute
   '/account/invoices': typeof AccountInvoicesRoute
   '/account/orders': typeof AccountOrdersRoute
+  '/account/returns': typeof AccountReturnsRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
@@ -135,6 +142,7 @@ export interface FileRoutesByTo {
   '/account/coupons': typeof AccountCouponsRoute
   '/account/invoices': typeof AccountInvoicesRoute
   '/account/orders': typeof AccountOrdersRoute
+  '/account/returns': typeof AccountReturnsRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
@@ -154,6 +162,7 @@ export interface FileRoutesById {
   '/account/coupons': typeof AccountCouponsRoute
   '/account/invoices': typeof AccountInvoicesRoute
   '/account/orders': typeof AccountOrdersRoute
+  '/account/returns': typeof AccountReturnsRoute
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
@@ -174,6 +183,7 @@ export interface FileRouteTypes {
     | '/account/coupons'
     | '/account/invoices'
     | '/account/orders'
+    | '/account/returns'
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
@@ -191,6 +201,7 @@ export interface FileRouteTypes {
     | '/account/coupons'
     | '/account/invoices'
     | '/account/orders'
+    | '/account/returns'
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
@@ -209,6 +220,7 @@ export interface FileRouteTypes {
     | '/account/coupons'
     | '/account/invoices'
     | '/account/orders'
+    | '/account/returns'
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
@@ -314,6 +326,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountTrackingRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/returns': {
+      id: '/account/returns'
+      path: '/returns'
+      fullPath: '/account/returns'
+      preLoaderRoute: typeof AccountReturnsRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/account/orders': {
       id: '/account/orders'
       path: '/orders'
@@ -350,6 +369,7 @@ interface AccountRouteChildren {
   AccountCouponsRoute: typeof AccountCouponsRoute
   AccountInvoicesRoute: typeof AccountInvoicesRoute
   AccountOrdersRoute: typeof AccountOrdersRoute
+  AccountReturnsRoute: typeof AccountReturnsRoute
   AccountTrackingRoute: typeof AccountTrackingRoute
   AccountWalletRoute: typeof AccountWalletRoute
   AccountWishlistRoute: typeof AccountWishlistRoute
@@ -361,6 +381,7 @@ const AccountRouteChildren: AccountRouteChildren = {
   AccountCouponsRoute: AccountCouponsRoute,
   AccountInvoicesRoute: AccountInvoicesRoute,
   AccountOrdersRoute: AccountOrdersRoute,
+  AccountReturnsRoute: AccountReturnsRoute,
   AccountTrackingRoute: AccountTrackingRoute,
   AccountWalletRoute: AccountWalletRoute,
   AccountWishlistRoute: AccountWishlistRoute,
