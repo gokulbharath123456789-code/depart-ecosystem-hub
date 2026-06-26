@@ -19,6 +19,7 @@ import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
+import { Route as AccountWalletRouteImport } from './routes/account.wallet'
 import { Route as AccountTrackingRouteImport } from './routes/account.tracking'
 import { Route as AccountOrdersRouteImport } from './routes/account.orders'
 import { Route as AccountAddressesRouteImport } from './routes/account.addresses'
@@ -73,6 +74,11 @@ const AccountWishlistRoute = AccountWishlistRouteImport.update({
   path: '/wishlist',
   getParentRoute: () => AccountRoute,
 } as any)
+const AccountWalletRoute = AccountWalletRouteImport.update({
+  id: '/wallet',
+  path: '/wallet',
+  getParentRoute: () => AccountRoute,
+} as any)
 const AccountTrackingRoute = AccountTrackingRouteImport.update({
   id: '/tracking',
   path: '/tracking',
@@ -99,6 +105,7 @@ export interface FileRoutesByFullPath {
   '/account/addresses': typeof AccountAddressesRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
+  '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -113,6 +120,7 @@ export interface FileRoutesByTo {
   '/account/addresses': typeof AccountAddressesRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
+  '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -129,6 +137,7 @@ export interface FileRoutesById {
   '/account/addresses': typeof AccountAddressesRoute
   '/account/orders': typeof AccountOrdersRoute
   '/account/tracking': typeof AccountTrackingRoute
+  '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -146,6 +155,7 @@ export interface FileRouteTypes {
     | '/account/addresses'
     | '/account/orders'
     | '/account/tracking'
+    | '/account/wallet'
     | '/account/wishlist'
     | '/category/$slug'
     | '/product/$slug'
@@ -160,6 +170,7 @@ export interface FileRouteTypes {
     | '/account/addresses'
     | '/account/orders'
     | '/account/tracking'
+    | '/account/wallet'
     | '/account/wishlist'
     | '/category/$slug'
     | '/product/$slug'
@@ -175,6 +186,7 @@ export interface FileRouteTypes {
     | '/account/addresses'
     | '/account/orders'
     | '/account/tracking'
+    | '/account/wallet'
     | '/account/wishlist'
     | '/category/$slug'
     | '/product/$slug'
@@ -264,6 +276,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountWishlistRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/account/wallet': {
+      id: '/account/wallet'
+      path: '/wallet'
+      fullPath: '/account/wallet'
+      preLoaderRoute: typeof AccountWalletRouteImport
+      parentRoute: typeof AccountRoute
+    }
     '/account/tracking': {
       id: '/account/tracking'
       path: '/tracking'
@@ -292,6 +311,7 @@ interface AccountRouteChildren {
   AccountAddressesRoute: typeof AccountAddressesRoute
   AccountOrdersRoute: typeof AccountOrdersRoute
   AccountTrackingRoute: typeof AccountTrackingRoute
+  AccountWalletRoute: typeof AccountWalletRoute
   AccountWishlistRoute: typeof AccountWishlistRoute
   AccountIndexRoute: typeof AccountIndexRoute
 }
@@ -300,6 +320,7 @@ const AccountRouteChildren: AccountRouteChildren = {
   AccountAddressesRoute: AccountAddressesRoute,
   AccountOrdersRoute: AccountOrdersRoute,
   AccountTrackingRoute: AccountTrackingRoute,
+  AccountWalletRoute: AccountWalletRoute,
   AccountWishlistRoute: AccountWishlistRoute,
   AccountIndexRoute: AccountIndexRoute,
 }
