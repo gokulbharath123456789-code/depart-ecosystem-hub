@@ -27,6 +27,7 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminLockRouteImport } from './routes/admin.lock'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountWalletRouteImport } from './routes/account.wallet'
 import { Route as AccountTrackingRouteImport } from './routes/account.tracking'
@@ -130,6 +131,11 @@ const AdminDashboardRoute = AdminDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
+  id: '/categories',
+  path: '/categories',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AccountWishlistRoute = AccountWishlistRouteImport.update({
   id: '/wishlist',
   path: '/wishlist',
@@ -211,6 +217,7 @@ export interface FileRoutesByFullPath {
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/lock': typeof AdminLockRoute
@@ -241,6 +248,7 @@ export interface FileRoutesByTo {
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/lock': typeof AdminLockRoute
@@ -274,6 +282,7 @@ export interface FileRoutesById {
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
+  '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/lock': typeof AdminLockRoute
@@ -308,6 +317,7 @@ export interface FileRouteTypes {
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
+    | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/lock'
@@ -338,6 +348,7 @@ export interface FileRouteTypes {
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
+    | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/lock'
@@ -370,6 +381,7 @@ export interface FileRouteTypes {
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
+    | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/lock'
@@ -523,6 +535,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDashboardRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/categories': {
+      id: '/admin/categories'
+      path: '/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminCategoriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/account/wishlist': {
       id: '/account/wishlist'
       path: '/wishlist'
@@ -646,6 +665,7 @@ const AccountRouteWithChildren =
   AccountRoute._addFileChildren(AccountRouteChildren)
 
 interface AdminRouteChildren {
+  AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminLockRoute: typeof AdminLockRoute
@@ -657,6 +677,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminCategoriesRoute: AdminCategoriesRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminLockRoute: AdminLockRoute,
