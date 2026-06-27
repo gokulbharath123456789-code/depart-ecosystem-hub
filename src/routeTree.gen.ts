@@ -21,6 +21,7 @@ import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
+import { Route as AdminOtpRouteImport } from './routes/admin.otp'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
@@ -95,6 +96,11 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
 const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOtpRoute = AdminOtpRouteImport.update({
+  id: '/otp',
+  path: '/otp',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
@@ -196,6 +202,7 @@ export interface FileRoutesByFullPath {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/otp': typeof AdminOtpRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -223,6 +230,7 @@ export interface FileRoutesByTo {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/otp': typeof AdminOtpRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -253,6 +261,7 @@ export interface FileRoutesById {
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/otp': typeof AdminOtpRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -284,6 +293,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/login'
+    | '/admin/otp'
     | '/admin/reset-password'
     | '/category/$slug'
     | '/product/$slug'
@@ -311,6 +321,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/login'
+    | '/admin/otp'
     | '/admin/reset-password'
     | '/category/$slug'
     | '/product/$slug'
@@ -340,6 +351,7 @@ export interface FileRouteTypes {
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/login'
+    | '/admin/otp'
     | '/admin/reset-password'
     | '/category/$slug'
     | '/product/$slug'
@@ -443,6 +455,13 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/admin/reset-password'
       preLoaderRoute: typeof AdminResetPasswordRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/otp': {
+      id: '/admin/otp'
+      path: '/otp'
+      fullPath: '/admin/otp'
+      preLoaderRoute: typeof AdminOtpRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/login': {
@@ -592,6 +611,7 @@ interface AdminRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminOtpRoute: typeof AdminOtpRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
@@ -600,6 +620,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminDashboardRoute: AdminDashboardRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminOtpRoute: AdminOtpRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
