@@ -20,6 +20,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountWalletRouteImport } from './routes/account.wallet'
 import { Route as AccountTrackingRouteImport } from './routes/account.tracking'
@@ -87,6 +88,11 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminDashboardRoute = AdminDashboardRouteImport.update({
+  id: '/dashboard',
+  path: '/dashboard',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AccountWishlistRoute = AccountWishlistRouteImport.update({
   id: '/wishlist',
@@ -169,6 +175,7 @@ export interface FileRoutesByFullPath {
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account/': typeof AccountIndexRoute
@@ -192,6 +199,7 @@ export interface FileRoutesByTo {
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account': typeof AccountIndexRoute
@@ -218,6 +226,7 @@ export interface FileRoutesById {
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
+  '/admin/dashboard': typeof AdminDashboardRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account/': typeof AccountIndexRoute
@@ -245,6 +254,7 @@ export interface FileRouteTypes {
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
+    | '/admin/dashboard'
     | '/category/$slug'
     | '/product/$slug'
     | '/account/'
@@ -268,6 +278,7 @@ export interface FileRouteTypes {
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
+    | '/admin/dashboard'
     | '/category/$slug'
     | '/product/$slug'
     | '/account'
@@ -293,6 +304,7 @@ export interface FileRouteTypes {
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
+    | '/admin/dashboard'
     | '/category/$slug'
     | '/product/$slug'
     | '/account/'
@@ -389,6 +401,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/category/$slug'
       preLoaderRoute: typeof CategorySlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/dashboard': {
+      id: '/admin/dashboard'
+      path: '/dashboard'
+      fullPath: '/admin/dashboard'
+      preLoaderRoute: typeof AdminDashboardRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/account/wishlist': {
       id: '/account/wishlist'
@@ -513,10 +532,12 @@ const AccountRouteWithChildren =
   AccountRoute._addFileChildren(AccountRouteChildren)
 
 interface AdminRouteChildren {
+  AdminDashboardRoute: typeof AdminDashboardRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminDashboardRoute: AdminDashboardRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
