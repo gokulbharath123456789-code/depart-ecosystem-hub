@@ -20,6 +20,7 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as AdminSuppliersRouteImport } from './routes/admin.suppliers'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOtpRouteImport } from './routes/admin.otp'
@@ -98,6 +99,11 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
   id: '/category/$slug',
   path: '/category/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSuppliersRoute = AdminSuppliersRouteImport.update({
+  id: '/suppliers',
+  path: '/suppliers',
+  getParentRoute: () => AdminRoute,
 } as any)
 const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
   id: '/reset-password',
@@ -246,6 +252,7 @@ export interface FileRoutesByFullPath {
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
+  '/admin/suppliers': typeof AdminSuppliersRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account/': typeof AccountIndexRoute
@@ -280,6 +287,7 @@ export interface FileRoutesByTo {
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
+  '/admin/suppliers': typeof AdminSuppliersRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account': typeof AccountIndexRoute
@@ -317,6 +325,7 @@ export interface FileRoutesById {
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
+  '/admin/suppliers': typeof AdminSuppliersRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account/': typeof AccountIndexRoute
@@ -355,6 +364,7 @@ export interface FileRouteTypes {
     | '/admin/otp'
     | '/admin/products'
     | '/admin/reset-password'
+    | '/admin/suppliers'
     | '/category/$slug'
     | '/product/$slug'
     | '/account/'
@@ -389,6 +399,7 @@ export interface FileRouteTypes {
     | '/admin/otp'
     | '/admin/products'
     | '/admin/reset-password'
+    | '/admin/suppliers'
     | '/category/$slug'
     | '/product/$slug'
     | '/account'
@@ -425,6 +436,7 @@ export interface FileRouteTypes {
     | '/admin/otp'
     | '/admin/products'
     | '/admin/reset-password'
+    | '/admin/suppliers'
     | '/category/$slug'
     | '/product/$slug'
     | '/account/'
@@ -521,6 +533,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/category/$slug'
       preLoaderRoute: typeof CategorySlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/admin/suppliers': {
+      id: '/admin/suppliers'
+      path: '/suppliers'
+      fullPath: '/admin/suppliers'
+      preLoaderRoute: typeof AdminSuppliersRouteImport
+      parentRoute: typeof AdminRoute
     }
     '/admin/reset-password': {
       id: '/admin/reset-password'
@@ -733,6 +752,7 @@ interface AdminRouteChildren {
   AdminOtpRoute: typeof AdminOtpRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
+  AdminSuppliersRoute: typeof AdminSuppliersRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
@@ -748,6 +768,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminOtpRoute: AdminOtpRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
+  AdminSuppliersRoute: AdminSuppliersRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
