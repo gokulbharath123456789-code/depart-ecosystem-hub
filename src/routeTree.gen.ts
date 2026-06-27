@@ -23,6 +23,7 @@ import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOtpRouteImport } from './routes/admin.otp'
+import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminLockRouteImport } from './routes/admin.lock'
 import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
@@ -110,6 +111,11 @@ const AdminProductsRoute = AdminProductsRouteImport.update({
 const AdminOtpRoute = AdminOtpRouteImport.update({
   id: '/otp',
   path: '/otp',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminOrdersRoute = AdminOrdersRouteImport.update({
+  id: '/orders',
+  path: '/orders',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
@@ -229,6 +235,7 @@ export interface FileRoutesByFullPath {
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
@@ -261,6 +268,7 @@ export interface FileRoutesByTo {
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
@@ -296,6 +304,7 @@ export interface FileRoutesById {
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
@@ -332,6 +341,7 @@ export interface FileRouteTypes {
     | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
+    | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
     | '/admin/reset-password'
@@ -364,6 +374,7 @@ export interface FileRouteTypes {
     | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
+    | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
     | '/admin/reset-password'
@@ -398,6 +409,7 @@ export interface FileRouteTypes {
     | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
+    | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
     | '/admin/reset-password'
@@ -517,6 +529,13 @@ declare module '@tanstack/react-router' {
       path: '/otp'
       fullPath: '/admin/otp'
       preLoaderRoute: typeof AdminOtpRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/orders': {
+      id: '/admin/orders'
+      path: '/orders'
+      fullPath: '/admin/orders'
+      preLoaderRoute: typeof AdminOrdersRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/login': {
@@ -690,6 +709,7 @@ interface AdminRouteChildren {
   AdminInventoryRoute: typeof AdminInventoryRoute
   AdminLockRoute: typeof AdminLockRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminOrdersRoute: typeof AdminOrdersRoute
   AdminOtpRoute: typeof AdminOtpRoute
   AdminProductsRoute: typeof AdminProductsRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
@@ -703,6 +723,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminInventoryRoute: AdminInventoryRoute,
   AdminLockRoute: AdminLockRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminOrdersRoute: AdminOrdersRoute,
   AdminOtpRoute: AdminOtpRoute,
   AdminProductsRoute: AdminProductsRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
