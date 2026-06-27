@@ -22,6 +22,7 @@ import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AdminSuppliersRouteImport } from './routes/admin.suppliers'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
+import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOtpRouteImport } from './routes/admin.otp'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
@@ -109,6 +110,11 @@ const AdminSuppliersRoute = AdminSuppliersRouteImport.update({
 const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminReportsRoute = AdminReportsRouteImport.update({
+  id: '/reports',
+  path: '/reports',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminProductsRoute = AdminProductsRouteImport.update({
@@ -258,6 +264,7 @@ export interface FileRoutesByFullPath {
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -294,6 +301,7 @@ export interface FileRoutesByTo {
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -333,6 +341,7 @@ export interface FileRoutesById {
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
+  '/admin/reports': typeof AdminReportsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/category/$slug': typeof CategorySlugRoute
@@ -373,6 +382,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
+    | '/admin/reports'
     | '/admin/reset-password'
     | '/admin/suppliers'
     | '/category/$slug'
@@ -409,6 +419,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
+    | '/admin/reports'
     | '/admin/reset-password'
     | '/admin/suppliers'
     | '/category/$slug'
@@ -447,6 +458,7 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
+    | '/admin/reports'
     | '/admin/reset-password'
     | '/admin/suppliers'
     | '/category/$slug'
@@ -558,6 +570,13 @@ declare module '@tanstack/react-router' {
       path: '/reset-password'
       fullPath: '/admin/reset-password'
       preLoaderRoute: typeof AdminResetPasswordRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/reports': {
+      id: '/admin/reports'
+      path: '/reports'
+      fullPath: '/admin/reports'
+      preLoaderRoute: typeof AdminReportsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/products': {
@@ -771,6 +790,7 @@ interface AdminRouteChildren {
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminOtpRoute: typeof AdminOtpRoute
   AdminProductsRoute: typeof AdminProductsRoute
+  AdminReportsRoute: typeof AdminReportsRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   AdminSuppliersRoute: typeof AdminSuppliersRoute
   AdminIndexRoute: typeof AdminIndexRoute
@@ -788,6 +808,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminOrdersRoute: AdminOrdersRoute,
   AdminOtpRoute: AdminOtpRoute,
   AdminProductsRoute: AdminProductsRoute,
+  AdminReportsRoute: AdminReportsRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
   AdminSuppliersRoute: AdminSuppliersRoute,
   AdminIndexRoute: AdminIndexRoute,
