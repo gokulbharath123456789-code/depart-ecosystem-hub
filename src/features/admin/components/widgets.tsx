@@ -60,7 +60,7 @@ export function KpiCard({
   sparkline,
 }: {
   label: string;
-  value: string;
+  value: string | number;
   delta?: number;
   icon: LucideIcon;
   tint?: keyof typeof tints;
