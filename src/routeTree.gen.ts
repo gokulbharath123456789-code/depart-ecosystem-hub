@@ -32,6 +32,7 @@ import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-p
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminCustomersRouteImport } from './routes/admin.customers'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
+import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountWalletRouteImport } from './routes/account.wallet'
 import { Route as AccountTrackingRouteImport } from './routes/account.tracking'
@@ -160,6 +161,11 @@ const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
   path: '/categories',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
+  id: '/analytics',
+  path: '/analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AccountWishlistRoute = AccountWishlistRouteImport.update({
   id: '/wishlist',
   path: '/wishlist',
@@ -241,6 +247,7 @@ export interface FileRoutesByFullPath {
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -276,6 +283,7 @@ export interface FileRoutesByTo {
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -314,6 +322,7 @@ export interface FileRoutesById {
   '/account/tracking': typeof AccountTrackingRoute
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
+  '/admin/analytics': typeof AdminAnalyticsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
@@ -353,6 +362,7 @@ export interface FileRouteTypes {
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
+    | '/admin/analytics'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
@@ -388,6 +398,7 @@ export interface FileRouteTypes {
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
+    | '/admin/analytics'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
@@ -425,6 +436,7 @@ export interface FileRouteTypes {
     | '/account/tracking'
     | '/account/wallet'
     | '/account/wishlist'
+    | '/admin/analytics'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
@@ -618,6 +630,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminCategoriesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/analytics': {
+      id: '/admin/analytics'
+      path: '/analytics'
+      fullPath: '/admin/analytics'
+      preLoaderRoute: typeof AdminAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/account/wishlist': {
       id: '/account/wishlist'
       path: '/wishlist'
@@ -741,6 +760,7 @@ const AccountRouteWithChildren =
   AccountRoute._addFileChildren(AccountRouteChildren)
 
 interface AdminRouteChildren {
+  AdminAnalyticsRoute: typeof AdminAnalyticsRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminCustomersRoute: typeof AdminCustomersRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
@@ -757,6 +777,7 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAnalyticsRoute: AdminAnalyticsRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminCustomersRoute: AdminCustomersRoute,
   AdminDashboardRoute: AdminDashboardRoute,
