@@ -29,6 +29,7 @@ import { Route as AdminLockRouteImport } from './routes/admin.lock'
 import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
+import { Route as AdminCustomersRouteImport } from './routes/admin.customers'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountWalletRouteImport } from './routes/account.wallet'
@@ -143,6 +144,11 @@ const AdminDashboardRoute = AdminDashboardRouteImport.update({
   path: '/dashboard',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminCustomersRoute = AdminCustomersRouteImport.update({
+  id: '/customers',
+  path: '/customers',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
   id: '/categories',
   path: '/categories',
@@ -230,6 +236,7 @@ export interface FileRoutesByFullPath {
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/inventory': typeof AdminInventoryRoute
@@ -263,6 +270,7 @@ export interface FileRoutesByTo {
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/inventory': typeof AdminInventoryRoute
@@ -299,6 +307,7 @@ export interface FileRoutesById {
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/admin/categories': typeof AdminCategoriesRoute
+  '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/inventory': typeof AdminInventoryRoute
@@ -336,6 +345,7 @@ export interface FileRouteTypes {
     | '/account/wallet'
     | '/account/wishlist'
     | '/admin/categories'
+    | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/inventory'
@@ -369,6 +379,7 @@ export interface FileRouteTypes {
     | '/account/wallet'
     | '/account/wishlist'
     | '/admin/categories'
+    | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/inventory'
@@ -404,6 +415,7 @@ export interface FileRouteTypes {
     | '/account/wallet'
     | '/account/wishlist'
     | '/admin/categories'
+    | '/admin/customers'
     | '/admin/dashboard'
     | '/admin/forgot-password'
     | '/admin/inventory'
@@ -573,6 +585,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminDashboardRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/customers': {
+      id: '/admin/customers'
+      path: '/customers'
+      fullPath: '/admin/customers'
+      preLoaderRoute: typeof AdminCustomersRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/categories': {
       id: '/admin/categories'
       path: '/categories'
@@ -704,6 +723,7 @@ const AccountRouteWithChildren =
 
 interface AdminRouteChildren {
   AdminCategoriesRoute: typeof AdminCategoriesRoute
+  AdminCustomersRoute: typeof AdminCustomersRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminInventoryRoute: typeof AdminInventoryRoute
@@ -718,6 +738,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminCategoriesRoute: AdminCategoriesRoute,
+  AdminCustomersRoute: AdminCustomersRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminInventoryRoute: AdminInventoryRoute,
