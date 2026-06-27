@@ -26,6 +26,7 @@ import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOtpRouteImport } from './routes/admin.otp'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
+import { Route as AdminNotificationsRouteImport } from './routes/admin.notifications'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminLockRouteImport } from './routes/admin.lock'
 import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
@@ -130,6 +131,11 @@ const AdminOtpRoute = AdminOtpRouteImport.update({
 const AdminOrdersRoute = AdminOrdersRouteImport.update({
   id: '/orders',
   path: '/orders',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminNotificationsRoute = AdminNotificationsRouteImport.update({
+  id: '/notifications',
+  path: '/notifications',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
@@ -261,6 +267,7 @@ export interface FileRoutesByFullPath {
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
@@ -298,6 +305,7 @@ export interface FileRoutesByTo {
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
@@ -338,6 +346,7 @@ export interface FileRoutesById {
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
   '/admin/products': typeof AdminProductsRoute
@@ -379,6 +388,7 @@ export interface FileRouteTypes {
     | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
+    | '/admin/notifications'
     | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
@@ -416,6 +426,7 @@ export interface FileRouteTypes {
     | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
+    | '/admin/notifications'
     | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
@@ -455,6 +466,7 @@ export interface FileRouteTypes {
     | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
+    | '/admin/notifications'
     | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
@@ -598,6 +610,13 @@ declare module '@tanstack/react-router' {
       path: '/orders'
       fullPath: '/admin/orders'
       preLoaderRoute: typeof AdminOrdersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/notifications': {
+      id: '/admin/notifications'
+      path: '/notifications'
+      fullPath: '/admin/notifications'
+      preLoaderRoute: typeof AdminNotificationsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/login': {
@@ -787,6 +806,7 @@ interface AdminRouteChildren {
   AdminInventoryRoute: typeof AdminInventoryRoute
   AdminLockRoute: typeof AdminLockRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminNotificationsRoute: typeof AdminNotificationsRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminOtpRoute: typeof AdminOtpRoute
   AdminProductsRoute: typeof AdminProductsRoute
@@ -805,6 +825,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminInventoryRoute: AdminInventoryRoute,
   AdminLockRoute: AdminLockRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminNotificationsRoute: AdminNotificationsRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminOtpRoute: AdminOtpRoute,
   AdminProductsRoute: AdminProductsRoute,
