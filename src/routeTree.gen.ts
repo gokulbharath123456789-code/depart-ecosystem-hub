@@ -21,6 +21,7 @@ import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountWalletRouteImport } from './routes/account.wallet'
@@ -93,6 +94,11 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/login',
   path: '/login',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
+  id: '/forgot-password',
+  path: '/forgot-password',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
@@ -182,6 +188,7 @@ export interface FileRoutesByFullPath {
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -207,6 +214,7 @@ export interface FileRoutesByTo {
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -235,6 +243,7 @@ export interface FileRoutesById {
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
@@ -264,6 +273,7 @@ export interface FileRouteTypes {
     | '/account/wallet'
     | '/account/wishlist'
     | '/admin/dashboard'
+    | '/admin/forgot-password'
     | '/admin/login'
     | '/category/$slug'
     | '/product/$slug'
@@ -289,6 +299,7 @@ export interface FileRouteTypes {
     | '/account/wallet'
     | '/account/wishlist'
     | '/admin/dashboard'
+    | '/admin/forgot-password'
     | '/admin/login'
     | '/category/$slug'
     | '/product/$slug'
@@ -316,6 +327,7 @@ export interface FileRouteTypes {
     | '/account/wallet'
     | '/account/wishlist'
     | '/admin/dashboard'
+    | '/admin/forgot-password'
     | '/admin/login'
     | '/category/$slug'
     | '/product/$slug'
@@ -419,6 +431,13 @@ declare module '@tanstack/react-router' {
       path: '/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/forgot-password': {
+      id: '/admin/forgot-password'
+      path: '/forgot-password'
+      fullPath: '/admin/forgot-password'
+      preLoaderRoute: typeof AdminForgotPasswordRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/dashboard': {
@@ -552,12 +571,14 @@ const AccountRouteWithChildren =
 
 interface AdminRouteChildren {
   AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminDashboardRoute: AdminDashboardRoute,
+  AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
