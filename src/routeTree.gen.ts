@@ -25,6 +25,7 @@ import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOtpRouteImport } from './routes/admin.otp'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminLockRouteImport } from './routes/admin.lock'
+import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
@@ -119,6 +120,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
 const AdminLockRoute = AdminLockRouteImport.update({
   id: '/lock',
   path: '/lock',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminInventoryRoute = AdminInventoryRouteImport.update({
+  id: '/inventory',
+  path: '/inventory',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
@@ -220,6 +226,7 @@ export interface FileRoutesByFullPath {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/otp': typeof AdminOtpRoute
@@ -251,6 +258,7 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/otp': typeof AdminOtpRoute
@@ -285,6 +293,7 @@ export interface FileRoutesById {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/dashboard': typeof AdminDashboardRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/otp': typeof AdminOtpRoute
@@ -320,6 +329,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/forgot-password'
+    | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
     | '/admin/otp'
@@ -351,6 +361,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/forgot-password'
+    | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
     | '/admin/otp'
@@ -384,6 +395,7 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/dashboard'
     | '/admin/forgot-password'
+    | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
     | '/admin/otp'
@@ -519,6 +531,13 @@ declare module '@tanstack/react-router' {
       path: '/lock'
       fullPath: '/admin/lock'
       preLoaderRoute: typeof AdminLockRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/inventory': {
+      id: '/admin/inventory'
+      path: '/inventory'
+      fullPath: '/admin/inventory'
+      preLoaderRoute: typeof AdminInventoryRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/forgot-password': {
@@ -668,6 +687,7 @@ interface AdminRouteChildren {
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
+  AdminInventoryRoute: typeof AdminInventoryRoute
   AdminLockRoute: typeof AdminLockRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminOtpRoute: typeof AdminOtpRoute
@@ -680,6 +700,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminDashboardRoute: AdminDashboardRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
+  AdminInventoryRoute: AdminInventoryRoute,
   AdminLockRoute: AdminLockRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminOtpRoute: AdminOtpRoute,
