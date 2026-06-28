@@ -20,6 +20,14 @@ import {
   Clock,
   Search,
   Plus,
+  Warehouse,
+  ClipboardList,
+  ArrowLeftRight,
+  Sliders,
+  Barcode,
+  CalendarClock,
+  Sparkles,
+  Upload,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAdminStore } from "@/store/admin";
@@ -40,6 +48,19 @@ const groups = [
       { to: "/admin/products", icon: Package, label: "Products" },
       { to: "/admin/categories", icon: Tag, label: "Categories" },
       { to: "/admin/inventory", icon: Boxes, label: "Inventory" },
+      { to: "/admin/batches", icon: CalendarClock, label: "Batches & Expiry" },
+      { to: "/admin/barcodes", icon: Barcode, label: "Barcode Center" },
+    ],
+  },
+  {
+    label: "Operations",
+    items: [
+      { to: "/admin/warehouses", icon: Warehouse, label: "Warehouses" },
+      { to: "/admin/stock-movements", icon: ArrowLeftRight, label: "Stock Movements" },
+      { to: "/admin/stock-adjustments", icon: Sliders, label: "Adjustments" },
+      { to: "/admin/purchase-orders", icon: ClipboardList, label: "Purchase Orders" },
+      { to: "/admin/forecast", icon: Sparkles, label: "Forecast" },
+      { to: "/admin/bulk-operations", icon: Upload, label: "Bulk Operations" },
     ],
   },
   {
