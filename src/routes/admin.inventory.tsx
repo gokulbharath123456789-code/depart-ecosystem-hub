@@ -1,7 +1,8 @@
-import { createFileRoute } from "@tanstack/react-router";
-import { Boxes, AlertTriangle, PackageCheck, Truck, Plus, Download } from "lucide-react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { Boxes, AlertTriangle, PackageCheck, Truck, Plus, Download, ArrowDown, ArrowUp, ArrowLeftRight, Skull, CalendarClock } from "lucide-react";
 import { PageHeader, PanelCard, KpiCard, DataTable, StatusPill } from "@/features/admin/components/widgets";
-import { adminProducts } from "@/features/admin/mock/data";
+import { StockCard } from "@/features/admin/components/erp-widgets";
+import { erpProducts, inventoryKpis, warehouses } from "@/features/admin/mock/erp";
 import { Button } from "@/components/ui/button";
 import { Progress } from "@/components/ui/progress";
 
@@ -10,9 +11,9 @@ export const Route = createFileRoute("/admin/inventory")({
 });
 
 function InventoryPage() {
-  const low = adminProducts.filter((p) => p.stock > 0 && p.stock <= p.reorder);
-  const out = adminProducts.filter((p) => p.stock === 0);
-  const inStock = adminProducts.length - out.length;
+  const low = erpProducts.filter((p) => p.stock > 0 && p.stock <= p.reorder);
+  const out = erpProducts.filter((p) => p.stock === 0);
+  const inStock = erpProducts.length - out.length;
   return (
     <div className="mx-auto max-w-[1400px]">
       <PageHeader
@@ -22,16 +23,42 @@ function InventoryPage() {
         actions={
           <>
             <Button variant="outline" className="rounded-xl"><Download className="mr-2 h-4 w-4" /> Stock report</Button>
-            <Button className="rounded-xl"><Plus className="mr-2 h-4 w-4" /> Receive stock</Button>
+            <Button asChild className="rounded-xl"><Link to="/admin/purchase-orders"><Plus className="mr-2 h-4 w-4" /> Receive stock</Link></Button>
           </>
         }
       />
-      <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <KpiCard label="In stock" value={inStock} icon={PackageCheck} tint="primary" />
-        <KpiCard label="Low stock" value={low.length} icon={AlertTriangle} tint="amber" />
-        <KpiCard label="Out of stock" value={out.length} icon={Boxes} tint="rose" />
+      <section className="grid grid-cols-2 gap-3 lg:grid-cols-4 xl:grid-cols-8">
+        <KpiCard label="Current" value={inventoryKpis.current.toLocaleString()} icon={PackageCheck} tint="primary" />
+        <KpiCard label="Reserved" value={inventoryKpis.reserved} icon={Boxes} tint="violet" />
+        <KpiCard label="Incoming" value={inventoryKpis.incoming} icon={ArrowDown} tint="sky" />
+        <KpiCard label="Outgoing" value={inventoryKpis.outgoing} icon={ArrowUp} tint="emerald" />
+        <KpiCard label="Damaged" value={inventoryKpis.damaged} icon={AlertTriangle} tint="rose" />
+        <KpiCard label="Expired" value={inventoryKpis.expired} icon={Skull} tint="rose" />
+        <KpiCard label="Transferred" value={inventoryKpis.transferred} icon={ArrowLeftRight} tint="amber" />
         <KpiCard label="Inbound POs" value={4} icon={Truck} tint="sky" />
       </section>
+
+      <PanelCard title="Warehouse utilization" description="Capacity across locations" className="mt-6">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 xl:grid-cols-5">
+          {warehouses.map((w) => {
+            const pct = Math.round((w.used / w.capacity) * 100);
+            return (
+              <div key={w.id} className="rounded-2xl border border-border/60 p-3">
+                <p className="text-xs font-semibold">{w.code}</p>
+                <p className="truncate text-[11px] text-muted-foreground">{w.name}</p>
+                <Progress value={pct} className="mt-2 h-1.5" />
+                <p className="mt-1 flex justify-between text-[10px] text-muted-foreground"><span>{pct}%</span><span>{w.used}/{w.capacity}</span></p>
+              </div>
+            );
+          })}
+        </div>
+      </PanelCard>
+
+      <PanelCard title="Critical SKUs" description="Out of stock & near reorder" className="mt-6">
+        <div className="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
+          {[...out, ...low].slice(0, 8).map((p) => <StockCard key={p.id} product={p} />)}
+        </div>
+      </PanelCard>
 
       <PanelCard title="Stock movements" description="Below reorder threshold" className="mt-6">
         <DataTable
@@ -50,7 +77,7 @@ function InventoryPage() {
                 </div>
               ),
             },
-            { key: "vendor", label: "Supplier" },
+            { key: "supplier", label: "Supplier" },
             {
               key: "stock",
               label: "On hand",

@@ -25,6 +25,14 @@ import {
   BarChart3,
   Plus,
   LogOut,
+  Warehouse,
+  ClipboardList,
+  ArrowLeftRight,
+  Sliders,
+  Barcode,
+  CalendarClock,
+  Sparkles,
+  Upload,
 } from "lucide-react";
 
 const navItems = [
@@ -34,6 +42,14 @@ const navItems = [
   { to: "/admin/products", label: "Products", icon: Package },
   { to: "/admin/categories", label: "Categories", icon: Tag },
   { to: "/admin/inventory", label: "Inventory", icon: Boxes },
+  { to: "/admin/warehouses", label: "Warehouses", icon: Warehouse },
+  { to: "/admin/stock-movements", label: "Stock Movements", icon: ArrowLeftRight },
+  { to: "/admin/stock-adjustments", label: "Adjustments", icon: Sliders },
+  { to: "/admin/purchase-orders", label: "Purchase Orders", icon: ClipboardList },
+  { to: "/admin/batches", label: "Batches & Expiry", icon: CalendarClock },
+  { to: "/admin/barcodes", label: "Barcode Center", icon: Barcode },
+  { to: "/admin/forecast", label: "Forecast", icon: Sparkles },
+  { to: "/admin/bulk-operations", label: "Bulk Operations", icon: Upload },
   { to: "/admin/orders", label: "Orders", icon: ShoppingCart },
   { to: "/admin/customers", label: "Customers", icon: Users },
   { to: "/admin/suppliers", label: "Suppliers", icon: Truck },
@@ -78,8 +94,14 @@ export function CommandPalette() {
         </CommandGroup>
         <CommandSeparator />
         <CommandGroup heading="Quick actions">
-          <CommandItem onSelect={() => go("/admin/products")}>
+          <CommandItem onSelect={() => go("/admin/products/new")}>
             <Plus className="mr-2 h-4 w-4" /> New product
+          </CommandItem>
+          <CommandItem onSelect={() => go("/admin/purchase-orders")}>
+            <Plus className="mr-2 h-4 w-4" /> New purchase order
+          </CommandItem>
+          <CommandItem onSelect={() => go("/admin/stock-adjustments")}>
+            <Plus className="mr-2 h-4 w-4" /> New stock adjustment
           </CommandItem>
           <CommandItem onSelect={() => go("/admin/orders")}>
             <Plus className="mr-2 h-4 w-4" /> New order
