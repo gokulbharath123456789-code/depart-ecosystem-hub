@@ -21,7 +21,8 @@ import {
 } from "@/features/admin/components/erp-widgets";
 import { useErpStore } from "@/store/erp";
 import { Button } from "@/components/ui/button";
-import { erpProducts } from "@/features/admin/mock/erp";
+import { erpProducts, type ErpProduct } from "@/features/admin/mock/erp";
+import type { ReactNode } from "react";
 import { inr } from "@/lib/format";
 import { Package, AlertTriangle, CheckCircle2, IndianRupee } from "lucide-react";
 
@@ -125,21 +126,13 @@ function ProductsPage() {
         {filtered.length === 0 ? (
           <EmptyState icon={Package} title="No products match your filters" description="Try clearing filters or searching for something else." />
         ) : (
-          <DataTable
+          <DataTable<ErpProduct>
             rows={filtered}
-            columns={[
-              {
-                key: "select",
-                label: "",
-                className: "w-8",
-                render: (p) => (
-                  <Checkbox checked={selected.includes(p.id)} onCheckedChange={() => toggleSelect(p.id)} aria-label="Select row" />
-                ),
-              },
-              {
-                key: "name",
-                label: "Product",
-                render: (p) => (
+            columns={(() => {
+              type Col = { key: string; label: string; className?: string; render?: (p: ErpProduct) => ReactNode };
+              const cols: Col[] = [
+                { key: "select", label: "", className: "w-8", render: (p) => <Checkbox checked={selected.includes(p.id)} onCheckedChange={() => toggleSelect(p.id)} aria-label="Select row" /> },
+                { key: "name", label: "Product", render: (p) => (
                   <div className="flex items-center gap-3">
                     <span className="grid h-9 w-9 place-items-center rounded-xl bg-muted text-base">{p.emoji}</span>
                     <div className="min-w-0">
@@ -147,24 +140,19 @@ function ProductsPage() {
                       <p className="text-[11px] text-muted-foreground">{p.sku} · {p.brand}</p>
                     </div>
                   </div>
-                ),
-              },
-              ...(visibleColumns.brand ? [{ key: "brand", label: "Brand" }] : []),
-              { key: "category", label: "Category" },
-              ...(visibleColumns.supplier ? [{ key: "supplier", label: "Supplier" }] : []),
-              ...(visibleColumns.cost ? [{ key: "cost", label: "Cost", render: (p) => <span>{inr(p.cost)}</span> } as never] : []),
-              { key: "price", label: "Price", render: (p) => <span className="font-semibold">{inr(p.price)}</span> },
-              ...(visibleColumns.margin ? [{ key: "margin", label: "Margin", render: (p) => <span className="text-emerald-600">{Math.round(((p.price - p.cost) / p.price) * 100)}%</span> } as never] : []),
-              {
-                key: "stock",
-                label: "Stock",
-                render: (p) => (
-                  <span className={`font-semibold ${p.stock === 0 ? "text-rose-600" : p.stock <= p.reorder ? "text-amber-600" : "text-foreground"}`}>{p.stock}</span>
-                ),
-              },
-              ...(visibleColumns.available ? [{ key: "available", label: "Avail.", render: (p) => <span>{p.stock - p.reserved}</span> } as never] : []),
-              { key: "status", label: "Status", render: (p) => <StatusPill status={p.status} /> },
-            ]}
+                ) },
+              ];
+              if (visibleColumns.brand) cols.push({ key: "brand", label: "Brand" });
+              cols.push({ key: "category", label: "Category" });
+              if (visibleColumns.supplier) cols.push({ key: "supplier", label: "Supplier" });
+              if (visibleColumns.cost) cols.push({ key: "cost", label: "Cost", render: (p) => <span>{inr(p.cost)}</span> });
+              cols.push({ key: "price", label: "Price", render: (p) => <span className="font-semibold">{inr(p.price)}</span> });
+              if (visibleColumns.margin) cols.push({ key: "margin", label: "Margin", render: (p) => <span className="text-emerald-600">{Math.round(((p.price - p.cost) / p.price) * 100)}%</span> });
+              cols.push({ key: "stock", label: "Stock", render: (p) => <span className={`font-semibold ${p.stock === 0 ? "text-rose-600" : p.stock <= p.reorder ? "text-amber-600" : "text-foreground"}`}>{p.stock}</span> });
+              if (visibleColumns.available) cols.push({ key: "available", label: "Avail.", render: (p) => <span>{p.stock - p.reserved}</span> });
+              cols.push({ key: "status", label: "Status", render: (p) => <StatusPill status={p.status} /> });
+              return cols;
+            })()}
           />
         )}
         <div className="mt-4 flex items-center justify-between text-xs text-muted-foreground">
