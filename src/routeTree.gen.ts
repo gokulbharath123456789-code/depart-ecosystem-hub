@@ -20,11 +20,15 @@ import { Route as AdminIndexRouteImport } from './routes/admin.index'
 import { Route as AccountIndexRouteImport } from './routes/account.index'
 import { Route as ProductSlugRouteImport } from './routes/product.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as AdminWarehousesRouteImport } from './routes/admin.warehouses'
 import { Route as AdminUsersRouteImport } from './routes/admin.users'
 import { Route as AdminSuppliersRouteImport } from './routes/admin.suppliers'
+import { Route as AdminStockMovementsRouteImport } from './routes/admin.stock-movements'
+import { Route as AdminStockAdjustmentsRouteImport } from './routes/admin.stock-adjustments'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 import { Route as AdminReportsRouteImport } from './routes/admin.reports'
+import { Route as AdminPurchaseOrdersRouteImport } from './routes/admin.purchase-orders'
 import { Route as AdminProductsRouteImport } from './routes/admin.products'
 import { Route as AdminOtpRouteImport } from './routes/admin.otp'
 import { Route as AdminOrdersRouteImport } from './routes/admin.orders'
@@ -33,9 +37,13 @@ import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminLockRouteImport } from './routes/admin.lock'
 import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
+import { Route as AdminForecastRouteImport } from './routes/admin.forecast'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminCustomersRouteImport } from './routes/admin.customers'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
+import { Route as AdminBulkOperationsRouteImport } from './routes/admin.bulk-operations'
+import { Route as AdminBatchesRouteImport } from './routes/admin.batches'
+import { Route as AdminBarcodesRouteImport } from './routes/admin.barcodes'
 import { Route as AdminAnalyticsRouteImport } from './routes/admin.analytics'
 import { Route as AccountWishlistRouteImport } from './routes/account.wishlist'
 import { Route as AccountWalletRouteImport } from './routes/account.wallet'
@@ -49,6 +57,7 @@ import { Route as AccountNotificationsRouteImport } from './routes/account.notif
 import { Route as AccountInvoicesRouteImport } from './routes/account.invoices'
 import { Route as AccountCouponsRouteImport } from './routes/account.coupons'
 import { Route as AccountAddressesRouteImport } from './routes/account.addresses'
+import { Route as AdminProductsNewRouteImport } from './routes/admin.products.new'
 
 const WishlistRoute = WishlistRouteImport.update({
   id: '/wishlist',
@@ -105,6 +114,11 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
   path: '/category/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminWarehousesRoute = AdminWarehousesRouteImport.update({
+  id: '/warehouses',
+  path: '/warehouses',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminUsersRoute = AdminUsersRouteImport.update({
   id: '/users',
   path: '/users',
@@ -113,6 +127,16 @@ const AdminUsersRoute = AdminUsersRouteImport.update({
 const AdminSuppliersRoute = AdminSuppliersRouteImport.update({
   id: '/suppliers',
   path: '/suppliers',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminStockMovementsRoute = AdminStockMovementsRouteImport.update({
+  id: '/stock-movements',
+  path: '/stock-movements',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminStockAdjustmentsRoute = AdminStockAdjustmentsRouteImport.update({
+  id: '/stock-adjustments',
+  path: '/stock-adjustments',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminSettingsRoute = AdminSettingsRouteImport.update({
@@ -128,6 +152,11 @@ const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
 const AdminReportsRoute = AdminReportsRouteImport.update({
   id: '/reports',
   path: '/reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminPurchaseOrdersRoute = AdminPurchaseOrdersRouteImport.update({
+  id: '/purchase-orders',
+  path: '/purchase-orders',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminProductsRoute = AdminProductsRouteImport.update({
@@ -170,6 +199,11 @@ const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
   path: '/forgot-password',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminForecastRoute = AdminForecastRouteImport.update({
+  id: '/forecast',
+  path: '/forecast',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
   id: '/dashboard',
   path: '/dashboard',
@@ -183,6 +217,21 @@ const AdminCustomersRoute = AdminCustomersRouteImport.update({
 const AdminCategoriesRoute = AdminCategoriesRouteImport.update({
   id: '/categories',
   path: '/categories',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBulkOperationsRoute = AdminBulkOperationsRouteImport.update({
+  id: '/bulk-operations',
+  path: '/bulk-operations',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBatchesRoute = AdminBatchesRouteImport.update({
+  id: '/batches',
+  path: '/batches',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminBarcodesRoute = AdminBarcodesRouteImport.update({
+  id: '/barcodes',
+  path: '/barcodes',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAnalyticsRoute = AdminAnalyticsRouteImport.update({
@@ -250,6 +299,11 @@ const AccountAddressesRoute = AccountAddressesRouteImport.update({
   path: '/addresses',
   getParentRoute: () => AccountRoute,
 } as any)
+const AdminProductsNewRoute = AdminProductsNewRouteImport.update({
+  id: '/new',
+  path: '/new',
+  getParentRoute: () => AdminProductsRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -272,9 +326,13 @@ export interface FileRoutesByFullPath {
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/barcodes': typeof AdminBarcodesRoute
+  '/admin/batches': typeof AdminBatchesRoute
+  '/admin/bulk-operations': typeof AdminBulkOperationsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/forecast': typeof AdminForecastRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
@@ -282,16 +340,21 @@ export interface FileRoutesByFullPath {
   '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
-  '/admin/products': typeof AdminProductsRoute
+  '/admin/products': typeof AdminProductsRouteWithChildren
+  '/admin/purchase-orders': typeof AdminPurchaseOrdersRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/stock-adjustments': typeof AdminStockAdjustmentsRoute
+  '/admin/stock-movements': typeof AdminStockMovementsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/warehouses': typeof AdminWarehousesRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account/': typeof AccountIndexRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -312,9 +375,13 @@ export interface FileRoutesByTo {
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/barcodes': typeof AdminBarcodesRoute
+  '/admin/batches': typeof AdminBatchesRoute
+  '/admin/bulk-operations': typeof AdminBulkOperationsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/forecast': typeof AdminForecastRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
@@ -322,16 +389,21 @@ export interface FileRoutesByTo {
   '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
-  '/admin/products': typeof AdminProductsRoute
+  '/admin/products': typeof AdminProductsRouteWithChildren
+  '/admin/purchase-orders': typeof AdminPurchaseOrdersRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/stock-adjustments': typeof AdminStockAdjustmentsRoute
+  '/admin/stock-movements': typeof AdminStockMovementsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/warehouses': typeof AdminWarehousesRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account': typeof AccountIndexRoute
   '/admin': typeof AdminIndexRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -355,9 +427,13 @@ export interface FileRoutesById {
   '/account/wallet': typeof AccountWalletRoute
   '/account/wishlist': typeof AccountWishlistRoute
   '/admin/analytics': typeof AdminAnalyticsRoute
+  '/admin/barcodes': typeof AdminBarcodesRoute
+  '/admin/batches': typeof AdminBatchesRoute
+  '/admin/bulk-operations': typeof AdminBulkOperationsRoute
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/forecast': typeof AdminForecastRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
@@ -365,16 +441,21 @@ export interface FileRoutesById {
   '/admin/notifications': typeof AdminNotificationsRoute
   '/admin/orders': typeof AdminOrdersRoute
   '/admin/otp': typeof AdminOtpRoute
-  '/admin/products': typeof AdminProductsRoute
+  '/admin/products': typeof AdminProductsRouteWithChildren
+  '/admin/purchase-orders': typeof AdminPurchaseOrdersRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/settings': typeof AdminSettingsRoute
+  '/admin/stock-adjustments': typeof AdminStockAdjustmentsRoute
+  '/admin/stock-movements': typeof AdminStockMovementsRoute
   '/admin/suppliers': typeof AdminSuppliersRoute
   '/admin/users': typeof AdminUsersRoute
+  '/admin/warehouses': typeof AdminWarehousesRoute
   '/category/$slug': typeof CategorySlugRoute
   '/product/$slug': typeof ProductSlugRoute
   '/account/': typeof AccountIndexRoute
   '/admin/': typeof AdminIndexRoute
+  '/admin/products/new': typeof AdminProductsNewRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -399,9 +480,13 @@ export interface FileRouteTypes {
     | '/account/wallet'
     | '/account/wishlist'
     | '/admin/analytics'
+    | '/admin/barcodes'
+    | '/admin/batches'
+    | '/admin/bulk-operations'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
+    | '/admin/forecast'
     | '/admin/forgot-password'
     | '/admin/inventory'
     | '/admin/lock'
@@ -410,15 +495,20 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
+    | '/admin/purchase-orders'
     | '/admin/reports'
     | '/admin/reset-password'
     | '/admin/settings'
+    | '/admin/stock-adjustments'
+    | '/admin/stock-movements'
     | '/admin/suppliers'
     | '/admin/users'
+    | '/admin/warehouses'
     | '/category/$slug'
     | '/product/$slug'
     | '/account/'
     | '/admin/'
+    | '/admin/products/new'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -439,9 +529,13 @@ export interface FileRouteTypes {
     | '/account/wallet'
     | '/account/wishlist'
     | '/admin/analytics'
+    | '/admin/barcodes'
+    | '/admin/batches'
+    | '/admin/bulk-operations'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
+    | '/admin/forecast'
     | '/admin/forgot-password'
     | '/admin/inventory'
     | '/admin/lock'
@@ -450,15 +544,20 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
+    | '/admin/purchase-orders'
     | '/admin/reports'
     | '/admin/reset-password'
     | '/admin/settings'
+    | '/admin/stock-adjustments'
+    | '/admin/stock-movements'
     | '/admin/suppliers'
     | '/admin/users'
+    | '/admin/warehouses'
     | '/category/$slug'
     | '/product/$slug'
     | '/account'
     | '/admin'
+    | '/admin/products/new'
   id:
     | '__root__'
     | '/'
@@ -481,9 +580,13 @@ export interface FileRouteTypes {
     | '/account/wallet'
     | '/account/wishlist'
     | '/admin/analytics'
+    | '/admin/barcodes'
+    | '/admin/batches'
+    | '/admin/bulk-operations'
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
+    | '/admin/forecast'
     | '/admin/forgot-password'
     | '/admin/inventory'
     | '/admin/lock'
@@ -492,15 +595,20 @@ export interface FileRouteTypes {
     | '/admin/orders'
     | '/admin/otp'
     | '/admin/products'
+    | '/admin/purchase-orders'
     | '/admin/reports'
     | '/admin/reset-password'
     | '/admin/settings'
+    | '/admin/stock-adjustments'
+    | '/admin/stock-movements'
     | '/admin/suppliers'
     | '/admin/users'
+    | '/admin/warehouses'
     | '/category/$slug'
     | '/product/$slug'
     | '/account/'
     | '/admin/'
+    | '/admin/products/new'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -594,6 +702,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategorySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/warehouses': {
+      id: '/admin/warehouses'
+      path: '/warehouses'
+      fullPath: '/admin/warehouses'
+      preLoaderRoute: typeof AdminWarehousesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/users': {
       id: '/admin/users'
       path: '/users'
@@ -606,6 +721,20 @@ declare module '@tanstack/react-router' {
       path: '/suppliers'
       fullPath: '/admin/suppliers'
       preLoaderRoute: typeof AdminSuppliersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/stock-movements': {
+      id: '/admin/stock-movements'
+      path: '/stock-movements'
+      fullPath: '/admin/stock-movements'
+      preLoaderRoute: typeof AdminStockMovementsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/stock-adjustments': {
+      id: '/admin/stock-adjustments'
+      path: '/stock-adjustments'
+      fullPath: '/admin/stock-adjustments'
+      preLoaderRoute: typeof AdminStockAdjustmentsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/settings': {
@@ -627,6 +756,13 @@ declare module '@tanstack/react-router' {
       path: '/reports'
       fullPath: '/admin/reports'
       preLoaderRoute: typeof AdminReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/purchase-orders': {
+      id: '/admin/purchase-orders'
+      path: '/purchase-orders'
+      fullPath: '/admin/purchase-orders'
+      preLoaderRoute: typeof AdminPurchaseOrdersRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/products': {
@@ -685,6 +821,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminForgotPasswordRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/forecast': {
+      id: '/admin/forecast'
+      path: '/forecast'
+      fullPath: '/admin/forecast'
+      preLoaderRoute: typeof AdminForecastRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/dashboard': {
       id: '/admin/dashboard'
       path: '/dashboard'
@@ -704,6 +847,27 @@ declare module '@tanstack/react-router' {
       path: '/categories'
       fullPath: '/admin/categories'
       preLoaderRoute: typeof AdminCategoriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/bulk-operations': {
+      id: '/admin/bulk-operations'
+      path: '/bulk-operations'
+      fullPath: '/admin/bulk-operations'
+      preLoaderRoute: typeof AdminBulkOperationsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/batches': {
+      id: '/admin/batches'
+      path: '/batches'
+      fullPath: '/admin/batches'
+      preLoaderRoute: typeof AdminBatchesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/barcodes': {
+      id: '/admin/barcodes'
+      path: '/barcodes'
+      fullPath: '/admin/barcodes'
+      preLoaderRoute: typeof AdminBarcodesRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/analytics': {
@@ -797,6 +961,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AccountAddressesRouteImport
       parentRoute: typeof AccountRoute
     }
+    '/admin/products/new': {
+      id: '/admin/products/new'
+      path: '/new'
+      fullPath: '/admin/products/new'
+      preLoaderRoute: typeof AdminProductsNewRouteImport
+      parentRoute: typeof AdminProductsRoute
+    }
   }
 }
 
@@ -835,11 +1006,27 @@ const AccountRouteChildren: AccountRouteChildren = {
 const AccountRouteWithChildren =
   AccountRoute._addFileChildren(AccountRouteChildren)
 
+interface AdminProductsRouteChildren {
+  AdminProductsNewRoute: typeof AdminProductsNewRoute
+}
+
+const AdminProductsRouteChildren: AdminProductsRouteChildren = {
+  AdminProductsNewRoute: AdminProductsNewRoute,
+}
+
+const AdminProductsRouteWithChildren = AdminProductsRoute._addFileChildren(
+  AdminProductsRouteChildren,
+)
+
 interface AdminRouteChildren {
   AdminAnalyticsRoute: typeof AdminAnalyticsRoute
+  AdminBarcodesRoute: typeof AdminBarcodesRoute
+  AdminBatchesRoute: typeof AdminBatchesRoute
+  AdminBulkOperationsRoute: typeof AdminBulkOperationsRoute
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminCustomersRoute: typeof AdminCustomersRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminForecastRoute: typeof AdminForecastRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminInventoryRoute: typeof AdminInventoryRoute
   AdminLockRoute: typeof AdminLockRoute
@@ -847,20 +1034,28 @@ interface AdminRouteChildren {
   AdminNotificationsRoute: typeof AdminNotificationsRoute
   AdminOrdersRoute: typeof AdminOrdersRoute
   AdminOtpRoute: typeof AdminOtpRoute
-  AdminProductsRoute: typeof AdminProductsRoute
+  AdminProductsRoute: typeof AdminProductsRouteWithChildren
+  AdminPurchaseOrdersRoute: typeof AdminPurchaseOrdersRoute
   AdminReportsRoute: typeof AdminReportsRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
+  AdminStockAdjustmentsRoute: typeof AdminStockAdjustmentsRoute
+  AdminStockMovementsRoute: typeof AdminStockMovementsRoute
   AdminSuppliersRoute: typeof AdminSuppliersRoute
   AdminUsersRoute: typeof AdminUsersRoute
+  AdminWarehousesRoute: typeof AdminWarehousesRoute
   AdminIndexRoute: typeof AdminIndexRoute
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAnalyticsRoute: AdminAnalyticsRoute,
+  AdminBarcodesRoute: AdminBarcodesRoute,
+  AdminBatchesRoute: AdminBatchesRoute,
+  AdminBulkOperationsRoute: AdminBulkOperationsRoute,
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminCustomersRoute: AdminCustomersRoute,
   AdminDashboardRoute: AdminDashboardRoute,
+  AdminForecastRoute: AdminForecastRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminInventoryRoute: AdminInventoryRoute,
   AdminLockRoute: AdminLockRoute,
@@ -868,12 +1063,16 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminNotificationsRoute: AdminNotificationsRoute,
   AdminOrdersRoute: AdminOrdersRoute,
   AdminOtpRoute: AdminOtpRoute,
-  AdminProductsRoute: AdminProductsRoute,
+  AdminProductsRoute: AdminProductsRouteWithChildren,
+  AdminPurchaseOrdersRoute: AdminPurchaseOrdersRoute,
   AdminReportsRoute: AdminReportsRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
   AdminSettingsRoute: AdminSettingsRoute,
+  AdminStockAdjustmentsRoute: AdminStockAdjustmentsRoute,
+  AdminStockMovementsRoute: AdminStockMovementsRoute,
   AdminSuppliersRoute: AdminSuppliersRoute,
   AdminUsersRoute: AdminUsersRoute,
+  AdminWarehousesRoute: AdminWarehousesRoute,
   AdminIndexRoute: AdminIndexRoute,
 }
 
