@@ -36,6 +36,7 @@ import { Input } from "@/components/ui/input";
 import { Badge } from "@/components/ui/badge";
 import { Progress } from "@/components/ui/progress";
 import { Calendar } from "@/components/ui/calendar";
+import type { DateRange } from "react-day-picker";
 import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover";
 import { Checkbox } from "@/components/ui/checkbox";
 import {
@@ -392,8 +393,8 @@ export function DateRangePicker({
   value,
   onChange,
 }: {
-  value?: { from?: Date; to?: Date };
-  onChange?: (r: { from?: Date; to?: Date }) => void;
+  value?: DateRange;
+  onChange?: (r: DateRange | undefined) => void;
 }) {
   const [open, setOpen] = useState(false);
   const label = value?.from
@@ -411,8 +412,8 @@ export function DateRangePicker({
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode="range"
-          selected={value as never}
-          onSelect={(r: never) => onChange?.(r ?? {})}
+          selected={value}
+          onSelect={(r) => onChange?.(r)}
           numberOfMonths={2}
           className={cn("p-3 pointer-events-auto")}
         />
