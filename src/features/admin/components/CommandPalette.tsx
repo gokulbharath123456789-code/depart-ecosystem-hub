@@ -33,6 +33,16 @@ import {
   CalendarClock,
   Sparkles,
   Upload,
+  PackageCheck,
+  Route as RouteIcon,
+  Map as MapIcon,
+  Heart,
+  Megaphone,
+  RotateCcw,
+  Wallet,
+  LifeBuoy,
+  BookOpen,
+  Workflow,
 } from "lucide-react";
 
 const navItems = [
@@ -51,8 +61,21 @@ const navItems = [
   { to: "/admin/forecast", label: "Forecast", icon: Sparkles },
   { to: "/admin/bulk-operations", label: "Bulk Operations", icon: Upload },
   { to: "/admin/orders", label: "Orders", icon: ShoppingCart },
+  { to: "/admin/fulfillment", label: "Fulfillment", icon: PackageCheck },
   { to: "/admin/customers", label: "Customers", icon: Users },
   { to: "/admin/suppliers", label: "Suppliers", icon: Truck },
+  { to: "/admin/delivery", label: "Delivery", icon: Truck },
+  { to: "/admin/delivery-partners", label: "Delivery partners", icon: ShieldCheck },
+  { to: "/admin/routes", label: "Route planner", icon: RouteIcon },
+  { to: "/admin/delivery-analytics", label: "Delivery analytics", icon: MapIcon },
+  { to: "/admin/crm", label: "Customer CRM", icon: Heart },
+  { to: "/admin/loyalty", label: "Loyalty", icon: Sparkles },
+  { to: "/admin/marketing", label: "Marketing", icon: Megaphone },
+  { to: "/admin/returns", label: "Returns", icon: RotateCcw },
+  { to: "/admin/refunds", label: "Refunds", icon: Wallet },
+  { to: "/admin/tickets", label: "Support tickets", icon: LifeBuoy },
+  { to: "/admin/knowledge-base", label: "Knowledge base", icon: BookOpen },
+  { to: "/admin/workflows", label: "Workflows", icon: Workflow },
   { to: "/admin/notifications", label: "Notifications", icon: Bell },
   { to: "/admin/users", label: "Team", icon: ShieldCheck },
   { to: "/admin/settings", label: "Settings", icon: Settings },
@@ -108,6 +131,15 @@ export function CommandPalette() {
           </CommandItem>
           <CommandItem onSelect={() => go("/admin/customers")}>
             <Plus className="mr-2 h-4 w-4" /> New customer
+          </CommandItem>
+          <CommandItem onSelect={() => go("/admin/marketing")}>
+            <Plus className="mr-2 h-4 w-4" /> New campaign
+          </CommandItem>
+          <CommandItem onSelect={() => go("/admin/workflows")}>
+            <Plus className="mr-2 h-4 w-4" /> New workflow
+          </CommandItem>
+          <CommandItem onSelect={() => go("/admin/tickets")}>
+            <Plus className="mr-2 h-4 w-4" /> New support ticket
           </CommandItem>
           <CommandItem onSelect={() => go("/admin/login")}>
             <LogOut className="mr-2 h-4 w-4" /> Sign out

@@ -28,6 +28,16 @@ import {
   CalendarClock,
   Sparkles,
   Upload,
+  PackageCheck,
+  Map as MapIcon,
+  Route as RouteIcon,
+  Heart,
+  Megaphone,
+  RotateCcw,
+  Wallet,
+  LifeBuoy,
+  BookOpen,
+  Workflow,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useAdminStore } from "@/store/admin";
@@ -67,8 +77,41 @@ const groups = [
     label: "Commerce",
     items: [
       { to: "/admin/orders", icon: ShoppingCart, label: "Orders" },
+      { to: "/admin/fulfillment", icon: PackageCheck, label: "Fulfillment" },
       { to: "/admin/customers", icon: Users, label: "Customers" },
       { to: "/admin/suppliers", icon: Truck, label: "Suppliers" },
+    ],
+  },
+  {
+    label: "Delivery",
+    items: [
+      { to: "/admin/delivery", icon: Truck, label: "Delivery" },
+      { to: "/admin/delivery-partners", icon: ShieldCheck, label: "Partners" },
+      { to: "/admin/routes", icon: RouteIcon, label: "Routes" },
+      { to: "/admin/delivery-analytics", icon: MapIcon, label: "Delivery analytics" },
+    ],
+  },
+  {
+    label: "CRM & Growth",
+    items: [
+      { to: "/admin/crm", icon: Heart, label: "Customer CRM" },
+      { to: "/admin/loyalty", icon: Sparkles, label: "Loyalty" },
+      { to: "/admin/marketing", icon: Megaphone, label: "Marketing" },
+    ],
+  },
+  {
+    label: "Service",
+    items: [
+      { to: "/admin/returns", icon: RotateCcw, label: "Returns" },
+      { to: "/admin/refunds", icon: Wallet, label: "Refunds" },
+      { to: "/admin/tickets", icon: LifeBuoy, label: "Support" },
+      { to: "/admin/knowledge-base", icon: BookOpen, label: "Knowledge base" },
+    ],
+  },
+  {
+    label: "Automation",
+    items: [
+      { to: "/admin/workflows", icon: Workflow, label: "Workflows" },
     ],
   },
   {
