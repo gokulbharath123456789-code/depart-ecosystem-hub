@@ -26,6 +26,7 @@ import { Route as AdminSuppliersRouteImport } from './routes/admin.suppliers'
 import { Route as AdminStockMovementsRouteImport } from './routes/admin.stock-movements'
 import { Route as AdminStockAdjustmentsRouteImport } from './routes/admin.stock-adjustments'
 import { Route as AdminSettingsRouteImport } from './routes/admin.settings'
+import { Route as AdminRoutesRouteImport } from './routes/admin.routes'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 import { Route as AdminReportsRouteImport } from './routes/admin.reports'
 import { Route as AdminPurchaseOrdersRouteImport } from './routes/admin.purchase-orders'
@@ -36,8 +37,12 @@ import { Route as AdminNotificationsRouteImport } from './routes/admin.notificat
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminLockRouteImport } from './routes/admin.lock'
 import { Route as AdminInventoryRouteImport } from './routes/admin.inventory'
+import { Route as AdminFulfillmentRouteImport } from './routes/admin.fulfillment'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as AdminForecastRouteImport } from './routes/admin.forecast'
+import { Route as AdminDeliveryPartnersRouteImport } from './routes/admin.delivery-partners'
+import { Route as AdminDeliveryAnalyticsRouteImport } from './routes/admin.delivery-analytics'
+import { Route as AdminDeliveryRouteImport } from './routes/admin.delivery'
 import { Route as AdminDashboardRouteImport } from './routes/admin.dashboard'
 import { Route as AdminCustomersRouteImport } from './routes/admin.customers'
 import { Route as AdminCategoriesRouteImport } from './routes/admin.categories'
@@ -144,6 +149,11 @@ const AdminSettingsRoute = AdminSettingsRouteImport.update({
   path: '/settings',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminRoutesRoute = AdminRoutesRouteImport.update({
+  id: '/routes',
+  path: '/routes',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
   id: '/reset-password',
   path: '/reset-password',
@@ -194,6 +204,11 @@ const AdminInventoryRoute = AdminInventoryRouteImport.update({
   path: '/inventory',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminFulfillmentRoute = AdminFulfillmentRouteImport.update({
+  id: '/fulfillment',
+  path: '/fulfillment',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
   id: '/forgot-password',
   path: '/forgot-password',
@@ -202,6 +217,21 @@ const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
 const AdminForecastRoute = AdminForecastRouteImport.update({
   id: '/forecast',
   path: '/forecast',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDeliveryPartnersRoute = AdminDeliveryPartnersRouteImport.update({
+  id: '/delivery-partners',
+  path: '/delivery-partners',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDeliveryAnalyticsRoute = AdminDeliveryAnalyticsRouteImport.update({
+  id: '/delivery-analytics',
+  path: '/delivery-analytics',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminDeliveryRoute = AdminDeliveryRouteImport.update({
+  id: '/delivery',
+  path: '/delivery',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminDashboardRoute = AdminDashboardRouteImport.update({
@@ -332,8 +362,12 @@ export interface FileRoutesByFullPath {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/delivery': typeof AdminDeliveryRoute
+  '/admin/delivery-analytics': typeof AdminDeliveryAnalyticsRoute
+  '/admin/delivery-partners': typeof AdminDeliveryPartnersRoute
   '/admin/forecast': typeof AdminForecastRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/fulfillment': typeof AdminFulfillmentRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
@@ -344,6 +378,7 @@ export interface FileRoutesByFullPath {
   '/admin/purchase-orders': typeof AdminPurchaseOrdersRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
+  '/admin/routes': typeof AdminRoutesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/stock-adjustments': typeof AdminStockAdjustmentsRoute
   '/admin/stock-movements': typeof AdminStockMovementsRoute
@@ -381,8 +416,12 @@ export interface FileRoutesByTo {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/delivery': typeof AdminDeliveryRoute
+  '/admin/delivery-analytics': typeof AdminDeliveryAnalyticsRoute
+  '/admin/delivery-partners': typeof AdminDeliveryPartnersRoute
   '/admin/forecast': typeof AdminForecastRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/fulfillment': typeof AdminFulfillmentRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
@@ -393,6 +432,7 @@ export interface FileRoutesByTo {
   '/admin/purchase-orders': typeof AdminPurchaseOrdersRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
+  '/admin/routes': typeof AdminRoutesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/stock-adjustments': typeof AdminStockAdjustmentsRoute
   '/admin/stock-movements': typeof AdminStockMovementsRoute
@@ -433,8 +473,12 @@ export interface FileRoutesById {
   '/admin/categories': typeof AdminCategoriesRoute
   '/admin/customers': typeof AdminCustomersRoute
   '/admin/dashboard': typeof AdminDashboardRoute
+  '/admin/delivery': typeof AdminDeliveryRoute
+  '/admin/delivery-analytics': typeof AdminDeliveryAnalyticsRoute
+  '/admin/delivery-partners': typeof AdminDeliveryPartnersRoute
   '/admin/forecast': typeof AdminForecastRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
+  '/admin/fulfillment': typeof AdminFulfillmentRoute
   '/admin/inventory': typeof AdminInventoryRoute
   '/admin/lock': typeof AdminLockRoute
   '/admin/login': typeof AdminLoginRoute
@@ -445,6 +489,7 @@ export interface FileRoutesById {
   '/admin/purchase-orders': typeof AdminPurchaseOrdersRoute
   '/admin/reports': typeof AdminReportsRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
+  '/admin/routes': typeof AdminRoutesRoute
   '/admin/settings': typeof AdminSettingsRoute
   '/admin/stock-adjustments': typeof AdminStockAdjustmentsRoute
   '/admin/stock-movements': typeof AdminStockMovementsRoute
@@ -486,8 +531,12 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
+    | '/admin/delivery'
+    | '/admin/delivery-analytics'
+    | '/admin/delivery-partners'
     | '/admin/forecast'
     | '/admin/forgot-password'
+    | '/admin/fulfillment'
     | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
@@ -498,6 +547,7 @@ export interface FileRouteTypes {
     | '/admin/purchase-orders'
     | '/admin/reports'
     | '/admin/reset-password'
+    | '/admin/routes'
     | '/admin/settings'
     | '/admin/stock-adjustments'
     | '/admin/stock-movements'
@@ -535,8 +585,12 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
+    | '/admin/delivery'
+    | '/admin/delivery-analytics'
+    | '/admin/delivery-partners'
     | '/admin/forecast'
     | '/admin/forgot-password'
+    | '/admin/fulfillment'
     | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
@@ -547,6 +601,7 @@ export interface FileRouteTypes {
     | '/admin/purchase-orders'
     | '/admin/reports'
     | '/admin/reset-password'
+    | '/admin/routes'
     | '/admin/settings'
     | '/admin/stock-adjustments'
     | '/admin/stock-movements'
@@ -586,8 +641,12 @@ export interface FileRouteTypes {
     | '/admin/categories'
     | '/admin/customers'
     | '/admin/dashboard'
+    | '/admin/delivery'
+    | '/admin/delivery-analytics'
+    | '/admin/delivery-partners'
     | '/admin/forecast'
     | '/admin/forgot-password'
+    | '/admin/fulfillment'
     | '/admin/inventory'
     | '/admin/lock'
     | '/admin/login'
@@ -598,6 +657,7 @@ export interface FileRouteTypes {
     | '/admin/purchase-orders'
     | '/admin/reports'
     | '/admin/reset-password'
+    | '/admin/routes'
     | '/admin/settings'
     | '/admin/stock-adjustments'
     | '/admin/stock-movements'
@@ -744,6 +804,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminSettingsRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/routes': {
+      id: '/admin/routes'
+      path: '/routes'
+      fullPath: '/admin/routes'
+      preLoaderRoute: typeof AdminRoutesRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/reset-password': {
       id: '/admin/reset-password'
       path: '/reset-password'
@@ -814,6 +881,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminInventoryRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/admin/fulfillment': {
+      id: '/admin/fulfillment'
+      path: '/fulfillment'
+      fullPath: '/admin/fulfillment'
+      preLoaderRoute: typeof AdminFulfillmentRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/admin/forgot-password': {
       id: '/admin/forgot-password'
       path: '/forgot-password'
@@ -826,6 +900,27 @@ declare module '@tanstack/react-router' {
       path: '/forecast'
       fullPath: '/admin/forecast'
       preLoaderRoute: typeof AdminForecastRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/delivery-partners': {
+      id: '/admin/delivery-partners'
+      path: '/delivery-partners'
+      fullPath: '/admin/delivery-partners'
+      preLoaderRoute: typeof AdminDeliveryPartnersRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/delivery-analytics': {
+      id: '/admin/delivery-analytics'
+      path: '/delivery-analytics'
+      fullPath: '/admin/delivery-analytics'
+      preLoaderRoute: typeof AdminDeliveryAnalyticsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/admin/delivery': {
+      id: '/admin/delivery'
+      path: '/delivery'
+      fullPath: '/admin/delivery'
+      preLoaderRoute: typeof AdminDeliveryRouteImport
       parentRoute: typeof AdminRoute
     }
     '/admin/dashboard': {
@@ -1026,8 +1121,12 @@ interface AdminRouteChildren {
   AdminCategoriesRoute: typeof AdminCategoriesRoute
   AdminCustomersRoute: typeof AdminCustomersRoute
   AdminDashboardRoute: typeof AdminDashboardRoute
+  AdminDeliveryRoute: typeof AdminDeliveryRoute
+  AdminDeliveryAnalyticsRoute: typeof AdminDeliveryAnalyticsRoute
+  AdminDeliveryPartnersRoute: typeof AdminDeliveryPartnersRoute
   AdminForecastRoute: typeof AdminForecastRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
+  AdminFulfillmentRoute: typeof AdminFulfillmentRoute
   AdminInventoryRoute: typeof AdminInventoryRoute
   AdminLockRoute: typeof AdminLockRoute
   AdminLoginRoute: typeof AdminLoginRoute
@@ -1038,6 +1137,7 @@ interface AdminRouteChildren {
   AdminPurchaseOrdersRoute: typeof AdminPurchaseOrdersRoute
   AdminReportsRoute: typeof AdminReportsRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
+  AdminRoutesRoute: typeof AdminRoutesRoute
   AdminSettingsRoute: typeof AdminSettingsRoute
   AdminStockAdjustmentsRoute: typeof AdminStockAdjustmentsRoute
   AdminStockMovementsRoute: typeof AdminStockMovementsRoute
@@ -1055,8 +1155,12 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminCategoriesRoute: AdminCategoriesRoute,
   AdminCustomersRoute: AdminCustomersRoute,
   AdminDashboardRoute: AdminDashboardRoute,
+  AdminDeliveryRoute: AdminDeliveryRoute,
+  AdminDeliveryAnalyticsRoute: AdminDeliveryAnalyticsRoute,
+  AdminDeliveryPartnersRoute: AdminDeliveryPartnersRoute,
   AdminForecastRoute: AdminForecastRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
+  AdminFulfillmentRoute: AdminFulfillmentRoute,
   AdminInventoryRoute: AdminInventoryRoute,
   AdminLockRoute: AdminLockRoute,
   AdminLoginRoute: AdminLoginRoute,
@@ -1067,6 +1171,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminPurchaseOrdersRoute: AdminPurchaseOrdersRoute,
   AdminReportsRoute: AdminReportsRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
+  AdminRoutesRoute: AdminRoutesRoute,
   AdminSettingsRoute: AdminSettingsRoute,
   AdminStockAdjustmentsRoute: AdminStockAdjustmentsRoute,
   AdminStockMovementsRoute: AdminStockMovementsRoute,
