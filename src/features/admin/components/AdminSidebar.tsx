@@ -29,7 +29,7 @@ import {
   Sparkles,
   Upload,
   PackageCheck,
-  Map,
+  Map as MapIcon,
   Route as RouteIcon,
   Heart,
   Megaphone,
@@ -88,7 +88,7 @@ const groups = [
       { to: "/admin/delivery", icon: Truck, label: "Delivery" },
       { to: "/admin/delivery-partners", icon: ShieldCheck, label: "Partners" },
       { to: "/admin/routes", icon: RouteIcon, label: "Routes" },
-      { to: "/admin/delivery-analytics", icon: Map, label: "Delivery analytics" },
+      { to: "/admin/delivery-analytics", icon: MapIcon, label: "Delivery analytics" },
     ],
   },
   {
