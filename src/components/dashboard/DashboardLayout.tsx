@@ -86,6 +86,7 @@ export const NAV: NavItem[] = [
 ];
 
 function NavItems({ pathname, onNav }: { pathname: string; onNav?: () => void }) {
+  const handleSignOut = useSignOutHandler();
   return (
     <nav className="flex flex-col gap-1 px-2">
       {NAV.map((item) => {
@@ -116,7 +117,7 @@ function NavItems({ pathname, onNav }: { pathname: string; onNav?: () => void })
         );
       })}
       <button
-        onClick={() => toast.success("Logged out (demo)")}
+        onClick={handleSignOut}
         className="mt-2 flex items-center gap-3 rounded-2xl px-3 py-2.5 text-sm font-medium text-rose-600 transition hover:bg-rose-500/10"
       >
         <LogOut className="h-[18px] w-[18px]" />
@@ -241,7 +242,7 @@ export function DashboardLayout({ children }: { children: ReactNode }) {
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem
-                  onClick={() => toast.success("Logged out (demo)")}
+                  onClick={useSignOutHandler()}
                   className="text-rose-600"
                 >
                   Log out
