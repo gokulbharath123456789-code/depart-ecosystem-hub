@@ -14,6 +14,7 @@ import appCss from "../styles.css?url";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 import { StoreLayout } from "../components/layout/StoreLayout";
 import { Toaster } from "../components/ui/sonner";
+import { supabase } from "../integrations/supabase/client";
 
 function NotFoundComponent() {
   return (
@@ -120,9 +121,22 @@ function RootComponent() {
   const { queryClient } = Route.useRouteContext();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const isAdmin = pathname.startsWith("/admin");
+  const isAuthRoute = pathname === "/auth";
+  const router = useRouter();
+
+  // Wire onAuthStateChange ONCE — filtered to identity transitions.
+  useEffect(() => {
+    const { data: sub } = supabase.auth.onAuthStateChange((event) => {
+      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+      router.invalidate();
+      if (event !== "SIGNED_OUT") queryClient.invalidateQueries();
+    });
+    return () => sub.subscription.unsubscribe();
+  }, [queryClient, router]);
+
   return (
     <QueryClientProvider client={queryClient}>
-      {isAdmin ? (
+      {isAdmin || isAuthRoute ? (
         <Outlet />
       ) : (
         <StoreLayout>

@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet, useRouterState } from "@tanstack/react-router";
 import { AdminShell } from "@/features/admin/components/AdminShell";
+import { AuthGuard } from "@/features/auth/AuthGuard";
 
 export const Route = createFileRoute("/admin")({
   component: AdminLayout,
@@ -18,8 +19,10 @@ function AdminLayout() {
   const isAuth = AUTH_PATHS.has(pathname);
   if (isAuth) return <Outlet />;
   return (
-    <AdminShell>
-      <Outlet />
-    </AdminShell>
+    <AuthGuard requireRoles={["admin", "manager", "staff"]}>
+      <AdminShell>
+        <Outlet />
+      </AdminShell>
+    </AuthGuard>
   );
 }
