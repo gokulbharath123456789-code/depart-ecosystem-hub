@@ -46,6 +46,21 @@ import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { user, notifications as mockNotifs } from "@/mock/account";
 import { toast } from "sonner";
+import { useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { signOut } from "@/features/auth/useAuth";
+
+function useSignOutHandler() {
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+  return async () => {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await signOut();
+    toast.success("Signed out");
+    navigate({ to: "/auth", replace: true });
+  };
+}
 
 type NavItem = {
   to: string;

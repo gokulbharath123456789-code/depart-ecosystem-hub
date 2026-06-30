@@ -1,4 +1,8 @@
 import { Link, useRouterState } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { signOut } from "@/features/auth/useAuth";
 import {
   Bell,
   Search,
@@ -47,6 +51,16 @@ export function AdminHeader() {
   const { setCommandOpen, setNotificationsOpen, theme, setTheme } = useAdminStore();
   const pathname = useRouterState({ select: (s) => s.location.pathname });
   const title = titles[pathname] ?? "Admin";
+  const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  async function handleSignOut() {
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await signOut();
+    toast.success("Signed out");
+    navigate({ to: "/auth", replace: true });
+  }
 
   return (
     <header className="sticky top-0 z-30 flex h-16 items-center gap-3 border-b border-border/60 bg-background/80 px-4 backdrop-blur-xl md:px-6">
@@ -153,7 +167,7 @@ export function AdminHeader() {
             <DropdownMenuItem><Link to="/admin/settings" className="flex flex-1 items-center"><Settings className="mr-2 h-4 w-4" /> Settings</Link></DropdownMenuItem>
             <DropdownMenuItem><Link to="/admin/lock" className="flex flex-1 items-center"><Moon className="mr-2 h-4 w-4" /> Lock screen</Link></DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem><Link to="/admin/login" className="flex flex-1 items-center text-rose-600"><LogOut className="mr-2 h-4 w-4" /> Sign out</Link></DropdownMenuItem>
+            <DropdownMenuItem onClick={handleSignOut} className="text-rose-600"><LogOut className="mr-2 h-4 w-4" /> Sign out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       </div>
