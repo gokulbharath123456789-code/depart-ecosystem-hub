@@ -6,12 +6,14 @@ import { useCartCount } from "@/store/cart";
 import { useWishlist } from "@/store/wishlist";
 import { useUI } from "@/store/ui";
 import { categories } from "@/mock/categories";
+import { useAuth } from "@/features/auth/useAuth";
 
 export function Navbar() {
   const cartCount = useCartCount();
   const wishCount = useWishlist((s) => s.ids.length);
   const setSearchOpen = useUI((s) => s.setSearchOpen);
   const setCartOpen = useUI((s) => s.setCartOpen);
+  const { user, loading } = useAuth();
 
   return (
     <header className="sticky top-0 z-40 w-full border-b border-border/60 glass-strong">
@@ -75,13 +77,22 @@ export function Navbar() {
               </motion.span>
             )}
           </button>
-          <Link
-            to="/account"
-            aria-label="Account"
-            className="hidden h-10 w-10 place-items-center rounded-full text-foreground/80 transition hover:bg-muted md:grid"
-          >
-            <User className="h-5 w-5" />
-          </Link>
+          {user ? (
+            <Link
+              to="/account"
+              aria-label="Account"
+              className="hidden h-10 w-10 place-items-center rounded-full text-foreground/80 transition hover:bg-muted md:grid"
+            >
+              <User className="h-5 w-5" />
+            </Link>
+          ) : (
+            <Link
+              to="/auth"
+              className="hidden h-10 items-center rounded-full px-3 text-xs font-semibold text-foreground/80 transition hover:bg-muted md:inline-flex"
+            >
+              {loading ? "…" : "Sign in"}
+            </Link>
+          )}
           <Button variant="ghost" size="icon" className="rounded-full md:hidden" aria-label="Menu">
             <Menu className="h-5 w-5" />
           </Button>

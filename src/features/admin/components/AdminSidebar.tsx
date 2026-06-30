@@ -45,11 +45,21 @@ import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "@/comp
 
 const groups = [
   {
-    label: "Overview",
+    label: "Dashboard",
     items: [
-      { to: "/admin/dashboard", icon: LayoutDashboard, label: "Dashboard" },
-      { to: "/admin/analytics", icon: LineChart, label: "Analytics" },
-      { to: "/admin/reports", icon: BarChart3, label: "Reports" },
+      { to: "/admin/dashboard", icon: LayoutDashboard, label: "Overview" },
+    ],
+  },
+  {
+    label: "Sales",
+    items: [
+      { to: "/admin/orders", icon: ShoppingCart, label: "Orders" },
+      { to: "/admin/fulfillment", icon: PackageCheck, label: "Fulfillment" },
+      { to: "/admin/delivery", icon: Truck, label: "Delivery" },
+      { to: "/admin/delivery-partners", icon: ShieldCheck, label: "Delivery partners" },
+      { to: "/admin/routes", icon: RouteIcon, label: "Routes" },
+      { to: "/admin/returns", icon: RotateCcw, label: "Returns" },
+      { to: "/admin/refunds", icon: Wallet, label: "Refunds" },
     ],
   },
   {
@@ -57,67 +67,57 @@ const groups = [
     items: [
       { to: "/admin/products", icon: Package, label: "Products" },
       { to: "/admin/categories", icon: Tag, label: "Categories" },
+    ],
+  },
+  {
+    label: "Inventory",
+    items: [
       { to: "/admin/inventory", icon: Boxes, label: "Inventory" },
-      { to: "/admin/batches", icon: CalendarClock, label: "Batches & Expiry" },
-      { to: "/admin/barcodes", icon: Barcode, label: "Barcode Center" },
-    ],
-  },
-  {
-    label: "Operations",
-    items: [
       { to: "/admin/warehouses", icon: Warehouse, label: "Warehouses" },
-      { to: "/admin/stock-movements", icon: ArrowLeftRight, label: "Stock Movements" },
-      { to: "/admin/stock-adjustments", icon: Sliders, label: "Adjustments" },
-      { to: "/admin/purchase-orders", icon: ClipboardList, label: "Purchase Orders" },
+      { to: "/admin/stock-movements", icon: ArrowLeftRight, label: "Stock movements" },
+      { to: "/admin/stock-adjustments", icon: Sliders, label: "Stock adjustments" },
+      { to: "/admin/batches", icon: CalendarClock, label: "Batches & expiry" },
+      { to: "/admin/barcodes", icon: Barcode, label: "Barcode center" },
       { to: "/admin/forecast", icon: Sparkles, label: "Forecast" },
-      { to: "/admin/bulk-operations", icon: Upload, label: "Bulk Operations" },
+      { to: "/admin/bulk-operations", icon: Upload, label: "Bulk operations" },
     ],
   },
   {
-    label: "Commerce",
+    label: "Purchasing",
     items: [
-      { to: "/admin/orders", icon: ShoppingCart, label: "Orders" },
-      { to: "/admin/fulfillment", icon: PackageCheck, label: "Fulfillment" },
-      { to: "/admin/customers", icon: Users, label: "Customers" },
       { to: "/admin/suppliers", icon: Truck, label: "Suppliers" },
+      { to: "/admin/purchase-orders", icon: ClipboardList, label: "Purchase orders" },
     ],
   },
   {
-    label: "Delivery",
+    label: "Customers",
     items: [
-      { to: "/admin/delivery", icon: Truck, label: "Delivery" },
-      { to: "/admin/delivery-partners", icon: ShieldCheck, label: "Partners" },
-      { to: "/admin/routes", icon: RouteIcon, label: "Routes" },
-      { to: "/admin/delivery-analytics", icon: MapIcon, label: "Delivery analytics" },
-    ],
-  },
-  {
-    label: "CRM & Growth",
-    items: [
-      { to: "/admin/crm", icon: Heart, label: "Customer CRM" },
+      { to: "/admin/customers", icon: Users, label: "All customers" },
+      { to: "/admin/crm", icon: Heart, label: "CRM" },
       { to: "/admin/loyalty", icon: Sparkles, label: "Loyalty" },
-      { to: "/admin/marketing", icon: Megaphone, label: "Marketing" },
-    ],
-  },
-  {
-    label: "Service",
-    items: [
-      { to: "/admin/returns", icon: RotateCcw, label: "Returns" },
-      { to: "/admin/refunds", icon: Wallet, label: "Refunds" },
       { to: "/admin/tickets", icon: LifeBuoy, label: "Support" },
       { to: "/admin/knowledge-base", icon: BookOpen, label: "Knowledge base" },
     ],
   },
   {
-    label: "Automation",
+    label: "Marketing",
     items: [
+      { to: "/admin/marketing", icon: Megaphone, label: "Campaigns" },
+      { to: "/admin/notifications", icon: Bell, label: "Notifications" },
       { to: "/admin/workflows", icon: Workflow, label: "Workflows" },
     ],
   },
   {
-    label: "Workspace",
+    label: "Reports",
     items: [
-      { to: "/admin/notifications", icon: Bell, label: "Notifications" },
+      { to: "/admin/analytics", icon: LineChart, label: "Analytics" },
+      { to: "/admin/reports", icon: BarChart3, label: "Reports" },
+      { to: "/admin/delivery-analytics", icon: MapIcon, label: "Delivery analytics" },
+    ],
+  },
+  {
+    label: "System",
+    items: [
       { to: "/admin/users", icon: ShieldCheck, label: "Team" },
       { to: "/admin/settings", icon: Settings, label: "Settings" },
     ],
