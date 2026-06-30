@@ -1,5 +1,6 @@
 import { createFileRoute, Outlet } from "@tanstack/react-router";
 import { DashboardLayout } from "@/components/dashboard/DashboardLayout";
+import { AuthGuard } from "@/features/auth/AuthGuard";
 
 export const Route = createFileRoute("/account")({
   head: () => ({
@@ -13,8 +14,10 @@ export const Route = createFileRoute("/account")({
 
 function AccountLayout() {
   return (
-    <DashboardLayout>
-      <Outlet />
-    </DashboardLayout>
+    <AuthGuard>
+      <DashboardLayout>
+        <Outlet />
+      </DashboardLayout>
+    </AuthGuard>
   );
 }
