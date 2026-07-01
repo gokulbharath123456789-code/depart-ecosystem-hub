@@ -21,7 +21,8 @@ import {
 } from "@/features/admin/components/erp-widgets";
 import { useErpStore } from "@/store/erp";
 import { Button } from "@/components/ui/button";
-import { erpProducts, type ErpProduct } from "@/features/admin/mock/erp";
+import { useProducts, useArchiveProduct, useDeleteProduct } from "@/features/catalog/hooks";
+import type { ProductWithRefs } from "@/features/catalog/api";
 import type { ReactNode } from "react";
 import { inr } from "@/lib/format";
 import { Package, AlertTriangle, CheckCircle2, IndianRupee } from "lucide-react";
@@ -39,18 +40,37 @@ function ProductsPage() {
   const [delOpen, setDelOpen] = useState(false);
   const { selected, toggleSelect, selectMany, clear, savedFilters, visibleColumns, toggleColumn } = useErpStore();
 
-  const categories = useMemo(() => ["all", ...Array.from(new Set(erpProducts.map((p) => p.category)))], []);
-  const filtered = erpProducts.filter((p) => {
+  const { data: rows = [], isLoading } = useProducts();
+  const archiveMut = useArchiveProduct();
+  const deleteMut = useDeleteProduct();
+
+  const categories = useMemo(
+    () => ["all", ...Array.from(new Set(rows.map((p) => p.category?.name).filter(Boolean) as string[]))],
+    [rows],
+  );
+
+  const filtered = rows.filter((p) => {
     if (status !== "all" && p.status !== status) return false;
-    if (cat !== "all" && p.category !== cat) return false;
-    if (q && !p.name.toLowerCase().includes(q.toLowerCase()) && !p.sku.toLowerCase().includes(q.toLowerCase())) return false;
+    if (cat !== "all" && p.category?.name !== cat) return false;
+    if (q && !p.name.toLowerCase().includes(q.toLowerCase()) && !(p.sku ?? "").toLowerCase().includes(q.toLowerCase())) return false;
     return true;
   });
 
-  const totalValue = erpProducts.reduce((s, p) => s + p.price * p.stock, 0);
-  const low = erpProducts.filter((p) => p.stock <= p.reorder).length;
-  const active = erpProducts.filter((p) => p.status === "active").length;
+  const stockOf = (p: ProductWithRefs) => p.inventory.reduce((s, i) => s + i.on_hand, 0);
+  const reservedOf = (p: ProductWithRefs) => p.inventory.reduce((s, i) => s + i.reserved, 0);
+  const reorderOf = (p: ProductWithRefs) => p.inventory.reduce((s, i) => s + i.reorder_point, 0);
+  const totalValue = rows.reduce((s, p) => s + Number(p.price) * stockOf(p), 0);
+  const low = rows.filter((p) => stockOf(p) <= reorderOf(p)).length;
+  const active = rows.filter((p) => p.status === "active").length;
   const allSelected = filtered.length > 0 && filtered.every((p) => selected.includes(p.id));
+
+  const runBulk = async (kind: "archive" | "delete") => {
+    for (const id of selected) {
+      if (kind === "archive") await archiveMut.mutateAsync(id).catch(() => null);
+      if (kind === "delete") await deleteMut.mutateAsync(id).catch(() => null);
+    }
+    clear();
+  };
 
   return (
     <div className="mx-auto max-w-[1400px]">
@@ -68,7 +88,7 @@ function ProductsPage() {
       />
 
       <section className="grid grid-cols-2 gap-4 lg:grid-cols-4">
-        <KpiCard label="Total SKUs" value={erpProducts.length} icon={Package} tint="primary" />
+        <KpiCard label="Total SKUs" value={rows.length} icon={Package} tint="primary" />
         <KpiCard label="Active" value={active} icon={CheckCircle2} tint="sky" />
         <KpiCard label="Low stock" value={low} icon={AlertTriangle} tint="amber" />
         <KpiCard label="Inventory value" value={inr(totalValue)} icon={IndianRupee} tint="violet" />
@@ -78,14 +98,14 @@ function ProductsPage() {
         count={selected.length}
         onClear={clear}
         actions={[
-          { label: "Duplicate", icon: Copy, onClick: () => toast.success(`${selected.length} duplicated`) },
-          { label: "Recategorize", icon: Tag, onClick: () => toast.success("Move to category") },
-          { label: "Archive", icon: Archive, onClick: () => { toast.success("Archived"); clear(); } },
+          { label: "Duplicate", icon: Copy, onClick: () => toast.info("Duplicate coming soon") },
+          { label: "Recategorize", icon: Tag, onClick: () => toast.info("Bulk recategorize coming soon") },
+          { label: "Archive", icon: Archive, onClick: () => runBulk("archive") },
           { label: "Delete", icon: Trash2, tone: "danger", onClick: () => setDelOpen(true) },
         ]}
       />
 
-      <PanelCard title="Catalog" description={`${filtered.length} of ${erpProducts.length} products`} className="mt-6">
+      <PanelCard title="Catalog" description={`${filtered.length} of ${rows.length} products`} className="mt-6">
         <div className="mb-3 flex flex-wrap items-center gap-2">
           <AdvancedFilters
             search={q}
@@ -123,33 +143,51 @@ function ProductsPage() {
           </div>
         )}
 
-        {filtered.length === 0 ? (
-          <EmptyState icon={Package} title="No products match your filters" description="Try clearing filters or searching for something else." />
+        {isLoading ? (
+          <div className="space-y-2">
+            {Array.from({ length: 6 }).map((_, i) => (
+              <div key={i} className="h-12 animate-pulse rounded-lg bg-muted" />
+            ))}
+          </div>
+        ) : filtered.length === 0 ? (
+          <EmptyState icon={Package} title="No products yet" description="Add your first product to get started." />
         ) : (
-          <DataTable<ErpProduct>
+          <DataTable<ProductWithRefs>
             rows={filtered}
             columns={(() => {
-              type Col = { key: string; label: string; className?: string; render?: (p: ErpProduct) => ReactNode };
+              type Col = { key: string; label: string; className?: string; render?: (p: ProductWithRefs) => ReactNode };
               const cols: Col[] = [
                 { key: "select", label: "", className: "w-8", render: (p) => <Checkbox checked={selected.includes(p.id)} onCheckedChange={() => toggleSelect(p.id)} aria-label="Select row" /> },
                 { key: "name", label: "Product", render: (p) => (
                   <div className="flex items-center gap-3">
-                    <span className="grid h-9 w-9 place-items-center rounded-xl bg-muted text-base">{p.emoji}</span>
+                    {p.images[0]?.url ? (
+                      <img src={p.images[0].url} alt="" className="h-9 w-9 rounded-xl object-cover" />
+                    ) : (
+                      <span className="grid h-9 w-9 place-items-center rounded-xl bg-muted text-base">📦</span>
+                    )}
                     <div className="min-w-0">
                       <p className="truncate text-sm font-semibold">{p.name}</p>
-                      <p className="text-[11px] text-muted-foreground">{p.sku} · {p.brand}</p>
+                      <p className="text-[11px] text-muted-foreground">{p.sku ?? "—"} · {p.brand?.name ?? "—"}</p>
                     </div>
                   </div>
                 ) },
               ];
-              if (visibleColumns.brand) cols.push({ key: "brand", label: "Brand" });
-              cols.push({ key: "category", label: "Category" });
-              if (visibleColumns.supplier) cols.push({ key: "supplier", label: "Supplier" });
-              if (visibleColumns.cost) cols.push({ key: "cost", label: "Cost", render: (p) => <span>{inr(p.cost)}</span> });
+              if (visibleColumns.brand) cols.push({ key: "brand", label: "Brand", render: (p) => <span>{p.brand?.name ?? "—"}</span> });
+              cols.push({ key: "category", label: "Category", render: (p) => <span>{p.category?.name ?? "—"}</span> });
+              if (visibleColumns.supplier) cols.push({ key: "supplier", label: "Supplier", render: (p) => <span>{p.supplier?.name ?? "—"}</span> });
+              if (visibleColumns.cost) cols.push({ key: "cost", label: "Cost", render: (p) => <span>{inr(Number(p.cost_price ?? 0))}</span> });
               cols.push({ key: "price", label: "Price", render: (p) => <span className="font-semibold">{inr(p.price)}</span> });
-              if (visibleColumns.margin) cols.push({ key: "margin", label: "Margin", render: (p) => <span className="text-emerald-600">{Math.round(((p.price - p.cost) / p.price) * 100)}%</span> });
-              cols.push({ key: "stock", label: "Stock", render: (p) => <span className={`font-semibold ${p.stock === 0 ? "text-rose-600" : p.stock <= p.reorder ? "text-amber-600" : "text-foreground"}`}>{p.stock}</span> });
-              if (visibleColumns.available) cols.push({ key: "available", label: "Avail.", render: (p) => <span>{p.stock - p.reserved}</span> });
+              if (visibleColumns.margin) cols.push({ key: "margin", label: "Margin", render: (p) => {
+                const cost = Number(p.cost_price ?? 0);
+                const price = Number(p.price);
+                if (!price || !cost) return <span>—</span>;
+                return <span className="text-emerald-600">{Math.round(((price - cost) / price) * 100)}%</span>;
+              } });
+              cols.push({ key: "stock", label: "Stock", render: (p) => {
+                const s = stockOf(p); const r = reorderOf(p);
+                return <span className={`font-semibold ${s === 0 ? "text-rose-600" : s <= r ? "text-amber-600" : "text-foreground"}`}>{s}</span>;
+              } });
+              if (visibleColumns.available) cols.push({ key: "available", label: "Avail.", render: (p) => <span>{stockOf(p) - reservedOf(p)}</span> });
               cols.push({ key: "status", label: "Status", render: (p) => <StatusPill status={p.status} /> });
               return cols;
             })()}
@@ -163,9 +201,9 @@ function ProductsPage() {
         </div>
       </PanelCard>
 
-      <CsvImportDialog open={impOpen} onOpenChange={setImpOpen} onConfirm={() => toast.success("Products imported")} />
+      <CsvImportDialog open={impOpen} onOpenChange={setImpOpen} onConfirm={() => toast.info("CSV import coming soon")} />
       <ExportDialog open={expOpen} onOpenChange={setExpOpen} onExport={(f) => toast.success(`Exported as ${f.toUpperCase()}`)} />
-      <ConfirmDialog open={delOpen} onOpenChange={setDelOpen} tone="danger" title="Delete selected products?" description={`${selected.length} products will be permanently archived.`} confirmLabel="Delete" onConfirm={() => { toast.success("Deleted"); clear(); }} />
+      <ConfirmDialog open={delOpen} onOpenChange={setDelOpen} tone="danger" title="Delete selected products?" description={`${selected.length} products will be permanently deleted.`} confirmLabel="Delete" onConfirm={() => runBulk("delete")} />
     </div>
   );
 }
