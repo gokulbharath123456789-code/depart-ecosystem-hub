@@ -62,7 +62,7 @@ function BatchesPage() {
           <DataTable
             rows={view.slice(0, 100)}
             columns={[
-              { key: "batch_no", label: "Batch" },
+              { key: "batch_code", label: "Batch" },
               { key: "product", label: "Product", render: (b) => b.product?.name ?? "—" },
               { key: "warehouse", label: "Warehouse", render: (b) => b.warehouse?.name ?? "—" },
               { key: "qty", label: "Qty", className: "text-center" },
@@ -79,7 +79,7 @@ function BatchesPage() {
           rows={fefo}
           columns={[
             { key: "product", label: "Product", render: (b) => b.product?.name ?? "—" },
-            { key: "batch_no", label: "Batch" },
+            { key: "batch_code", label: "Batch" },
             { key: "expiry_date", label: "Expiry", render: (b) => b.expiry_date ? format(new Date(b.expiry_date), "d MMM yy") : "—" },
             { key: "daysLeft", label: "Days", render: (b) => Number.isFinite(b.daysLeft) ? <span className={`font-semibold ${b.daysLeft <= 7 ? "text-rose-600" : ""}`}>{b.daysLeft}d</span> : "—" },
           ]}
