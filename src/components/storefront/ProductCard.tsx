@@ -2,6 +2,8 @@ import { Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { Heart, Star, Clock, Plus, Minus } from "lucide-react";
 import type { Product } from "@/types";
+
+type ProductWithImage = Product & { imageUrl?: string | null };
 import { inr, pct } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -11,7 +13,7 @@ import { useWishlist } from "@/store/wishlist";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
-export function ProductCard({ product }: { product: Product }) {
+export function ProductCard({ product }: { product: ProductWithImage }) {
   const items = useCart((s) => s.items);
   const add = useCart((s) => s.add);
   const setQty = useCart((s) => s.setQty);
@@ -40,6 +42,8 @@ export function ProductCard({ product }: { product: Product }) {
           gradient={product.gradient}
           size="lg"
           className="aspect-square w-full"
+          imageUrl={product.imageUrl ?? null}
+          alt={product.name}
         />
         <div className="absolute left-3 top-3 flex flex-col gap-1.5">
           {discount > 0 && (

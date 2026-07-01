@@ -1,9 +1,9 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useState } from "react";
+import { createFileRoute, Link } from "@tanstack/react-router";
+import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
 import { ChevronRight, Heart, Minus, Plus, Star, Truck, ShieldCheck, RotateCcw, Clock } from "lucide-react";
-import { productBySlug, products } from "@/mock/products";
-import type { Product } from "@/types";
+import { useProduct, useProducts } from "@/features/catalog/hooks";
+import { toUiProduct } from "@/features/catalog/adapters";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ProductMedia } from "@/components/storefront/ProductMedia";
@@ -16,43 +16,68 @@ import { toast } from "sonner";
 import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/product/$slug")({
-  loader: ({ params }) => {
-    const product = productBySlug(params.slug);
-    if (!product) throw notFound();
-    return { product };
-  },
-  head: ({ loaderData }) =>
-    loaderData
-      ? {
-          meta: [
-            { title: `${loaderData.product.name} — DEPART` },
-            { name: "description", content: loaderData.product.description },
-            { property: "og:title", content: `${loaderData.product.name} — DEPART` },
-            { property: "og:description", content: loaderData.product.description },
-          ],
-        }
-      : {},
+  head: ({ params }) => ({
+    meta: [{ title: `${params.slug} — DEPART` }],
+  }),
   component: ProductPage,
 });
 
 function ProductPage() {
-  const { product } = Route.useLoaderData() as { product: Product };
+  const { slug } = Route.useParams();
+  const { data: dbProduct, isLoading } = useProduct(slug);
+  const { data: relatedRaw = [] } = useProducts({ status: "active", limit: 12 });
   const [qty, setQty] = useState(1);
   const [activeImg, setActiveImg] = useState(0);
   const add = useCart((s) => s.add);
   const setCartOpen = useUI((s) => s.setCartOpen);
-  const wished = useWishlist((s) => s.ids.includes(product.id));
+  const wishIds = useWishlist((s) => s.ids);
   const toggleWish = useWishlist((s) => s.toggle);
-  const discount = pct(product.mrp, product.price);
-  const related = products.filter((p) => p.categorySlug === product.categorySlug && p.id !== product.id).slice(0, 5);
 
-  // Fake gallery: same emoji on 4 differently-tinted gradients
-  const gallery = [
+  const product = useMemo(() => (dbProduct ? toUiProduct(dbProduct) : null), [dbProduct]);
+  const related = useMemo(
+    () =>
+      relatedRaw
+        .map(toUiProduct)
+        .filter((p) => product && p.id !== product.id && p.categorySlug === product.categorySlug)
+        .slice(0, 5),
+    [relatedRaw, product],
+  );
+
+  if (isLoading) {
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-10 lg:px-6">
+        <div className="grid gap-10 lg:grid-cols-[1.1fr_1fr]">
+          <div className="aspect-square animate-pulse rounded-2xl bg-muted" />
+          <div className="space-y-3">
+            <div className="h-8 w-3/4 animate-pulse rounded bg-muted" />
+            <div className="h-4 w-1/2 animate-pulse rounded bg-muted" />
+            <div className="h-24 animate-pulse rounded bg-muted" />
+          </div>
+        </div>
+      </div>
+    );
+  }
+  if (!product || !dbProduct) {
+    return (
+      <div className="mx-auto max-w-7xl px-4 py-24 text-center">
+        <h1 className="font-display text-2xl font-extrabold">Product not found</h1>
+        <Link to="/shop" className="mt-4 inline-block text-primary underline">Back to shop</Link>
+      </div>
+    );
+  }
+
+  const wished = wishIds.includes(product.id);
+  const discount = pct(product.mrp, product.price);
+  const dbImgs = dbProduct.images.length
+    ? dbProduct.images.map((i) => i.url)
+    : [null, null, null, null];
+  const gradients = [
     product.gradient,
     "from-stone-100 to-slate-100",
     "from-amber-100 to-yellow-50",
     "from-emerald-100 to-lime-50",
   ];
+  const gallery = dbImgs.slice(0, 4).map((url, i) => ({ url, gradient: gradients[i] ?? product.gradient }));
 
   return (
     <div className="mx-auto max-w-7xl px-4 py-6 lg:px-6">
@@ -79,7 +104,7 @@ function ProductPage() {
                   activeImg === i ? "ring-primary" : "ring-transparent hover:ring-border",
                 )}
               >
-                <ProductMedia emoji={product.emoji} gradient={g} size="sm" className="h-full w-full" />
+                <ProductMedia emoji={product.emoji} gradient={g.gradient} size="sm" className="h-full w-full" imageUrl={g.url} alt={product.name} />
               </button>
             ))}
           </div>
@@ -91,9 +116,11 @@ function ProductPage() {
           >
             <ProductMedia
               emoji={product.emoji}
-              gradient={gallery[activeImg]}
+              gradient={gallery[activeImg]?.gradient ?? product.gradient}
               size="xl"
               className="aspect-square w-full"
+              imageUrl={gallery[activeImg]?.url ?? null}
+              alt={product.name}
             />
           </motion.div>
         </div>

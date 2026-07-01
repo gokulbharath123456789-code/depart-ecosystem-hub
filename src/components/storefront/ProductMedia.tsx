@@ -6,11 +6,15 @@ export function ProductMedia({
   gradient,
   className,
   size = "md",
+  imageUrl,
+  alt,
 }: {
   emoji: string;
   gradient: string;
   className?: string;
   size?: "sm" | "md" | "lg" | "xl";
+  imageUrl?: string | null;
+  alt?: string;
 }) {
   const sizes = {
     sm: "text-4xl",
@@ -27,13 +31,24 @@ export function ProductMedia({
       )}
     >
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.6),transparent_60%)]" />
-      <motion.div
-        whileHover={{ scale: 1.08, rotate: -2 }}
-        transition={{ type: "spring", stiffness: 200, damping: 18 }}
-        className={cn("relative z-10 grid h-full w-full place-items-center", sizes[size])}
-      >
-        <span className="drop-shadow-sm">{emoji}</span>
-      </motion.div>
+      {imageUrl ? (
+        <motion.img
+          src={imageUrl}
+          alt={alt ?? ""}
+          loading="lazy"
+          whileHover={{ scale: 1.06 }}
+          transition={{ type: "spring", stiffness: 200, damping: 18 }}
+          className="absolute inset-0 z-10 h-full w-full object-cover"
+        />
+      ) : (
+        <motion.div
+          whileHover={{ scale: 1.08, rotate: -2 }}
+          transition={{ type: "spring", stiffness: 200, damping: 18 }}
+          className={cn("relative z-10 grid h-full w-full place-items-center", sizes[size])}
+        >
+          <span className="drop-shadow-sm">{emoji}</span>
+        </motion.div>
+      )}
     </div>
   );
 }

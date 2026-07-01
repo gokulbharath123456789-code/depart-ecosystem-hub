@@ -525,6 +525,33 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      adjust_stock: {
+        Args: {
+          _delta: number
+          _kind: Database["public"]["Enums"]["stock_movement_kind"]
+          _note?: string
+          _product_id: string
+          _reference?: string
+          _warehouse_id: string
+        }
+        Returns: {
+          created_at: string
+          created_by: string | null
+          id: string
+          kind: Database["public"]["Enums"]["stock_movement_kind"]
+          note: string | null
+          product_id: string
+          qty: number
+          reference: string | null
+          warehouse_id: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "stock_movements"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
       has_any_role: {
         Args: {
           _roles: Database["public"]["Enums"]["app_role"][]

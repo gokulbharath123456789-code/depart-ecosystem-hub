@@ -2,8 +2,8 @@ import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import { SlidersHorizontal, LayoutGrid, List, X } from "lucide-react";
-import { products } from "@/mock/products";
-import { categories } from "@/mock/categories";
+import { useProducts, useCategories } from "@/features/catalog/hooks";
+import { toUiProduct } from "@/features/catalog/adapters";
 import { ProductCard } from "@/components/storefront/ProductCard";
 import { Button } from "@/components/ui/button";
 import { Slider } from "@/components/ui/slider";
@@ -23,6 +23,10 @@ function Shop() {
   const [sort, setSort] = useState("popular");
   const [view, setView] = useState<"grid" | "list">("grid");
 
+  const { data: dbProducts = [], isLoading } = useProducts({ status: "active" });
+  const { data: categories = [] } = useCategories();
+  const products = useMemo(() => dbProducts.map(toUiProduct), [dbProducts]);
+
   const filtered = useMemo(() => {
     let list = products.filter(
       (p) =>
@@ -37,7 +41,7 @@ function Shop() {
     if (sort === "discount")
       list = [...list].sort((a, b) => (b.mrp - b.price) / b.mrp - (a.mrp - a.price) / a.mrp);
     return list;
-  }, [selectedCats, price, tagFilter, sort]);
+  }, [products, selectedCats, price, tagFilter, sort]);
 
   const toggle = (arr: string[], v: string, setter: (x: string[]) => void) =>
     setter(arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
@@ -110,7 +114,7 @@ function Shop() {
                     checked={selectedCats.includes(c.slug)}
                     onCheckedChange={() => toggle(selectedCats, c.slug, setSelectedCats)}
                   />
-                  <span>{c.emoji} {c.name}</span>
+                  <span>{c.name}</span>
                 </label>
               ))}
             </div>
@@ -173,7 +177,13 @@ function Shop() {
             </div>
           )}
 
-          {filtered.length === 0 ? (
+          {isLoading ? (
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4">
+              {Array.from({ length: 8 }).map((_, i) => (
+                <div key={i} className="aspect-[3/4] animate-pulse rounded-2xl bg-muted" />
+              ))}
+            </div>
+          ) : filtered.length === 0 ? (
             <div className="grid place-items-center rounded-3xl border border-dashed border-border bg-card py-24 text-center">
               <div className="text-5xl">🤷</div>
               <h3 className="mt-3 font-display text-xl font-bold">No products match</h3>
