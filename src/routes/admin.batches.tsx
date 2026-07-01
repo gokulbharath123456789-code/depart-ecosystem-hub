@@ -3,30 +3,35 @@ import { useMemo, useState } from "react";
 import { CalendarClock, AlertTriangle, PackageCheck, Layers, Download } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { PageHeader, PanelCard, KpiCard, DataTable } from "@/features/admin/components/widgets";
-import { BatchCard } from "@/features/admin/components/erp-widgets";
-import { batches } from "@/features/admin/mock/erp";
+import { PageHeader, PanelCard, KpiCard, DataTable, EmptyState } from "@/features/admin/components/widgets";
+import { useBatches } from "@/features/inventory/hooks";
 import { format } from "date-fns";
 
 export const Route = createFileRoute("/admin/batches")({ component: BatchesPage });
 
 function BatchesPage() {
   const [tab, setTab] = useState("all");
-  const enriched = useMemo(() => batches.map((b) => ({ ...b, daysLeft: Math.round((new Date(b.expiry).getTime() - Date.now()) / 86400000) })), []);
+  const { data: batches = [], isLoading } = useBatches();
+  const enriched = useMemo(
+    () => batches.map((b) => ({
+      ...b,
+      daysLeft: b.expiry_date ? Math.round((new Date(b.expiry_date).getTime() - Date.now()) / 86400000) : Number.POSITIVE_INFINITY,
+    })),
+    [batches],
+  );
   const expired = enriched.filter((b) => b.daysLeft < 0);
   const near = enriched.filter((b) => b.daysLeft >= 0 && b.daysLeft <= 7);
   const fresh = enriched.filter((b) => b.daysLeft > 7);
   const view = tab === "expired" ? expired : tab === "near" ? near : tab === "fresh" ? fresh : enriched;
 
-  const fefo = [...enriched].sort((a, b) => a.daysLeft - b.daysLeft).slice(0, 6);
-  const fifo = [...enriched].sort((a, b) => new Date(a.mfg).getTime() - new Date(b.mfg).getTime()).slice(0, 6);
+  const fefo = [...enriched].sort((a, b) => a.daysLeft - b.daysLeft).slice(0, 12);
 
   return (
     <div className="mx-auto max-w-[1400px]">
       <PageHeader
         crumbs={[{ label: "Admin", to: "/admin/dashboard" }, { label: "Catalog" }, { label: "Batches & Expiry" }]}
         title="Batch & expiry"
-        description="Track lots, manufacturing & expiry dates with FIFO/FEFO visibility."
+        description="Track lots, manufacturing & expiry dates with FEFO visibility."
         actions={<Button variant="outline" className="rounded-xl"><Download className="mr-2 h-4 w-4" /> Expiry report</Button>}
       />
 
@@ -48,34 +53,38 @@ function BatchesPage() {
         </Tabs>
       </div>
 
-      <section className="mt-4 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-        {view.slice(0, 16).map((b) => <BatchCard key={b.id} b={b} />)}
-      </section>
-
-      <section className="mt-6 grid grid-cols-1 gap-4 lg:grid-cols-2">
-        <PanelCard title="FEFO queue" description="First-expiry-first-out picking order">
+      <PanelCard title="Batches" description={`${view.length} lots`} className="mt-4">
+        {isLoading ? (
+          <div className="space-y-2">{Array.from({ length: 4 }).map((_, i) => <div key={i} className="h-10 animate-pulse rounded-lg bg-muted" />)}</div>
+        ) : view.length === 0 ? (
+          <EmptyState icon={Layers} title="No batches" description="Batch tracking data will appear here once received." />
+        ) : (
           <DataTable
-            rows={fefo}
+            rows={view.slice(0, 100)}
             columns={[
-              { key: "productName", label: "Product", render: (b) => <span><span className="mr-2">{b.emoji}</span>{b.productName}</span> },
-              { key: "batchNo", label: "Batch" },
-              { key: "expiry", label: "Expiry", render: (b) => format(new Date(b.expiry), "d MMM yy") },
-              { key: "daysLeft", label: "Days", render: (b) => <span className={`font-semibold ${b.daysLeft <= 7 ? "text-rose-600" : ""}`}>{b.daysLeft}d</span> },
-            ]}
-          />
-        </PanelCard>
-        <PanelCard title="FIFO queue" description="First-in-first-out by manufacturing date">
-          <DataTable
-            rows={fifo}
-            columns={[
-              { key: "productName", label: "Product", render: (b) => <span><span className="mr-2">{b.emoji}</span>{b.productName}</span> },
-              { key: "batchNo", label: "Batch" },
-              { key: "mfg", label: "Mfg", render: (b) => format(new Date(b.mfg), "d MMM yy") },
+              { key: "batch_no", label: "Batch" },
+              { key: "product", label: "Product", render: (b) => b.product?.name ?? "—" },
+              { key: "warehouse", label: "Warehouse", render: (b) => b.warehouse?.name ?? "—" },
               { key: "qty", label: "Qty", className: "text-center" },
+              { key: "mfg_date", label: "Mfg", render: (b) => b.mfg_date ? format(new Date(b.mfg_date), "d MMM yy") : "—" },
+              { key: "expiry_date", label: "Expiry", render: (b) => b.expiry_date ? format(new Date(b.expiry_date), "d MMM yy") : "—" },
+              { key: "daysLeft", label: "Days", render: (b) => Number.isFinite(b.daysLeft) ? <span className={`font-semibold ${b.daysLeft <= 7 ? "text-rose-600" : ""}`}>{b.daysLeft}d</span> : "—" },
             ]}
           />
-        </PanelCard>
-      </section>
+        )}
+      </PanelCard>
+
+      <PanelCard title="FEFO pick queue" description="First-expiry-first-out priority" className="mt-6">
+        <DataTable
+          rows={fefo}
+          columns={[
+            { key: "product", label: "Product", render: (b) => b.product?.name ?? "—" },
+            { key: "batch_no", label: "Batch" },
+            { key: "expiry_date", label: "Expiry", render: (b) => b.expiry_date ? format(new Date(b.expiry_date), "d MMM yy") : "—" },
+            { key: "daysLeft", label: "Days", render: (b) => Number.isFinite(b.daysLeft) ? <span className={`font-semibold ${b.daysLeft <= 7 ? "text-rose-600" : ""}`}>{b.daysLeft}d</span> : "—" },
+          ]}
+        />
+      </PanelCard>
     </div>
   );
 }
