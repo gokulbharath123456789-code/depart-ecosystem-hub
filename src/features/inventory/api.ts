@@ -1,14 +1,7 @@
 import { supabase } from "@/integrations/supabase/client";
 import type { Database } from "@/integrations/supabase/types";
 
-export type StockMovementKind =
-  | "receipt"
-  | "sale"
-  | "return"
-  | "adjustment"
-  | "transfer"
-  | "damage"
-  | "expiry";
+export type StockMovementKind = Database["public"]["Enums"]["stock_movement_kind"];
 
 export type InventoryRow = Database["public"]["Tables"]["inventory_levels"]["Row"] & {
   product: { id: string; name: string; slug: string; sku: string | null; unit: string } | null;
@@ -57,12 +50,12 @@ export async function adjustInventory(input: {
   note?: string | null;
 }) {
   const { error } = await supabase.rpc("adjust_stock", {
-    p_product_id: input.product_id,
-    p_warehouse_id: input.warehouse_id,
-    p_delta: input.delta,
-    p_kind: input.kind ?? "adjustment",
-    p_reference: input.reference ?? null,
-    p_note: input.note ?? null,
+    _product_id: input.product_id,
+    _warehouse_id: input.warehouse_id,
+    _delta: input.delta,
+    _kind: input.kind ?? "adjustment",
+    _reference: input.reference ?? undefined,
+    _note: input.note ?? undefined,
   });
   if (error) throw error;
 }
