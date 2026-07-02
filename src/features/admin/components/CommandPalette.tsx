@@ -87,6 +87,16 @@ const navItems = [
 export function CommandPalette() {
   const { commandOpen, setCommandOpen, pushRecent } = useAdminStore();
   const navigate = useNavigate();
+  const queryClient = useQueryClient();
+
+  const handleSignOut = async () => {
+    setCommandOpen(false);
+    await queryClient.cancelQueries();
+    queryClient.clear();
+    await signOut();
+    toast.success("Signed out");
+    navigate({ to: "/auth", replace: true });
+  };
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -144,7 +154,7 @@ export function CommandPalette() {
           <CommandItem onSelect={() => go("/admin/tickets")}>
             <Plus className="mr-2 h-4 w-4" /> New support ticket
           </CommandItem>
-          <CommandItem onSelect={() => go("/admin/login")}>
+          <CommandItem onSelect={handleSignOut}>
             <LogOut className="mr-2 h-4 w-4" /> Sign out
           </CommandItem>
         </CommandGroup>
