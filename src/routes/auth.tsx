@@ -187,6 +187,19 @@ function AuthPage() {
           </Button>
         </form>
 
+        {mode === "signin" && (
+          <div className="mt-3 text-right">
+            <button
+              type="button"
+              onClick={handleForgot}
+              disabled={busy}
+              className="text-xs font-semibold text-primary hover:underline disabled:opacity-50"
+            >
+              Forgot password?
+            </button>
+          </div>
+        )}
+
         <p className="mt-6 text-center text-sm text-muted-foreground">
           {mode === "signin" ? "New to DEPART? " : "Already have an account? "}
           <button
