@@ -74,7 +74,7 @@ function AuthPage() {
         if (error) throw error;
         toast.success("Signed in");
       }
-      navigate({ to: safeRedirect(redirect) as "/" });
+      // Redirect handled by the effect once roles resolve.
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Sign-in failed");
     } finally {
@@ -90,9 +90,28 @@ function AuthPage() {
       });
       if (result.error) throw result.error;
       if (result.redirected) return;
-      navigate({ to: safeRedirect(redirect) as "/" });
+      // Redirect handled by the effect once roles resolve.
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Google sign-in failed");
+      setBusy(false);
+    }
+  }
+
+  async function handleForgot() {
+    if (!email) {
+      toast.error("Enter your email above first");
+      return;
+    }
+    setBusy(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) throw error;
+      toast.success("Password reset email sent");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not send reset email");
+    } finally {
       setBusy(false);
     }
   }
