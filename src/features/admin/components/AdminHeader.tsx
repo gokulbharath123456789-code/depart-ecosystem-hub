@@ -165,8 +165,6 @@ export function AdminHeader() {
             <DropdownMenuSeparator />
             <DropdownMenuItem><User className="mr-2 h-4 w-4" /> Profile</DropdownMenuItem>
             <DropdownMenuItem><Link to="/admin/settings" className="flex flex-1 items-center"><Settings className="mr-2 h-4 w-4" /> Settings</Link></DropdownMenuItem>
-            <DropdownMenuItem><Link to="/admin/lock" className="flex flex-1 items-center"><Moon className="mr-2 h-4 w-4" /> Lock screen</Link></DropdownMenuItem>
-            <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleSignOut} className="text-rose-600"><LogOut className="mr-2 h-4 w-4" /> Sign out</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
