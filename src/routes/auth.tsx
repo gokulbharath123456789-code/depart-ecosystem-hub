@@ -29,9 +29,14 @@ function safeRedirect(path: string | undefined) {
   return path;
 }
 
+function roleHome(roles: string[]) {
+  if (roles.some((r) => r === "admin" || r === "manager" || r === "staff")) return "/admin";
+  return "/account";
+}
+
 function AuthPage() {
   const { redirect } = useSearch({ from: "/auth" });
-  const { user, loading } = useAuth();
+  const { user, loading, roles } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
@@ -41,10 +46,13 @@ function AuthPage() {
 
   // Already signed in? bounce.
   useEffect(() => {
-    if (!loading && user) {
+    if (loading || !user) return;
+    if (redirect) {
       navigate({ to: safeRedirect(redirect) as "/" });
+      return;
     }
-  }, [loading, user, redirect, navigate]);
+    navigate({ to: roleHome(roles) as "/" });
+  }, [loading, user, redirect, navigate, roles]);
 
   async function handleEmail(e: React.FormEvent) {
     e.preventDefault();
