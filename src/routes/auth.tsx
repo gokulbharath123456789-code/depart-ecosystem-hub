@@ -29,9 +29,14 @@ function safeRedirect(path: string | undefined) {
   return path;
 }
 
+function roleHome(roles: string[]) {
+  if (roles.some((r) => r === "admin" || r === "manager" || r === "staff")) return "/admin";
+  return "/account";
+}
+
 function AuthPage() {
   const { redirect } = useSearch({ from: "/auth" });
-  const { user, loading } = useAuth();
+  const { user, loading, roles } = useAuth();
   const navigate = useNavigate();
   const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [email, setEmail] = useState("");
@@ -41,10 +46,13 @@ function AuthPage() {
 
   // Already signed in? bounce.
   useEffect(() => {
-    if (!loading && user) {
+    if (loading || !user) return;
+    if (redirect) {
       navigate({ to: safeRedirect(redirect) as "/" });
+      return;
     }
-  }, [loading, user, redirect, navigate]);
+    navigate({ to: roleHome(roles) as "/" });
+  }, [loading, user, redirect, navigate, roles]);
 
   async function handleEmail(e: React.FormEvent) {
     e.preventDefault();
@@ -66,7 +74,7 @@ function AuthPage() {
         if (error) throw error;
         toast.success("Signed in");
       }
-      navigate({ to: safeRedirect(redirect) as "/" });
+      // Redirect handled by the effect once roles resolve.
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Sign-in failed");
     } finally {
@@ -82,9 +90,28 @@ function AuthPage() {
       });
       if (result.error) throw result.error;
       if (result.redirected) return;
-      navigate({ to: safeRedirect(redirect) as "/" });
+      // Redirect handled by the effect once roles resolve.
     } catch (err) {
       toast.error(err instanceof Error ? err.message : "Google sign-in failed");
+      setBusy(false);
+    }
+  }
+
+  async function handleForgot() {
+    if (!email) {
+      toast.error("Enter your email above first");
+      return;
+    }
+    setBusy(true);
+    try {
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/reset-password`,
+      });
+      if (error) throw error;
+      toast.success("Password reset email sent");
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not send reset email");
+    } finally {
       setBusy(false);
     }
   }
@@ -159,6 +186,19 @@ function AuthPage() {
             <ArrowRight className="ml-2 h-4 w-4" />
           </Button>
         </form>
+
+        {mode === "signin" && (
+          <div className="mt-3 text-right">
+            <button
+              type="button"
+              onClick={handleForgot}
+              disabled={busy}
+              className="text-xs font-semibold text-primary hover:underline disabled:opacity-50"
+            >
+              Forgot password?
+            </button>
+          </div>
+        )}
 
         <p className="mt-6 text-center text-sm text-muted-foreground">
           {mode === "signin" ? "New to DEPART? " : "Already have an account? "}
