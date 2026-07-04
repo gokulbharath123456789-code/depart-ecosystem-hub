@@ -89,8 +89,8 @@ export async function placeOrder(input: PlaceOrderInput): Promise<DbOrder> {
     _items: input.items,
     _payment_method: input.paymentMethod,
     _delivery_slot: input.deliverySlot,
-    _coupon_code: input.couponCode ?? null,
-    _notes: input.notes ?? null,
+    _coupon_code: input.couponCode,
+    _notes: input.notes,
   });
   if (error) throw error;
   return data as unknown as DbOrder;
@@ -104,7 +104,7 @@ export async function updateOrderStatus(
   const { data, error } = await supabase.rpc("update_order_status", {
     _order_id: orderId,
     _status: status,
-    _note: note ?? null,
+    _note: note,
   });
   if (error) throw error;
   return data as unknown as DbOrder;
