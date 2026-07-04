@@ -192,7 +192,7 @@ function Checkout() {
           {step === 1 && (
             <div className="space-y-4">
               <h2 className="font-display text-xl font-bold">Delivery slot</h2>
-              <RadioGroup value={slot} onValueChange={setSlot} className="grid gap-3 sm:grid-cols-2">
+              <RadioGroup value={slot} onValueChange={(v) => setSlot(v as typeof slot)} className="grid gap-3 sm:grid-cols-2">
                 {[
                   { id: "express", label: "Express", sub: "Within 10 minutes", price: "₹49" },
                   { id: "standard", label: "Standard", sub: "Within 60 minutes", price: "FREE on ₹499+" },
@@ -287,7 +287,13 @@ function Checkout() {
               <ul className="divide-y divide-border rounded-xl border border-border">
                 {detailed.map(({ item, product }) => (
                   <li key={product.id} className="flex items-center gap-3 p-3 text-sm">
-                    <ProductMedia size="sm" className="h-12 w-12" imageUrl={product.images?.[0]?.url} />
+                    <ProductMedia
+                      emoji="🛍️"
+                      gradient="from-primary/20 to-primary/5"
+                      size="sm"
+                      className="h-12 w-12"
+                      imageUrl={product.images?.[0]?.url}
+                    />
                     <div className="flex-1">
                       <div className="font-semibold">{product.name}</div>
                       <div className="text-xs text-muted-foreground">Qty {item.qty} · {product.unit}</div>
