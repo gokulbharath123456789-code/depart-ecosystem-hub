@@ -9,7 +9,7 @@ import {
   Loader2,
 } from "lucide-react";
 import { useMyOrders, useUpdateOrderStatus } from "@/features/orders/hooks";
-import { statusPillClass, statusLabel } from "@/features/orders/status";
+import { STATUS_LABEL, statusColor, formatDate } from "@/features/orders/status";
 import type { OrderWithRefs } from "@/features/orders/api";
 import { inr } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
@@ -50,14 +50,6 @@ const STATUSES = [
   "returned",
   "refunded",
 ] as const;
-
-function formatDate(iso: string) {
-  return new Date(iso).toLocaleDateString("en-IN", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  });
-}
 
 function OrdersPage() {
   const { data, isLoading, error } = useMyOrders();
