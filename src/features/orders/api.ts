@@ -122,6 +122,23 @@ export async function listActiveCoupons(): Promise<DbCoupon[]> {
   return data ?? [];
 }
 
+// ---------------------- Invoices ----------------------------------------
+
+export type InvoiceWithOrder = DbInvoice & {
+  order: Pick<DbOrder, "id" | "order_number" | "placed_at" | "status" | "total" | "subtotal" | "tax_amount" | "user_id"> | null;
+};
+
+export async function listMyInvoices(): Promise<InvoiceWithOrder[]> {
+  const { data, error } = await supabase
+    .from("invoices")
+    .select(
+      `*, order:orders(id, order_number, placed_at, status, total, subtotal, tax_amount, user_id)`,
+    )
+    .order("issued_at", { ascending: false });
+  if (error) throw error;
+  return (data ?? []) as unknown as InvoiceWithOrder[];
+}
+
 export async function previewCoupon(
   code: string,
   subtotal: number,
