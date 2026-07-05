@@ -111,7 +111,7 @@ function OrdersPage() {
             <SelectItem value="all">All statuses</SelectItem>
             {STATUSES.map((s) => (
               <SelectItem key={s} value={s}>
-                {statusLabel(s)}
+                {STATUS_LABEL[s]}
               </SelectItem>
             ))}
           </SelectContent>
@@ -195,8 +195,8 @@ function OrderRow({ order, index, onOpen }: { order: OrderWithRefs; index: numbe
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
             <p className="font-semibold">{order.order_number}</p>
-            <Badge variant="secondary" className={statusPillClass(order.status)}>
-              {statusLabel(order.status)}
+            <Badge variant="secondary" className={statusColor(order.status)}>
+              {STATUS_LABEL[order.status]}
             </Badge>
           </div>
           <p className="text-xs text-muted-foreground">
@@ -242,8 +242,8 @@ function OrderDetails({ order, onClose }: { order: OrderWithRefs; onClose: () =>
       <SheetHeader>
         <SheetTitle className="flex items-center gap-3">
           {order.order_number}
-          <Badge variant="secondary" className={statusPillClass(order.status)}>
-            {statusLabel(order.status)}
+          <Badge variant="secondary" className={statusColor(order.status)}>
+            {STATUS_LABEL[order.status]}
           </Badge>
         </SheetTitle>
       </SheetHeader>
@@ -258,7 +258,7 @@ function OrderDetails({ order, onClose }: { order: OrderWithRefs; onClose: () =>
               <li key={t.id} className="flex items-start gap-3">
                 <span className="mt-1 h-3 w-3 rounded-full bg-primary" />
                 <div className="flex-1">
-                  <p className="text-sm font-semibold">{statusLabel(t.status)}</p>
+                  <p className="text-sm font-semibold">{STATUS_LABEL[t.status]}</p>
                   <p className="text-xs text-muted-foreground">{formatDate(t.created_at)}</p>
                   {t.note && <p className="mt-0.5 text-xs text-foreground/70">{t.note}</p>}
                 </div>
