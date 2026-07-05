@@ -7,6 +7,7 @@ import {
   placeOrder,
   updateOrderStatus,
   listActiveCoupons,
+  listMyInvoices,
   type PlaceOrderInput,
   type OrderStatus,
 } from "./api";
@@ -67,4 +68,8 @@ export function useUpdateOrderStatus() {
 
 export function useActiveCoupons() {
   return useQuery({ queryKey: ["coupons-active"], queryFn: listActiveCoupons });
+}
+
+export function useMyInvoices() {
+  return useQuery({ queryKey: ["my-invoices"], queryFn: listMyInvoices });
 }

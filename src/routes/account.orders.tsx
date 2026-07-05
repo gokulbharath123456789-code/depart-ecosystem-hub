@@ -3,16 +3,14 @@ import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
 import {
   Search,
-  LayoutGrid,
-  List,
-  FileText,
-  RotateCcw,
   XCircle,
   RefreshCw,
   Package,
-  ChevronRight,
+  Loader2,
 } from "lucide-react";
-import { orders as ALL, statusColor, formatDate, type Order } from "@/mock/account";
+import { useMyOrders, useUpdateOrderStatus } from "@/features/orders/hooks";
+import { STATUS_LABEL, statusColor, formatDate } from "@/features/orders/status";
+import type { OrderWithRefs } from "@/features/orders/api";
 import { inr } from "@/lib/format";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -30,42 +28,68 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
-import { ProductMedia } from "@/components/storefront/ProductMedia";
 import { EmptyState } from "@/components/dashboard/DashboardLayout";
 import { PanelCard } from "@/components/dashboard/cards";
 import { toast } from "sonner";
-import { useCart } from "@/store/cart";
 
 export const Route = createFileRoute("/account/orders")({
   component: OrdersPage,
 });
 
 const PAGE_SIZE = 8;
+const STATUSES = [
+  "pending",
+  "confirmed",
+  "picking",
+  "packing",
+  "ready_for_dispatch",
+  "out_for_delivery",
+  "delivered",
+  "completed",
+  "cancelled",
+  "returned",
+  "refunded",
+] as const;
 
 function OrdersPage() {
+  const { data, isLoading, error } = useMyOrders();
   const [q, setQ] = useState("");
   const [status, setStatus] = useState<string>("all");
   const [sort, setSort] = useState<string>("recent");
-  const [view, setView] = useState<"grid" | "list">("list");
   const [page, setPage] = useState(1);
-  const [active, setActive] = useState<Order | null>(null);
-  const add = useCart((s) => s.add);
+  const [active, setActive] = useState<OrderWithRefs | null>(null);
 
   const filtered = useMemo(() => {
-    let arr = ALL.filter((o) =>
-      [o.number, o.items.map((i) => i.product.name).join(" ")]
-        .join(" ")
-        .toLowerCase()
-        .includes(q.toLowerCase()),
-    );
-    if (status !== "all") arr = arr.filter((o) => o.status === status);
-    if (sort === "recent") arr = [...arr].sort((a, b) => +new Date(b.placedAt) - +new Date(a.placedAt));
-    if (sort === "amount") arr = [...arr].sort((a, b) => b.total - a.total);
+    const arr = (data ?? []).filter((o) => {
+      const hay = [o.order_number, ...o.items.map((i) => i.product_name)].join(" ").toLowerCase();
+      if (q && !hay.includes(q.toLowerCase())) return false;
+      if (status !== "all" && o.status !== status) return false;
+      return true;
+    });
+    if (sort === "amount") arr.sort((a, b) => Number(b.total) - Number(a.total));
+    else arr.sort((a, b) => +new Date(b.placed_at) - +new Date(a.placed_at));
     return arr;
-  }, [q, status, sort]);
+  }, [data, q, status, sort]);
 
   const pages = Math.max(1, Math.ceil(filtered.length / PAGE_SIZE));
   const slice = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
+
+  if (isLoading) {
+    return (
+      <div className="flex items-center justify-center py-24 text-muted-foreground">
+        <Loader2 className="mr-2 h-5 w-5 animate-spin" /> Loading your orders…
+      </div>
+    );
+  }
+  if (error) {
+    return (
+      <EmptyState
+        icon={Package}
+        title="Couldn't load orders"
+        description={error instanceof Error ? error.message : "Please try again."}
+      />
+    );
+  }
 
   return (
     <div className="space-y-5">
@@ -80,13 +104,15 @@ function OrdersPage() {
           />
         </div>
         <Select value={status} onValueChange={setStatus}>
-          <SelectTrigger className="h-10 w-40 rounded-full bg-card">
+          <SelectTrigger className="h-10 w-44 rounded-full bg-card">
             <SelectValue />
           </SelectTrigger>
           <SelectContent>
             <SelectItem value="all">All statuses</SelectItem>
-            {["Pending","Confirmed","Packed","Shipped","Out for Delivery","Delivered","Cancelled","Returned"].map((s) => (
-              <SelectItem key={s} value={s}>{s}</SelectItem>
+            {STATUSES.map((s) => (
+              <SelectItem key={s} value={s}>
+                {STATUS_LABEL[s]}
+              </SelectItem>
             ))}
           </SelectContent>
         </Select>
@@ -99,59 +125,32 @@ function OrdersPage() {
             <SelectItem value="amount">Amount: high</SelectItem>
           </SelectContent>
         </Select>
-        <div className="ml-auto flex rounded-full border border-border bg-card p-0.5">
-          <Button
-            onClick={() => setView("list")}
-            size="sm"
-            variant={view === "list" ? "default" : "ghost"}
-            className="h-8 rounded-full"
-          >
-            <List className="h-4 w-4" />
-          </Button>
-          <Button
-            onClick={() => setView("grid")}
-            size="sm"
-            variant={view === "grid" ? "default" : "ghost"}
-            className="h-8 rounded-full"
-          >
-            <LayoutGrid className="h-4 w-4" />
-          </Button>
-        </div>
       </div>
 
       {slice.length === 0 ? (
         <EmptyState
           icon={Package}
-          title="No orders found"
-          description="Try clearing filters or place your first order from the shop."
+          title="No orders yet"
+          description="Place your first order from the shop and it'll show up here."
           action={
             <Button asChild className="rounded-full">
               <Link to="/shop">Browse shop</Link>
             </Button>
           }
         />
-      ) : view === "list" ? (
+      ) : (
         <ul className="space-y-3">
           {slice.map((o, i) => (
-            <OrderRow key={o.id} order={o} index={i} onOpen={() => setActive(o)} onReorder={() => {
-              o.items.forEach((it) => add(it.product.id, it.qty));
-              toast.success("Items added to cart");
-            }} />
+            <OrderRow key={o.id} order={o} index={i} onOpen={() => setActive(o)} />
           ))}
         </ul>
-      ) : (
-        <div className="grid gap-4 sm:grid-cols-2">
-          {slice.map((o, i) => (
-            <OrderCard key={o.id} order={o} index={i} onOpen={() => setActive(o)} />
-          ))}
-        </div>
       )}
 
       <Pagination page={page} pages={pages} onChange={setPage} />
 
       <Sheet open={!!active} onOpenChange={(v) => !v && setActive(null)}>
         <SheetContent className="w-full overflow-y-auto sm:max-w-lg">
-          {active && <OrderDetails order={active} />}
+          {active && <OrderDetails order={active} onClose={() => setActive(null)} />}
         </SheetContent>
       </Sheet>
     </div>
@@ -183,7 +182,8 @@ function Pagination({ page, pages, onChange }: { page: number; pages: number; on
   );
 }
 
-function OrderRow({ order, index, onOpen, onReorder }: { order: Order; index: number; onOpen: () => void; onReorder: () => void }) {
+function OrderRow({ order, index, onOpen }: { order: OrderWithRefs; index: number; onOpen: () => void }) {
+  const names = order.items.map((i) => i.product_name).join(", ");
   return (
     <motion.li
       initial={{ opacity: 0, y: 8 }}
@@ -192,154 +192,142 @@ function OrderRow({ order, index, onOpen, onReorder }: { order: Order; index: nu
       className="rounded-3xl border border-border/60 bg-card p-4 soft-shadow"
     >
       <div className="flex flex-wrap items-center gap-4">
-        <div className="flex -space-x-2">
-          {order.items.slice(0, 3).map((it, idx) => (
-            <ProductMedia
-              key={idx}
-              emoji={it.product.emoji}
-              gradient={it.product.gradient}
-              size="sm"
-              className="h-12 w-12 rounded-2xl ring-2 ring-card"
-            />
-          ))}
-        </div>
         <div className="min-w-0 flex-1">
           <div className="flex flex-wrap items-center gap-2">
-            <p className="font-semibold">{order.number}</p>
+            <p className="font-semibold">{order.order_number}</p>
             <Badge variant="secondary" className={statusColor(order.status)}>
-              {order.status}
+              {STATUS_LABEL[order.status]}
             </Badge>
           </div>
           <p className="text-xs text-muted-foreground">
-            {order.items.length} item{order.items.length > 1 ? "s" : ""} · placed {formatDate(order.placedAt)} · {order.paymentMethod}
+            {order.items.length} item{order.items.length > 1 ? "s" : ""} · placed {formatDate(order.placed_at)}
+            {order.payment_method ? ` · ${order.payment_method.toUpperCase()}` : ""}
           </p>
-          <p className="mt-1 truncate text-sm text-foreground/80">
-            {order.items.map((i) => i.product.name).join(", ")}
-          </p>
+          <p className="mt-1 truncate text-sm text-foreground/80">{names}</p>
         </div>
         <div className="flex flex-col items-end gap-2">
-          <p className="font-display text-lg font-bold">{inr(order.total)}</p>
-          <div className="flex gap-2">
-            <Button size="sm" variant="outline" className="rounded-full" onClick={onOpen}>
-              View
-            </Button>
-            <Button size="sm" className="rounded-full" onClick={onReorder}>
-              <RefreshCw className="mr-1 h-3.5 w-3.5" /> Reorder
-            </Button>
-          </div>
+          <p className="font-display text-lg font-bold">{inr(Number(order.total))}</p>
+          <Button size="sm" variant="outline" className="rounded-full" onClick={onOpen}>
+            View details
+          </Button>
         </div>
       </div>
     </motion.li>
   );
 }
 
-function OrderCard({ order, index, onOpen }: { order: Order; index: number; onOpen: () => void }) {
-  return (
-    <motion.div
-      initial={{ opacity: 0, y: 8 }}
-      animate={{ opacity: 1, y: 0 }}
-      transition={{ delay: index * 0.03 }}
-      className="flex flex-col rounded-3xl border border-border/60 bg-card p-5 soft-shadow"
-    >
-      <div className="flex items-start justify-between">
-        <div>
-          <p className="font-semibold">{order.number}</p>
-          <p className="text-xs text-muted-foreground">{formatDate(order.placedAt)}</p>
-        </div>
-        <Badge variant="secondary" className={statusColor(order.status)}>
-          {order.status}
-        </Badge>
-      </div>
-      <div className="my-4 flex -space-x-2">
-        {order.items.slice(0, 4).map((it, idx) => (
-          <ProductMedia
-            key={idx}
-            emoji={it.product.emoji}
-            gradient={it.product.gradient}
-            size="sm"
-            className="h-12 w-12 rounded-2xl ring-2 ring-card"
-          />
-        ))}
-      </div>
-      <p className="line-clamp-2 text-sm text-foreground/80">
-        {order.items.map((i) => i.product.name).join(", ")}
-      </p>
-      <div className="mt-auto flex items-center justify-between pt-4">
-        <p className="font-display text-lg font-bold">{inr(order.total)}</p>
-        <Button size="sm" variant="outline" className="rounded-full" onClick={onOpen}>
-          Details <ChevronRight className="ml-1 h-3.5 w-3.5" />
-        </Button>
-      </div>
-    </motion.div>
+function OrderDetails({ order, onClose }: { order: OrderWithRefs; onClose: () => void }) {
+  const cancelMutation = useUpdateOrderStatus();
+  const canCancel = order.status === "pending" || order.status === "confirmed";
+  const history = [...order.history].sort(
+    (a, b) => +new Date(a.created_at) - +new Date(b.created_at),
   );
-}
 
-function OrderDetails({ order }: { order: Order }) {
-  const add = useCart((s) => s.add);
+  async function handleCancel() {
+    try {
+      await cancelMutation.mutateAsync({
+        orderId: order.id,
+        status: "cancelled",
+        note: "Cancelled by customer",
+      });
+      toast.success("Order cancelled");
+      onClose();
+    } catch (err) {
+      toast.error(err instanceof Error ? err.message : "Could not cancel order");
+    }
+  }
+
   return (
     <div className="space-y-5">
       <SheetHeader>
         <SheetTitle className="flex items-center gap-3">
-          {order.number}
-          <Badge variant="secondary" className={statusColor(order.status)}>{order.status}</Badge>
+          {order.order_number}
+          <Badge variant="secondary" className={statusColor(order.status)}>
+            {STATUS_LABEL[order.status]}
+          </Badge>
         </SheetTitle>
       </SheetHeader>
 
       <div className="rounded-2xl border border-border/60 bg-muted/30 p-4">
         <p className="text-xs uppercase tracking-wider text-muted-foreground">Timeline</p>
         <ol className="mt-3 space-y-3">
-          {order.timeline.map((t, i) => (
-            <li key={i} className="flex items-start gap-3">
-              <span className={`mt-1 h-3 w-3 rounded-full ${t.done ? "bg-primary" : "bg-muted-foreground/30"}`} />
-              <div className="flex-1">
-                <p className={`text-sm ${t.done ? "font-semibold" : "text-muted-foreground"}`}>{t.label}</p>
-                {t.done && <p className="text-xs text-muted-foreground">{formatDate(t.at)}</p>}
-              </div>
-            </li>
-          ))}
+          {history.length === 0 ? (
+            <li className="text-sm text-muted-foreground">No status updates yet.</li>
+          ) : (
+            history.map((t) => (
+              <li key={t.id} className="flex items-start gap-3">
+                <span className="mt-1 h-3 w-3 rounded-full bg-primary" />
+                <div className="flex-1">
+                  <p className="text-sm font-semibold">{STATUS_LABEL[t.status]}</p>
+                  <p className="text-xs text-muted-foreground">{formatDate(t.created_at)}</p>
+                  {t.note && <p className="mt-0.5 text-xs text-foreground/70">{t.note}</p>}
+                </div>
+              </li>
+            ))
+          )}
         </ol>
       </div>
 
       <PanelCard title="Items">
         <ul className="divide-y divide-border/60">
-          {order.items.map((it, i) => (
-            <li key={i} className="flex items-center gap-3 py-2.5 first:pt-0 last:pb-0">
-              <ProductMedia emoji={it.product.emoji} gradient={it.product.gradient} size="sm" className="h-12 w-12 rounded-xl" />
+          {order.items.map((it) => (
+            <li key={it.id} className="flex items-center gap-3 py-2.5 first:pt-0 last:pb-0">
               <div className="flex-1 min-w-0">
-                <p className="truncate text-sm font-medium">{it.product.name}</p>
-                <p className="text-xs text-muted-foreground">Qty {it.qty} · {it.product.unit}</p>
+                <p className="truncate text-sm font-medium">{it.product_name}</p>
+                <p className="text-xs text-muted-foreground">
+                  Qty {it.qty}
+                  {it.product_unit ? ` · ${it.product_unit}` : ""}
+                </p>
               </div>
-              <p className="text-sm font-semibold">{inr(it.product.price * it.qty)}</p>
+              <p className="text-sm font-semibold">{inr(Number(it.subtotal))}</p>
             </li>
           ))}
         </ul>
       </PanelCard>
 
+      <PanelCard title="Delivery">
+        <p className="text-sm font-medium">{order.ship_full_name}</p>
+        <p className="text-xs text-muted-foreground">{order.ship_phone}</p>
+        <p className="mt-1 text-sm text-foreground/80">
+          {order.ship_line1}
+          {order.ship_line2 ? `, ${order.ship_line2}` : ""}, {order.ship_city}, {order.ship_state} {order.ship_pincode}
+        </p>
+      </PanelCard>
+
       <PanelCard title="Summary">
-        <Row label="Subtotal" value={inr(order.subtotal)} />
-        <Row label="Delivery" value={order.delivery === 0 ? "Free" : inr(order.delivery)} />
-        <Row label="Discount" value={`− ${inr(order.discount)}`} />
+        <Row label="Subtotal" value={inr(Number(order.subtotal))} />
+        <Row label="Tax" value={inr(Number(order.tax_amount))} />
+        <Row label="Delivery" value={Number(order.delivery_fee) === 0 ? "Free" : inr(Number(order.delivery_fee))} />
+        {Number(order.discount_amount) > 0 && (
+          <Row label="Discount" value={`− ${inr(Number(order.discount_amount))}`} />
+        )}
         <div className="mt-2 border-t pt-2">
-          <Row label="Total" value={inr(order.total)} bold />
+          <Row label="Total" value={inr(Number(order.total))} bold />
         </div>
       </PanelCard>
 
-      <div className="flex flex-wrap gap-2">
-        <Button className="rounded-full" onClick={() => toast.success("Invoice downloaded (demo)")}>
-          <FileText className="mr-2 h-4 w-4" /> Invoice
+      {canCancel && (
+        <Button
+          variant="ghost"
+          className="w-full rounded-full text-rose-600 hover:bg-rose-500/10"
+          disabled={cancelMutation.isPending}
+          onClick={handleCancel}
+        >
+          {cancelMutation.isPending ? (
+            <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+          ) : (
+            <XCircle className="mr-2 h-4 w-4" />
+          )}
+          Cancel order
         </Button>
-        <Button variant="outline" className="rounded-full" onClick={() => { order.items.forEach((it) => add(it.product.id, it.qty)); toast.success("Added to cart"); }}>
-          <RefreshCw className="mr-2 h-4 w-4" /> Buy again
+      )}
+      {!canCancel && order.status === "delivered" && (
+        <Button variant="outline" className="w-full rounded-full" asChild>
+          <Link to="/account/tracking">
+            <RefreshCw className="mr-2 h-4 w-4" /> Track another order
+          </Link>
         </Button>
-        <Button variant="outline" className="rounded-full" onClick={() => toast.success("Return request created (demo)")}>
-          <RotateCcw className="mr-2 h-4 w-4" /> Return
-        </Button>
-        {order.status !== "Delivered" && order.status !== "Cancelled" && (
-          <Button variant="ghost" className="rounded-full text-rose-600 hover:bg-rose-500/10" onClick={() => toast.success("Order cancelled (demo)")}>
-            <XCircle className="mr-2 h-4 w-4" /> Cancel
-          </Button>
-        )}
-      </div>
+      )}
     </div>
   );
 }
