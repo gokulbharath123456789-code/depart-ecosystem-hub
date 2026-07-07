@@ -19,7 +19,7 @@ export function Hero() {
               className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-foreground/80 backdrop-blur"
             >
               <Sparkles className="h-3.5 w-3.5 text-primary" />
-              New flagship store · Mumbai now live
+              New flagship store · Coimbatore now live
             </motion.span>
             <motion.h1
               initial={{ opacity: 0, y: 16 }}

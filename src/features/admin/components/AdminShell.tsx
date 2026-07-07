@@ -49,7 +49,7 @@ export function AuthShell({ children, side }: { children: ReactNode; side?: Reac
             </p>
             {side}
           </div>
-          <p className="text-xs text-foreground/60">© SREE SUPER MART Retail · Mumbai</p>
+          <p className="text-xs text-foreground/60">© SREE SUPER MART Retail · Coimbatore</p>
         </div>
       </div>
       <div className="flex items-center justify-center px-6 py-12 sm:px-12">
