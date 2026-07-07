@@ -37,7 +37,7 @@ function WalletPage() {
       <div className="grid gap-4 md:grid-cols-3">
         <div className="relative overflow-hidden rounded-3xl bg-gradient-to-br from-primary to-emerald-600 p-6 text-primary-foreground soft-shadow md:col-span-2">
           <div className="flex items-center gap-2 text-xs uppercase tracking-wider opacity-80">
-            <Wallet className="h-4 w-4" /> DEPART Wallet
+            <Wallet className="h-4 w-4" /> SREE SUPER MART Wallet
           </div>
           <p className="mt-3 font-display text-4xl font-extrabold tracking-tight">{inr(user.wallet)}</p>
           <p className="mt-1 text-sm opacity-80">Use at checkout for instant savings</p>

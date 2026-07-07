@@ -1,4 +1,4 @@
-// DEPART V2 — ERP mock dataset. Deterministic, frontend-only.
+// SREE SUPER MART V2 — ERP mock dataset. Deterministic, frontend-only.
 
 export type Warehouse = {
   id: string;
@@ -113,15 +113,15 @@ const pad = (n: number, w = 4) => String(n).padStart(w, "0");
 const pick = <T>(arr: readonly T[], i: number) => arr[i % arr.length];
 
 const categories = ["Fruits & Veg","Dairy & Eggs","Pantry","Beverages","Snacks","Meat & Seafood","Bakery","Frozen","Personal Care","Household"];
-const brands = ["DEPART Select","Farm Fresh","Blue Tokai","Country Hen","Artisan Co.","Pure Origin","Heritage","Daily Harvest","Mother Dairy","Tata Sampann"];
+const brands = ["SREE SUPER MART Select","Farm Fresh","Blue Tokai","Country Hen","Artisan Co.","Pure Origin","Heritage","Daily Harvest","Mother Dairy","Tata Sampann"];
 const supplierNames = ["Farm Fresh Distributors","Blue Tokai Roasters","Country Hen Co.","Artisan Bread Co.","Pure Origin Naturals","Heritage Foods","Daily Harvest Pvt Ltd","Mother Dairy India","Tata Consumer Products","ITC Foods","Britannia Industries","Nestlé India","HUL FMCG","Amul Cooperative","Patanjali Ayurved","Marico Wellness","Dabur India","Adani Wilmar","Cargill Foods","McCain Frozen"];
-const cities = ["Mumbai","Bengaluru","Delhi","Pune","Hyderabad","Chennai","Kolkata","Ahmedabad"];
+const cities = ["Coimbatore","Bengaluru","Delhi","Pune","Hyderabad","Chennai","Kolkata","Ahmedabad"];
 const units = ["pcs","kg","g","L","ml","pack","bottle","box"];
 const emojis = ["🥑","🥚","☕","🥖","🥛","🐟","🫒","🍫","🍅","🍵","🌾","🟦","🥜","🧃","🍗","🧀","🍒","🥔","🍵","🍞","🥩","🍎","🍌","🥦","🥕","🥒","🌽","🍇","🍑","🍓","🍋","🥥","🍊","🍐","🍉","🍍","🍆","🌶️","🥬","🍄"];
 
 export const warehouses: Warehouse[] = [
-  { id: "W-01", code: "BOM-DK1", name: "Andheri Dark Store", city: "Mumbai", address: "Plot 14, MIDC, Andheri W", manager: "Rahul Mehta", capacity: 1200, used: 894, type: "dark-store" },
-  { id: "W-02", code: "BOM-FH1", name: "Bhiwandi Fulfillment Hub", city: "Mumbai", address: "Sonale, Bhiwandi", manager: "Priya Kapoor", capacity: 5400, used: 3290, type: "fulfillment" },
+  { id: "W-01", code: "BOM-DK1", name: "Andheri Dark Store", city: "Coimbatore", address: "Plot 14, MIDC, Andheri W", manager: "Rahul Mehta", capacity: 1200, used: 894, type: "dark-store" },
+  { id: "W-02", code: "BOM-FH1", name: "Bhiwandi Fulfillment Hub", city: "Coimbatore", address: "Sonale, Bhiwandi", manager: "Priya Kapoor", capacity: 5400, used: 3290, type: "fulfillment" },
   { id: "W-03", code: "BLR-DK1", name: "Indiranagar Dark Store", city: "Bengaluru", address: "100ft Rd, Indiranagar", manager: "Vikram Singh", capacity: 980, used: 612, type: "dark-store" },
   { id: "W-04", code: "DEL-CS1", name: "Okhla Cold Storage", city: "Delhi", address: "Okhla Phase II", manager: "Neha Iyer", capacity: 2200, used: 1640, type: "cold-storage" },
   { id: "W-05", code: "PNQ-HB1", name: "Hinjewadi Hub", city: "Pune", address: "Phase III, Hinjewadi", manager: "Arjun Rao", capacity: 1800, used: 920, type: "hub" },

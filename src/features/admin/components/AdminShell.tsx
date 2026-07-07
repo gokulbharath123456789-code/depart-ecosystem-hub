@@ -38,7 +38,7 @@ export function AuthShell({ children, side }: { children: ReactNode; side?: Reac
             <span className="grid h-10 w-10 place-items-center rounded-2xl bg-primary text-primary-foreground font-display text-base font-extrabold">
               D
             </span>
-            <span className="font-display text-lg font-extrabold">DEPART</span>
+            <span className="font-display text-lg font-extrabold">SREE SUPER MART</span>
           </div>
           <div className="max-w-md">
             <h2 className="font-display text-3xl font-extrabold leading-tight tracking-tight">
@@ -49,7 +49,7 @@ export function AuthShell({ children, side }: { children: ReactNode; side?: Reac
             </p>
             {side}
           </div>
-          <p className="text-xs text-foreground/60">© DEPART Retail · Mumbai</p>
+          <p className="text-xs text-foreground/60">© SREE SUPER MART Retail · Coimbatore</p>
         </div>
       </div>
       <div className="flex items-center justify-center px-6 py-12 sm:px-12">

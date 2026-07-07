@@ -63,7 +63,7 @@ function AccountHome() {
             </h2>
             <p className="mt-1 text-sm text-muted-foreground">
               You've saved <span className="font-semibold text-foreground">{inr(2340)}</span> this month
-              with DEPART.
+              with SREE SUPER MART.
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -111,7 +111,7 @@ function AccountHome() {
             <div className="rounded-2xl bg-gradient-to-br from-amber-400/20 via-amber-200/30 to-amber-100 p-4 dark:from-amber-500/20 dark:via-amber-700/20 dark:to-amber-900/20">
               <div className="flex items-center gap-2">
                 <Crown className="h-5 w-5 text-amber-600" />
-                <span className="font-display text-lg font-bold">DEPART {loyalty.tier}</span>
+                <span className="font-display text-lg font-bold">SREE SUPER MART {loyalty.tier}</span>
               </div>
               <p className="mt-1 text-xs text-foreground/70">
                 {loyalty.pointsToNext} pts to {loyalty.nextTier}

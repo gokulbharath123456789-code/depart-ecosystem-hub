@@ -11,8 +11,8 @@ import { AuthShell } from "@/features/admin/components/AdminShell";
 export const Route = createFileRoute("/reset-password")({
   head: () => ({
     meta: [
-      { title: "Reset password — DEPART" },
-      { name: "description", content: "Set a new password for your DEPART account." },
+      { title: "Reset password — SREE SUPER MART" },
+      { name: "description", content: "Set a new password for your SREE SUPER MART account." },
     ],
   }),
   component: ResetPasswordPage,
@@ -54,7 +54,7 @@ function ResetPasswordPage() {
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground font-display font-extrabold">
             D
           </span>
-          <span className="font-display text-lg font-extrabold">DEPART</span>
+          <span className="font-display text-lg font-extrabold">SREE SUPER MART</span>
         </Link>
         <h1 className="font-display text-2xl font-bold tracking-tight">Set a new password</h1>
         <p className="mt-1 text-sm text-muted-foreground">

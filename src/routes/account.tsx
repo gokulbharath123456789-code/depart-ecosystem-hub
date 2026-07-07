@@ -5,8 +5,8 @@ import { AuthGuard } from "@/features/auth/AuthGuard";
 export const Route = createFileRoute("/account")({
   head: () => ({
     meta: [
-      { title: "Account — DEPART" },
-      { name: "description", content: "Manage your DEPART orders, wallet, addresses, returns and more." },
+      { title: "Account — SREE SUPER MART" },
+      { name: "description", content: "Manage your SREE SUPER MART orders, wallet, addresses, returns and more." },
     ],
   }),
   component: AccountLayout,

@@ -6,7 +6,7 @@ import { ProductRail } from "@/components/storefront/ProductRail";
 import { Button } from "@/components/ui/button";
 
 export const Route = createFileRoute("/wishlist")({
-  head: () => ({ meta: [{ title: "Wishlist — DEPART" }, { name: "description", content: "Your saved products at DEPART." }] }),
+  head: () => ({ meta: [{ title: "Wishlist — SREE SUPER MART" }, { name: "description", content: "Your saved products at SREE SUPER MART." }] }),
   component: WishlistPage,
 });
 

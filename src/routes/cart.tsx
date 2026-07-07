@@ -10,7 +10,7 @@ import { useState } from "react";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/cart")({
-  head: () => ({ meta: [{ title: "Your cart — DEPART" }, { name: "description", content: "Review the items in your DEPART cart." }] }),
+  head: () => ({ meta: [{ title: "Your cart — SREE SUPER MART" }, { name: "description", content: "Review the items in your SREE SUPER MART cart." }] }),
   component: CartPage,
 });
 
@@ -115,7 +115,7 @@ function CartPage() {
           <form
             onSubmit={(e) => {
               e.preventDefault();
-              if (coupon.toUpperCase() === "DEPART50") {
+              if (coupon.toUpperCase() === "SREESM50") {
                 setDiscount(50);
                 toast.success("Coupon applied", { description: "₹50 off your order" });
               } else {
@@ -140,7 +140,7 @@ function CartPage() {
             <Link to="/checkout">Checkout · {inr(total)}</Link>
           </Button>
           <p className="text-center text-[11px] text-muted-foreground">
-            Try coupon <span className="font-bold">DEPART50</span> for ₹50 off
+            Try coupon <span className="font-bold">SREESM50</span> for ₹50 off
           </p>
         </aside>
       </div>

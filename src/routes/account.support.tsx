@@ -30,7 +30,7 @@ export const Route = createFileRoute("/account/support")({
 
 const FAQ = [
   { q: "How do I cancel an order?", a: "Open the order from My Orders then tap Cancel. Cancellations are allowed before shipment." },
-  { q: "When will I get my refund?", a: "Refunds are processed within 3-5 business days to your original payment method or DEPART Wallet." },
+  { q: "When will I get my refund?", a: "Refunds are processed within 3-5 business days to your original payment method or SREE SUPER MART Wallet." },
   { q: "Can I change my delivery address?", a: "You can change the address from Order Tracking before the order is packed." },
   { q: "Do you deliver in 10 minutes everywhere?", a: "Express delivery is available in select pincodes. Standard delivery is 60-120 minutes." },
 ];
@@ -145,7 +145,7 @@ function SupportPage() {
             <div className="rounded-2xl bg-gradient-to-br from-primary/10 to-emerald-100 p-4 dark:from-primary/20 dark:to-emerald-900/20">
               <MessageCircle className="h-6 w-6 text-primary" />
               <p className="mt-2 text-sm font-semibold">Average wait: 1 min</p>
-              <p className="text-xs text-muted-foreground">Chat with a DEPART agent now.</p>
+              <p className="text-xs text-muted-foreground">Chat with a SREE SUPER MART agent now.</p>
               <Button size="sm" className="mt-3 w-full rounded-full" onClick={() => toast.success("Connecting to agent (demo)")}>Start chat</Button>
             </div>
           </PanelCard>

@@ -61,7 +61,7 @@ function BarcodePage() {
           </PanelCard>
           <PanelCard title="Label preview" className="col-span-12 lg:col-span-5">
             <div className="mx-auto w-fit rounded-2xl border border-dashed border-border/60 bg-card p-4">
-              <p className="text-xs font-semibold">DEPART</p>
+              <p className="text-xs font-semibold">SREE SUPER MART</p>
               <p className="text-sm font-bold">{found.name}</p>
               <p className="text-[10px] text-muted-foreground">MRP {inr(found.mrp)} · {found.unit}</p>
               <div className="mt-2 text-foreground"><BarcodeGenerator value={found.barcode} height={40} /></div>

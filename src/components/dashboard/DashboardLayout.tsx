@@ -132,7 +132,7 @@ function Crumbs({ pathname }: { pathname: string }) {
   return (
     <nav className="hidden items-center gap-1.5 text-xs text-muted-foreground md:flex">
       <Link to="/" className="hover:text-foreground">
-        DEPART
+        SREE SUPER MART
       </Link>
       {parts.map((p, i) => (
         <span key={i} className="flex items-center gap-1.5">

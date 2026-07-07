@@ -70,7 +70,7 @@ function DashboardPage() {
       <PageHeader
         crumbs={[{ label: "Admin", to: "/admin/dashboard" }, { label: "Dashboard" }]}
         title="Good morning, Aanya 👋"
-        description="Here's how DEPART Mumbai is performing today."
+        description="Here's how SREE SUPER MART Coimbatore is performing today."
         actions={
           <>
             <Button variant="outline" className="rounded-xl">
@@ -261,7 +261,7 @@ function DashboardPage() {
             {[
               { who: "Diya P.", stars: 5, text: "Burrata arrived in 9 minutes — better than my neighbourhood store!" },
               { who: "Arjun V.", stars: 4, text: "Loved the cold brew, would love larger sizes." },
-              { who: "Tara B.", stars: 5, text: "DEPART has the freshest tomatoes I've found in Bandra." },
+              { who: "Tara B.", stars: 5, text: "SREE SUPER MART has the freshest tomatoes I've found in Bandra." },
             ].map((r, i) => (
               <li key={i} className="rounded-2xl border border-border/60 p-3">
                 <div className="flex items-center gap-1 text-amber-500">

@@ -18,7 +18,7 @@ import { cn } from "@/lib/utils";
 import { toast } from "sonner";
 
 export const Route = createFileRoute("/checkout")({
-  head: () => ({ meta: [{ title: "Checkout — DEPART" }, { name: "description", content: "Complete your DEPART order securely." }] }),
+  head: () => ({ meta: [{ title: "Checkout — SREE SUPER MART" }, { name: "description", content: "Complete your SREE SUPER MART order securely." }] }),
   component: Checkout,
 });
 
@@ -228,7 +228,7 @@ function Checkout() {
                 {[
                   { id: "upi", icon: Smartphone, label: "UPI", sub: "GPay, PhonePe, Paytm" },
                   { id: "card", icon: CreditCard, label: "Credit / Debit Card", sub: "Visa, Mastercard, RuPay" },
-                  { id: "wallet", icon: Wallet, label: "DEPART Wallet", sub: "Balance: ₹420" },
+                  { id: "wallet", icon: Wallet, label: "SREE SUPER MART Wallet", sub: "Balance: ₹420" },
                   { id: "cod", icon: Banknote, label: "Cash on Delivery", sub: "Pay in cash on arrival" },
                 ].map((p) => (
                   <Label
@@ -256,7 +256,7 @@ function Checkout() {
               <div>
                 <Label className="text-xs">Coupon code</Label>
                 <div className="mt-1 flex gap-2">
-                  <Input value={coupon} onChange={(e) => setCoupon(e.target.value)} placeholder="e.g. DEPART50" className="rounded-xl" />
+                  <Input value={coupon} onChange={(e) => setCoupon(e.target.value)} placeholder="e.g. SREESM50" className="rounded-xl" />
                   <Button type="button" variant="outline" className="rounded-xl" onClick={applyCoupon}>Apply</Button>
                 </div>
                 {couponMsg && <p className="mt-1 text-xs text-muted-foreground">{couponMsg}</p>}

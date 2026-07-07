@@ -196,7 +196,7 @@ export type Workflow = {
 
 const FIRST = ["Aarav", "Vihaan", "Aditya", "Vivaan", "Arjun", "Reyansh", "Ayaan", "Atharv", "Krishna", "Ishaan", "Rohan", "Kabir", "Aanya", "Diya", "Saanvi", "Myra", "Aadhya", "Anika", "Pari", "Nisha", "Riya", "Tara", "Ira", "Zoya"];
 const LAST = ["Sharma", "Verma", "Patel", "Iyer", "Reddy", "Khan", "Singh", "Nair", "Mehta", "Kapoor", "Shah", "Joshi", "Gupta", "Rao", "Pillai", "Das", "Sen", "Bose"];
-const CITIES = ["Mumbai", "Bengaluru", "Delhi", "Pune", "Hyderabad", "Chennai", "Kolkata", "Ahmedabad", "Jaipur", "Surat"];
+const CITIES = ["Coimbatore", "Bengaluru", "Delhi", "Pune", "Hyderabad", "Chennai", "Kolkata", "Ahmedabad", "Jaipur", "Surat"];
 const ZONES = ["Bandra West", "Andheri East", "Powai", "Worli", "Lower Parel", "Juhu", "Goregaon", "Malad", "Vile Parle"];
 const PRODUCTS = ["Tomato 1kg", "Onion 1kg", "Amul Butter 500g", "Tata Salt 1kg", "Aashirvaad Atta 5kg", "Maggi 8-pack", "Coca-Cola 1L", "Britannia Bread", "Mother Dairy Milk 1L", "Eggs (12)", "Basmati Rice 5kg", "Olive Oil 1L", "Lays Magic Masala", "Cadbury Dairy Milk", "Bananas 1 dz", "Apples 1kg", "Curd 1kg", "Paneer 200g", "Chicken 1kg", "Coffee 200g"];
 const CATS = ["Dairy & Eggs", "Fruits & Vegetables", "Snacks", "Beverages", "Bakery", "Staples", "Meat & Fish", "Personal Care"];
@@ -516,7 +516,7 @@ export const kbArticles = [
   { id: "KB1", category: "Orders", title: "How to cancel or modify an order", reads: 8421 },
   { id: "KB2", category: "Delivery", title: "Delivery slots and how scheduling works", reads: 6810 },
   { id: "KB3", category: "Returns", title: "How to start a return or exchange", reads: 5412 },
-  { id: "KB4", category: "Wallet", title: "Adding money to DEPART Wallet", reads: 3920 },
+  { id: "KB4", category: "Wallet", title: "Adding money to SREE SUPER MART Wallet", reads: 3920 },
   { id: "KB5", category: "Loyalty", title: "Earning and redeeming points", reads: 2104 },
   { id: "KB6", category: "Account", title: "Update address & phone number", reads: 1840 },
   { id: "KB7", category: "Payments", title: "Accepted payment methods", reads: 1521 },

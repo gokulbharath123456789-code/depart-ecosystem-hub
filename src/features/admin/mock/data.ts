@@ -1,4 +1,4 @@
-// Mock data for the DEPART admin ERP. All values are deterministic so the UI
+// Mock data for the SREE SUPER MART admin ERP. All values are deterministic so the UI
 // looks consistent across reloads.
 
 export type AdminOrder = {
@@ -84,7 +84,7 @@ const names = [
   "Zara Khanna","Dev Pillai","Pari Sethi","Ayaan Bhatia","Mira Kulkarni","Aryan Shetty",
 ];
 
-const cities = ["Mumbai","Bengaluru","Delhi","Pune","Hyderabad","Chennai","Kolkata","Ahmedabad"];
+const cities = ["Coimbatore","Bengaluru","Delhi","Pune","Hyderabad","Chennai","Kolkata","Ahmedabad"];
 
 const productSeeds = [
   { name: "Organic Hass Avocados", emoji: "🥑", category: "Fruits & Veg", price: 189, cost: 110 },
@@ -109,7 +109,7 @@ const productSeeds = [
   { name: "Matcha Powder", emoji: "🍵", category: "Beverages", price: 1499, cost: 900 },
 ];
 
-const vendors = ["Farm Fresh", "Blue Tokai", "Country Hen", "Artisan Co.", "Pure Origin", "DEPART Select"];
+const vendors = ["Farm Fresh", "Blue Tokai", "Country Hen", "Artisan Co.", "Pure Origin", "SREE SUPER MART Select"];
 
 export const adminProducts: AdminProduct[] = productSeeds.map((p, i) => ({
   id: `P-${pad(1001 + i)}`,
@@ -177,12 +177,12 @@ export const adminUsers: AdminUser[] = [
 ];
 
 export const adminNotifications: AdminNotification[] = [
-  { id: "n1", title: "12 new orders in the last hour", body: "Spike in Mumbai zone — fulfillment is on track.", category: "orders", unread: true, priority: "high", time: "2m" },
+  { id: "n1", title: "12 new orders in the last hour", body: "Spike in Coimbatore zone — fulfillment is on track.", category: "orders", unread: true, priority: "high", time: "2m" },
   { id: "n2", title: "Low stock alert", body: "Burrata Fresh dropped below the reorder threshold.", category: "inventory", unread: true, priority: "high", time: "18m" },
   { id: "n3", title: "Payout settled", body: "₹3,42,910 deposited to HDFC ••4421.", category: "payments", unread: true, priority: "normal", time: "1h" },
   { id: "n4", title: "Diya Patel reached Platinum", body: "Lifetime spend crossed ₹1,00,000.", category: "customers", unread: false, priority: "normal", time: "3h" },
   { id: "n5", title: "Campaign live: Monsoon Picks", body: "Sent to 18,420 subscribers. CTR tracking on.", category: "marketing", unread: false, priority: "low", time: "Yesterday" },
-  { id: "n6", title: "Backup completed", body: "Nightly snapshot stored in Mumbai region.", category: "system", unread: false, priority: "low", time: "Yesterday" },
+  { id: "n6", title: "Backup completed", body: "Nightly snapshot stored in Coimbatore region.", category: "system", unread: false, priority: "low", time: "Yesterday" },
 ];
 
 export const adminActivities: AdminActivity[] = [

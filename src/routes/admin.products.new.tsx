@@ -160,7 +160,7 @@ function NewProductWizard() {
       <PageHeader
         crumbs={[{ label: "Admin", to: "/admin/dashboard" }, { label: "Products", to: "/admin/products" }, { label: "New" }]}
         title="Create product"
-        description="Add a new SKU to the DEPART catalog."
+        description="Add a new SKU to the SREE SUPER MART catalog."
         actions={
           <Button variant="ghost" className="rounded-xl" onClick={() => navigate({ to: "/admin/products" })}>Cancel</Button>
         }
@@ -273,7 +273,7 @@ function NewProductWizard() {
 
                 {step === 4 && (
                   <div className="grid grid-cols-1 gap-4">
-                    <Field label="SEO title"><Input value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} placeholder={`Buy ${name || "product"} online | DEPART`} className="h-11 rounded-xl" /></Field>
+                    <Field label="SEO title"><Input value={seoTitle} onChange={(e) => setSeoTitle(e.target.value)} placeholder={`Buy ${name || "product"} online | SREE SUPER MART`} className="h-11 rounded-xl" /></Field>
                     <Field label="Meta description"><Textarea value={seoDescription} onChange={(e) => setSeoDescription(e.target.value)} placeholder="Delivered in 10 minutes." className="min-h-[80px] rounded-xl" /></Field>
                     <Field label="URL slug"><Input value={effectiveSlug} onChange={(e) => setSlug(e.target.value)} className="h-11 rounded-xl font-mono" /></Field>
                     <Field label="Tags (comma separated)"><Input value={tagsText} onChange={(e) => setTagsText(e.target.value)} placeholder="organic, premium, breakfast" className="h-11 rounded-xl" /></Field>

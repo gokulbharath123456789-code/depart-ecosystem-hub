@@ -66,8 +66,8 @@ function SettingsPage() {
         <PanelCard title="Login history">
           <ul className="divide-y divide-border/60 text-sm">
             {[
-              { device: "iPhone 16 Pro - Safari", loc: "Mumbai, IN", at: "Today, 09:14 AM", current: true },
-              { device: "MacBook Air - Chrome", loc: "Mumbai, IN", at: "Yesterday, 7:42 PM" },
+              { device: "iPhone 16 Pro - Safari", loc: "Coimbatore, IN", at: "Today, 09:14 AM", current: true },
+              { device: "MacBook Air - Chrome", loc: "Coimbatore, IN", at: "Yesterday, 7:42 PM" },
               { device: "Pixel 9 - Chrome", loc: "Pune, IN", at: "3 days ago" },
             ].map((l, i) => (
               <li key={i} className="flex items-center justify-between py-2.5">
@@ -135,7 +135,7 @@ function SettingsPage() {
           <div className="flex flex-wrap items-center justify-between gap-3 rounded-2xl border border-rose-200 bg-rose-50/60 p-4 dark:border-rose-900/40 dark:bg-rose-900/10">
             <div>
               <p className="text-sm font-semibold text-rose-700 dark:text-rose-300">Delete account</p>
-              <p className="text-xs text-rose-700/80 dark:text-rose-300/80">Permanently remove your DEPART account and data.</p>
+              <p className="text-xs text-rose-700/80 dark:text-rose-300/80">Permanently remove your SREE SUPER MART account and data.</p>
             </div>
             <Button variant="outline" className="rounded-full border-rose-300 text-rose-700 hover:bg-rose-100 dark:border-rose-900/60" onClick={() => toast.error("This is a demo")}>
               <Trash2 className="mr-2 h-4 w-4" /> Delete account

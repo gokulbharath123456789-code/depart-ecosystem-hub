@@ -17,7 +17,7 @@ import { cn } from "@/lib/utils";
 
 export const Route = createFileRoute("/product/$slug")({
   head: ({ params }) => ({
-    meta: [{ title: `${params.slug} — DEPART` }],
+    meta: [{ title: `${params.slug} — SREE SUPER MART` }],
   }),
   component: ProductPage,
 });
