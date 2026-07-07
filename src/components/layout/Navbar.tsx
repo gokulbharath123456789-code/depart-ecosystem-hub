@@ -113,9 +113,9 @@ export function Navbar() {
               key={c.id}
               to="/category/$slug"
               params={{ slug: c.slug }}
-              className="shrink-0 rounded-full px-3 py-1.5 transition hover:bg-muted hover:text-foreground"
+              className="inline-flex shrink-0 items-center gap-1.5 rounded-full px-3 py-1.5 transition hover:bg-muted hover:text-foreground"
             >
-              <span className="mr-1.5">{c.emoji}</span>
+              <c.icon className="h-3.5 w-3.5 text-primary" strokeWidth={2.2} />
               {c.name}
             </Link>
           ))}

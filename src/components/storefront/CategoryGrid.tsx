@@ -18,8 +18,8 @@ export function CategoryGrid() {
             params={{ slug: c.slug }}
             className={`group flex flex-col items-center gap-2 rounded-2xl bg-gradient-to-br ${c.gradient} p-4 ring-1 ring-border/40 transition hover:lift-shadow`}
           >
-            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white/60 text-3xl shadow-sm transition group-hover:scale-110">
-              {c.emoji}
+           <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white/70 text-foreground shadow-sm transition group-hover:scale-110">
+              <c.icon className="h-6 w-6" strokeWidth={2} />
             </div>
             <div className="text-center">
               <div className="text-xs font-bold text-foreground">{c.name}</div>
