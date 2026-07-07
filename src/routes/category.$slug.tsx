@@ -7,7 +7,7 @@ import { toUiProduct } from "@/features/catalog/adapters";
 
 export const Route = createFileRoute("/category/$slug")({
   head: ({ params }) => ({
-    meta: [{ title: `${params.slug} — DEPART` }],
+    meta: [{ title: `${params.slug} — SREE SUPER MART` }],
   }),
   component: CategoryPage,
 });

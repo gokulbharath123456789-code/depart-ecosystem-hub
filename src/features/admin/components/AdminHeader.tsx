@@ -79,7 +79,7 @@ export function AdminHeader() {
 
       <div className="hidden flex-col md:flex">
         <nav className="flex items-center gap-1 text-[11px] uppercase tracking-widest text-muted-foreground">
-          <span>DEPART Mumbai</span>
+          <span>SREE SUPER MART Coimbatore</span>
           <span>·</span>
           <span>{title}</span>
         </nav>

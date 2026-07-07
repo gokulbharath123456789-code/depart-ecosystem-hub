@@ -17,8 +17,8 @@ export const Route = createFileRoute("/auth")({
   validateSearch: (s) => searchSchema.parse(s),
   head: () => ({
     meta: [
-      { title: "Sign in — DEPART" },
-      { name: "description", content: "Sign in or create your DEPART account." },
+      { title: "Sign in — SREE SUPER MART" },
+      { name: "description", content: "Sign in or create your SREE SUPER MART account." },
     ],
   }),
   component: AuthPage,
@@ -68,7 +68,7 @@ function AuthPage() {
           },
         });
         if (error) throw error;
-        toast.success("Account created. Welcome to DEPART!");
+        toast.success("Account created. Welcome to SREE SUPER MART!");
       } else {
         const { error } = await supabase.auth.signInWithPassword({ email, password });
         if (error) throw error;
@@ -123,7 +123,7 @@ function AuthPage() {
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground font-display font-extrabold">
             D
           </span>
-          <span className="font-display text-lg font-extrabold">DEPART</span>
+          <span className="font-display text-lg font-extrabold">SREE SUPER MART</span>
         </Link>
         <h1 className="font-display text-2xl font-bold tracking-tight">
           {mode === "signin" ? "Welcome back" : "Create your account"}
@@ -201,7 +201,7 @@ function AuthPage() {
         )}
 
         <p className="mt-6 text-center text-sm text-muted-foreground">
-          {mode === "signin" ? "New to DEPART? " : "Already have an account? "}
+          {mode === "signin" ? "New to SREE SUPER MART? " : "Already have an account? "}
           <button
             type="button"
             onClick={() => setMode(mode === "signin" ? "signup" : "signin")}

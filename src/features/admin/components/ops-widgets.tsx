@@ -220,7 +220,7 @@ export function LoyaltyCard({ c }: { c: OpsCustomer }) {
       <div className="absolute -right-8 -top-8 h-40 w-40 rounded-full bg-white/15 blur-2xl" />
       <div className="relative flex items-start justify-between">
         <div>
-          <p className="text-xs font-medium uppercase tracking-widest opacity-90">DEPART Loyalty</p>
+          <p className="text-xs font-medium uppercase tracking-widest opacity-90">SREE SUPER MART Loyalty</p>
           <p className="font-display text-2xl font-extrabold tracking-tight">{current.name} Member</p>
         </div>
         <Sparkles className="h-6 w-6" />

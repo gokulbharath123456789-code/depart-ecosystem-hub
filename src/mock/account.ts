@@ -26,7 +26,7 @@ export type Order = {
   paymentMethod: "UPI" | "Card" | "COD" | "Wallet";
   addressId: string;
   trackingNumber: string;
-  courier: "DEPART Express" | "BlueDart" | "Delhivery";
+  courier: "SREE Express" | "BlueDart" | "Delhivery";
   eta: string;
   timeline: { label: string; at: string; done: boolean }[];
 };
@@ -122,7 +122,7 @@ export const user = {
   email: "aarav.mehta@depart.in",
   phone: "+91 98765 43210",
   avatar: "AM",
-  membership: "DEPART Gold",
+  membership: "SREE SUPER MART Gold",
   joinedAt: "2023-08-12",
   points: 4820,
   wallet: 1265,
@@ -136,7 +136,7 @@ export const addresses: Address[] = [
     phone: "+91 98765 43210",
     line1: "B-12, Sea Breeze Apartments",
     line2: "Carter Road",
-    city: "Mumbai",
+    city: "Coimbatore",
     state: "MH",
     pincode: "400050",
     isDefault: true,
@@ -148,7 +148,7 @@ export const addresses: Address[] = [
     phone: "+91 98765 43210",
     line1: "9th Floor, One BKC",
     line2: "Bandra Kurla Complex",
-    city: "Mumbai",
+    city: "Coimbatore",
     state: "MH",
     pincode: "400051",
   },
@@ -176,7 +176,7 @@ const STATUSES: OrderStatus[] = [
 ];
 
 const PAY: Order["paymentMethod"][] = ["UPI", "Card", "COD", "Wallet"];
-const COURIERS: Order["courier"][] = ["DEPART Express", "BlueDart", "Delhivery"];
+const COURIERS: Order["courier"][] = ["SREE Express", "BlueDart", "Delhivery"];
 
 function pad(n: number, w = 2) {
   return String(n).padStart(w, "0");
@@ -260,7 +260,7 @@ export const walletTxns: WalletTxn[] = Array.from({ length: 14 }, (_, i) => {
 });
 
 export const coupons: Coupon[] = [
-  { id: "c1", code: "DEPART50", title: "Flat ₹50 off", description: "On orders above ₹499", discount: "₹50", minOrder: 499, expiresAt: dateOffset(-30), status: "available", progress: 80 },
+  { id: "c1", code: "SREESM50", title: "Flat ₹50 off", description: "On orders above ₹499", discount: "₹50", minOrder: 499, expiresAt: dateOffset(-30), status: "available", progress: 80 },
   { id: "c2", code: "FRESH20", title: "20% off Fruits & Veg", description: "Max discount ₹120", discount: "20%", minOrder: 299, expiresAt: dateOffset(-14), status: "available", category: "Fruits & Veg" },
   { id: "c3", code: "DAIRY15", title: "15% off Dairy", description: "Premium dairy brands", discount: "15%", minOrder: 199, expiresAt: dateOffset(-7), status: "available", category: "Dairy" },
   { id: "c4", code: "WELCOME100", title: "Flat ₹100 off", description: "First-time users", discount: "₹100", minOrder: 599, expiresAt: dateOffset(10), status: "used" },
@@ -333,10 +333,10 @@ export const tickets: SupportTicket[] = [
 export const notifications: Notification[] = [
   { id: "n1", category: "Orders", title: "Out for delivery", body: "Your order DPT-10248 is out for delivery.", at: dateOffset(0), read: false },
   { id: "n2", category: "Offers", title: "Flat 20% off fruits", body: "Use FRESH20 today only.", at: dateOffset(1), read: false },
-  { id: "n3", category: "Payments", title: "Refund credited", body: "₹320 refunded to DEPART Wallet.", at: dateOffset(2), read: true },
+  { id: "n3", category: "Payments", title: "Refund credited", body: "₹320 refunded to SREE SUPER MART Wallet.", at: dateOffset(2), read: true },
   { id: "n4", category: "Returns", title: "Return approved", body: "Pickup scheduled for tomorrow.", at: dateOffset(3), read: false },
   { id: "n5", category: "System", title: "Password updated", body: "Your password was changed successfully.", at: dateOffset(5), read: true },
-  { id: "n6", category: "Promotions", title: "DEPART Gold rewards", body: "You've earned 220 points this week.", at: dateOffset(7), read: true },
+  { id: "n6", category: "Promotions", title: "SREE SUPER MART Gold rewards", body: "You've earned 220 points this week.", at: dateOffset(7), read: true },
   { id: "n7", category: "Orders", title: "Order delivered", body: "DPT-10240 delivered to Home.", at: dateOffset(10), read: true },
   { id: "n8", category: "Offers", title: "Weekend deal", body: "Up to 30% off pantry essentials.", at: dateOffset(11), read: true },
 ];

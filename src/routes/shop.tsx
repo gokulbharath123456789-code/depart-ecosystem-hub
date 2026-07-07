@@ -12,7 +12,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Badge } from "@/components/ui/badge";
 
 export const Route = createFileRoute("/shop")({
-  head: () => ({ meta: [{ title: "Shop all — DEPART" }, { name: "description", content: "Browse 12,000+ products across fresh produce, pantry, dairy, snacks and more." }] }),
+  head: () => ({ meta: [{ title: "Shop all — SREE SUPER MART" }, { name: "description", content: "Browse 12,000+ products across fresh produce, pantry, dairy, snacks and more." }] }),
   component: Shop,
 });
 

@@ -144,7 +144,7 @@ export function AdminSidebar() {
             D
           </span>
           {!sidebarCollapsed && (
-            <span className="font-display text-base font-extrabold tracking-tight">DEPART</span>
+            <span className="font-display text-base font-extrabold tracking-tight">SREE SUPER MART</span>
           )}
         </Link>
         <button
@@ -236,7 +236,7 @@ export function AdminSidebar() {
           </div>
           {!sidebarCollapsed && (
             <div className="min-w-0 flex-1">
-              <p className="truncate text-sm font-semibold">DEPART Mumbai</p>
+              <p className="truncate text-sm font-semibold">SREE SUPER MART Coimbatore</p>
               <p className="truncate text-[11px] text-muted-foreground">3 stores · Plan Pro</p>
             </div>
           )}

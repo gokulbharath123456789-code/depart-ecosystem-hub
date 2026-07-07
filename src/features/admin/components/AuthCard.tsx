@@ -18,7 +18,7 @@ export function AuthCard({
     <div>
       <Link to="/admin/dashboard" className="mb-8 inline-flex items-center gap-2 lg:hidden">
         <span className="grid h-9 w-9 place-items-center rounded-2xl bg-primary text-primary-foreground font-display text-base font-extrabold">D</span>
-        <span className="font-display text-base font-extrabold">DEPART</span>
+        <span className="font-display text-base font-extrabold">SREE SUPER MART</span>
       </Link>
       {eyebrow && <p className="mb-2 text-[11px] font-semibold uppercase tracking-widest text-primary">{eyebrow}</p>}
       <h1 className="font-display text-2xl font-extrabold tracking-tight">{title}</h1>

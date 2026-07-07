@@ -23,7 +23,7 @@ const cols = [
   {
     title: "Company",
     links: [
-      { label: "About DEPART", to: "/" },
+      { label: "About SREE SUPER MART", to: "/" },
       { label: "Careers", to: "/" },
       { label: "Press", to: "/" },
       { label: "Sustainability", to: "/" },
@@ -48,7 +48,7 @@ export function Footer() {
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2 font-display text-2xl font-extrabold">
               <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-primary-foreground">D</span>
-              DEPART
+              SREE SUPER MART
             </Link>
             <p className="max-w-xs text-sm text-background/70">
               India's most thoughtful supermarket. Fresh produce, premium pantry, delivered in minutes.
@@ -88,7 +88,7 @@ export function Footer() {
         </div>
 
         <div className="mt-12 flex flex-col items-start justify-between gap-4 border-t border-background/10 pt-6 text-xs text-background/50 sm:flex-row sm:items-center">
-          <div>© {new Date().getFullYear()} DEPART Retail Pvt. Ltd. All rights reserved.</div>
+          <div>© {new Date().getFullYear()} SREE SUPER MART Retail Pvt. Ltd. All rights reserved.</div>
           <div className="flex gap-4">
             <a href="#" className="hover:text-background">Terms</a>
             <a href="#" className="hover:text-background">Privacy</a>

@@ -29,12 +29,12 @@ function SettingsPage() {
         <TabsContent value="general" className="mt-6 space-y-6">
           <PanelCard title="Store profile">
             <div className="grid gap-4 md:grid-cols-2">
-              <Field label="Store name" defaultValue="DEPART Mumbai" />
+              <Field label="Store name" defaultValue="SREE SUPER MART Coimbatore" />
               <Field label="Support email" defaultValue="hello@depart.in" />
               <Field label="Phone" defaultValue="+91 90000 00000" />
               <Field label="GSTIN" defaultValue="27AAFCD1234A1Z5" />
               <Field label="Address line 1" defaultValue="Plot 42, Linking Road" />
-              <Field label="City" defaultValue="Mumbai" />
+              <Field label="City" defaultValue="Coimbatore" />
             </div>
             <div className="mt-4 flex justify-end"><Button className="rounded-xl">Save changes</Button></div>
           </PanelCard>
@@ -57,7 +57,7 @@ function SettingsPage() {
           <PanelCard title="Plan">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-sm font-semibold">DEPART Growth · ₹4,999/mo</p>
+                <p className="text-sm font-semibold">SREE SUPER MART Growth · ₹4,999/mo</p>
                 <p className="text-xs text-muted-foreground">Includes 10 seats, unlimited SKUs and priority support.</p>
               </div>
               <Button variant="outline" className="rounded-xl">Upgrade</Button>
