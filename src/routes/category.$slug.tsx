@@ -1,9 +1,10 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo } from "react";
-import { ChevronRight } from "lucide-react";
+import { ChevronRight, ShoppingBasket } from "lucide-react";
 import { ProductRail } from "@/components/storefront/ProductRail";
 import { useCategories, useProducts } from "@/features/catalog/hooks";
 import { toUiProduct } from "@/features/catalog/adapters";
+import { categories as uiCategories } from "@/mock/categories";
 
 export const Route = createFileRoute("/category/$slug")({
   head: ({ params }) => ({
@@ -21,6 +22,7 @@ function CategoryPage() {
   });
   const category = categories.find((c) => c.slug === slug);
   const products = useMemo(() => dbProducts.map(toUiProduct), [dbProducts]);
+  const Icon = uiCategories.find((c) => c.slug === slug)?.icon ?? ShoppingBasket;
 
   if (!category && !isLoading) {
     return (
@@ -44,7 +46,9 @@ function CategoryPage() {
           {category?.image_url ? (
             <img src={category.image_url} alt={category.name} className="h-20 w-20 rounded-2xl object-cover shadow-sm" />
           ) : (
-            <div className="grid h-20 w-20 place-items-center rounded-2xl bg-white/70 text-5xl shadow-sm">🛒</div>
+            <div className="grid h-20 w-20 place-items-center rounded-2xl bg-white/70 text-primary shadow-sm">
+              <Icon className="h-10 w-10" strokeWidth={1.8} />
+            </div>
           )}
           <div>
             <h1 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
