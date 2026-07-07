@@ -47,11 +47,14 @@ export function Footer() {
         <div className="grid gap-12 lg:grid-cols-[1.4fr_repeat(4,1fr)]">
           <div className="space-y-4">
             <Link to="/" className="flex items-center gap-2 font-display text-2xl font-extrabold">
-              <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-primary-foreground">D</span>
+              <span className="grid h-10 w-10 place-items-center rounded-xl bg-primary text-primary-foreground">S</span>
               SREE SUPER MART
             </Link>
             <p className="max-w-xs text-sm text-background/70">
-              India's most thoughtful supermarket. Fresh produce, premium pantry, delivered in minutes.
+              Fresh groceries. Trusted quality. Everyday savings — delivered across Coimbatore, Tamil Nadu.
+            </p>
+            <p className="text-xs text-background/50">
+              Coimbatore, Tamil Nadu · PIN 641001
             </p>
             <div className="flex gap-2 pt-2">
               {[Instagram, Twitter, Facebook, Youtube].map((Icon, i) => (

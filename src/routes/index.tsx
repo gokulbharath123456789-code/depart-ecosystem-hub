@@ -14,10 +14,10 @@ import { products } from "@/mock/products";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "SREE SUPER MART — Premium supermarket, delivered in 10 minutes" },
-      { name: "description", content: "Shop fresh produce, premium pantry, household essentials and more from SREE SUPER MART." },
-      { property: "og:title", content: "SREE SUPER MART — Premium supermarket, delivered in 10 minutes" },
-      { property: "og:description", content: "12,000+ products. Beautifully merchandised. Delivered fast." },
+      { title: "SREE SUPER MART | Online Grocery & Department Store in Coimbatore" },
+      { name: "description", content: "Order fresh groceries, vegetables, fruits, dairy, bakery, beverages, household essentials and personal care products online from SREE SUPER MART, Coimbatore." },
+      { property: "og:title", content: "SREE SUPER MART | Online Grocery & Department Store in Coimbatore" },
+      { property: "og:description", content: "Fresh groceries. Trusted quality. Everyday savings — delivered across Coimbatore." },
     ],
   }),
   component: Index,

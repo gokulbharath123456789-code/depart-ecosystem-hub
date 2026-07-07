@@ -19,13 +19,13 @@ export function Navbar() {
     <header className="sticky top-0 z-40 w-full border-b border-border/60 glass-strong">
       {/* Promo strip */}
       <div className="hidden bg-foreground py-1.5 text-center text-[11px] font-medium tracking-wide text-background sm:block">
-        Free delivery on orders over ₹499 · Use code <span className="font-bold text-accent">SREESM50</span> for ₹50 off
+        Free delivery on orders over ₹499 across Coimbatore · Use code <span className="font-bold text-accent">SREESM50</span> for ₹50 off
       </div>
 
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:gap-6 lg:px-6">
         <Link to="/" className="flex items-center gap-2 font-display text-xl font-extrabold tracking-tight">
           <span className="grid h-9 w-9 place-items-center rounded-xl bg-primary text-primary-foreground shadow-sm">
-            D
+            S
           </span>
           <span className="hidden sm:inline">SREE SUPER MART</span>
         </Link>

@@ -19,7 +19,7 @@ export function Hero() {
               className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-foreground/80 backdrop-blur"
             >
               <Sparkles className="h-3.5 w-3.5 text-primary" />
-              New flagship store · Coimbatore now live
+              Now serving Coimbatore · Fast home delivery
             </motion.span>
             <motion.h1
               initial={{ opacity: 0, y: 16 }}
@@ -27,10 +27,10 @@ export function Hero() {
               transition={{ delay: 0.05 }}
               className="mt-4 font-display text-4xl font-extrabold leading-[1.05] tracking-tight text-foreground sm:text-5xl lg:text-6xl"
             >
-              Your supermarket,
+              Everything your home needs,
               <br />
               <span className="bg-gradient-to-r from-primary to-emerald-600 bg-clip-text text-transparent">
-                delivered in 10 minutes.
+                fresh every day.
               </span>
             </motion.h1>
             <motion.p
@@ -39,8 +39,8 @@ export function Hero() {
               transition={{ delay: 0.1 }}
               className="mt-5 max-w-md text-base text-foreground/70 sm:text-lg"
             >
-              12,000+ products. Fresh produce, premium pantry, household essentials —
-              all from a beautifully merchandised shelf.
+              Shop fresh vegetables, fruits, groceries, dairy, bakery, beverages, household
+              essentials and personal care at the best prices — delivered fast across Coimbatore.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 12 }}
