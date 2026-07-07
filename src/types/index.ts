@@ -1,8 +1,11 @@
+import type { LucideIcon } from "lucide-react";
+
 export type Category = {
   id: string;
   slug: string;
   name: string;
   emoji: string;
+  icon: LucideIcon;
   gradient: string;
   itemCount: number;
 };
