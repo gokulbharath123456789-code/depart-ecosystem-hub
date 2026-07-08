@@ -19,7 +19,8 @@ export type AuthState = {
 export function useAuth(): AuthState {
   const [session, setSession] = useState<Session | null>(null);
   const [roles, setRoles] = useState<AppRole[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [sessionLoading, setSessionLoading] = useState(true);
+  const [rolesLoading, setRolesLoading] = useState(false);
 
   useEffect(() => {
     let mounted = true;
@@ -33,7 +34,7 @@ export function useAuth(): AuthState {
     supabase.auth.getSession().then(({ data }) => {
       if (!mounted) return;
       setSession(data.session);
-      setLoading(false);
+      setSessionLoading(false);
     });
 
     return () => {
@@ -47,8 +48,10 @@ export function useAuth(): AuthState {
     const uid = session?.user.id;
     if (!uid) {
       setRoles([]);
+      setRolesLoading(false);
       return;
     }
+    setRolesLoading(true);
     supabase
       .from("user_roles")
       .select("role")
@@ -56,13 +59,17 @@ export function useAuth(): AuthState {
       .then(({ data }) => {
         if (cancelled) return;
         setRoles(((data ?? []) as { role: AppRole }[]).map((r) => r.role));
+        setRolesLoading(false);
       });
     return () => {
       cancelled = true;
     };
   }, [session?.user.id]);
 
-  return { loading, session, user: session?.user ?? null, roles };
+  const user = session?.user ?? null;
+  // Loading is true until session known AND (if signed in) roles resolved.
+  const loading = sessionLoading || (!!user && rolesLoading);
+  return { loading, session, user, roles };
 }
 
 export function hasAnyRole(roles: AppRole[], required: AppRole[]): boolean {

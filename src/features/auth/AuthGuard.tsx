@@ -20,7 +20,7 @@ export function AuthGuard({ children, requireRoles, redirectTo = "/auth" }: Prop
   useEffect(() => {
     if (loading) return;
     if (!user) {
-      navigate({ to: redirectTo, search: { redirect: pathname } });
+      navigate({ to: redirectTo, search: { redirect: pathname }, replace: true });
     }
   }, [loading, user, navigate, redirectTo, pathname]);
 
