@@ -7,8 +7,9 @@ import { products } from "@/mock/products";
 import { ProductMedia } from "@/components/storefront/ProductMedia";
 import { inr } from "@/lib/format";
 
-const trending = ["Avocados", "Cold brew", "Sourdough", "Greek yogurt", "Dark chocolate"];
+const trending = ["Ponni rice", "Aavin milk", "Bananas", "Idli batter", "Coconut oil", "Filter coffee"];
 const recent = ["Milk 1L", "Bananas", "Eggs"];
+const popular = ["Fresh vegetables", "Fruits", "Bakery", "Snacks", "Household", "Personal care"];
 
 export function SearchDialog() {
   const open = useUI((s) => s.searchOpen);
@@ -55,7 +56,7 @@ export function SearchDialog() {
                 autoFocus
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
-                placeholder="Search 12,000+ products…"
+                placeholder="Search milk, rice, vegetables, snacks…"
                 className="flex-1 bg-transparent text-base outline-none placeholder:text-muted-foreground"
               />
               <button className="grid h-8 w-8 place-items-center rounded-full text-muted-foreground hover:bg-muted" aria-label="Voice">
@@ -95,6 +96,11 @@ export function SearchDialog() {
                     </li>
                   ))}
                 </ul>
+              ) : q ? (
+                <div className="grid place-items-center py-12 text-center">
+                  <div className="text-sm font-semibold text-foreground">No matches for “{q}”</div>
+                  <div className="mt-1 text-xs text-muted-foreground">Try a different name, brand or category.</div>
+                </div>
               ) : (
                 <div className="space-y-5">
                   <div>
@@ -119,6 +125,22 @@ export function SearchDialog() {
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {trending.map((t) => (
+                        <button
+                          key={t}
+                          onClick={() => setQ(t)}
+                          className="rounded-full border border-border bg-card px-3 py-1.5 text-xs font-medium transition hover:border-primary hover:text-primary"
+                        >
+                          {t}
+                        </button>
+                      ))}
+                    </div>
+                  </div>
+                  <div>
+                    <h4 className="mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                      Popular categories
+                    </h4>
+                    <div className="flex flex-wrap gap-2">
+                      {popular.map((t) => (
                         <button
                           key={t}
                           onClick={() => setQ(t)}

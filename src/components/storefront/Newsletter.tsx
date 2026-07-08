@@ -16,10 +16,10 @@ export function Newsletter() {
             Newsletter
           </div>
           <h3 className="mt-2 font-display text-3xl font-extrabold sm:text-4xl">
-            Weekly drops, before anyone else.
+            Weekly savings, straight to your inbox.
           </h3>
           <p className="mt-2 max-w-md text-sm text-background/70">
-            New arrivals, flash deals, and recipe inspiration — straight to your inbox.
+            Get flash deals, new arrivals and exclusive Coimbatore-only offers from SREE SUPER MART.
           </p>
         </div>
         <form

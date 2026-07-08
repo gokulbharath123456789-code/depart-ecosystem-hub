@@ -11,13 +11,13 @@ export function OffersBento() {
         <div className="pointer-events-none absolute -right-12 -top-12 h-64 w-64 rounded-full bg-white/15 blur-3xl" />
         <div className="text-9xl">🥬</div>
         <div>
-          <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/80">Combo offer</div>
-          <h3 className="mt-1 font-display text-3xl font-extrabold sm:text-4xl">Weekly Fresh Box</h3>
+          <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-white/80">Weekly combo</div>
+          <h3 className="mt-1 font-display text-3xl font-extrabold sm:text-4xl">Family Fresh Box</h3>
           <p className="mt-1 max-w-md text-sm text-white/85">
-            12 hand-picked seasonal fruits & vegetables, delivered every Saturday. From ₹599.
+            12 seasonal vegetables & fruits hand-picked from Coimbatore farms — delivered every Saturday from ₹599.
           </p>
           <span className="mt-3 inline-flex items-center gap-1 text-sm font-bold">
-            Subscribe <ArrowRight className="h-4 w-4" />
+            Order the box <ArrowRight className="h-4 w-4" />
           </span>
         </div>
       </Link>
@@ -25,11 +25,11 @@ export function OffersBento() {
         to="/shop"
         className="relative flex items-center gap-4 overflow-hidden rounded-[24px] bg-gradient-to-br from-amber-300 to-orange-300 p-6"
       >
-        <div className="text-6xl">☕</div>
+        <div className="text-6xl">🍚</div>
         <div>
-          <div className="text-[11px] font-bold uppercase tracking-wider text-foreground/70">Buy 2 Get 1</div>
-          <h3 className="font-display text-xl font-extrabold text-foreground">Specialty Coffee</h3>
-          <p className="text-xs text-foreground/70">All beans & cold brews</p>
+          <div className="text-[11px] font-bold uppercase tracking-wider text-foreground/70">Save ₹120</div>
+          <h3 className="font-display text-xl font-extrabold text-foreground">Rice & Grocery</h3>
+          <p className="text-xs text-foreground/70">Ponni, Sona Masoori, Basmati & dals</p>
         </div>
       </Link>
       <Link
@@ -40,7 +40,7 @@ export function OffersBento() {
         <div>
           <div className="text-[11px] font-bold uppercase tracking-wider text-foreground/70">Up to 30% off</div>
           <h3 className="font-display text-xl font-extrabold text-foreground">Personal Care</h3>
-          <p className="text-xs text-foreground/70">Mamaearth, Dot & Key, more</p>
+          <p className="text-xs text-foreground/70">Shampoo, soaps, skincare & more</p>
         </div>
       </Link>
     </div>
