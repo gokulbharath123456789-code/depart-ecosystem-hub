@@ -16,9 +16,9 @@ export function CategoryGrid() {
           <Link
             to="/category/$slug"
             params={{ slug: c.slug }}
-            className={`group flex flex-col items-center gap-2 rounded-2xl bg-gradient-to-br ${c.gradient} p-4 ring-1 ring-border/40 transition hover:lift-shadow`}
+            className={`group flex h-full flex-col items-center gap-2 rounded-2xl bg-gradient-to-br ${c.gradient} p-4 ring-1 ring-border/40 transition-all duration-300 hover:-translate-y-1 hover:ring-primary/40 hover:lift-shadow`}
           >
-           <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white/70 text-foreground shadow-sm transition group-hover:scale-110">
+            <div className="grid h-14 w-14 place-items-center rounded-2xl bg-white/80 text-primary shadow-sm ring-1 ring-white/70 transition-transform duration-300 group-hover:scale-110">
               <c.icon className="h-6 w-6" strokeWidth={2} />
             </div>
             <div className="text-center">
