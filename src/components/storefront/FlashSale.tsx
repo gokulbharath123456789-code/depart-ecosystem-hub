@@ -44,8 +44,11 @@ export function FlashSale() {
                 Limited time
               </div>
               <h2 className="font-display text-2xl font-extrabold text-white sm:text-3xl">
-                Flash Sale — up to 40% off
+                Today's Deals — up to 40% off
               </h2>
+              <div className="mt-0.5 text-xs text-white/75">
+                Fresh picks, everyday essentials & festive favourites.
+              </div>
             </div>
           </div>
           <div className="flex items-center gap-3">

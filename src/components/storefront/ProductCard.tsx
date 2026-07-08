@@ -35,13 +35,13 @@ export function ProductCard({ product }: { product: ProductWithImage }) {
       <Link
         to="/product/$slug"
         params={{ slug: product.slug }}
-        className="relative block"
+        className="relative block overflow-hidden"
       >
         <ProductMedia
           emoji={product.emoji}
           gradient={product.gradient}
           size="lg"
-          className="aspect-square w-full"
+          className="aspect-square w-full transition-transform duration-500 group-hover:scale-[1.06]"
           imageUrl={product.imageUrl ?? null}
           alt={product.name}
         />
@@ -88,6 +88,12 @@ export function ProductCard({ product }: { product: ProductWithImage }) {
           {product.deliveryMins} mins
           <span className="mx-1">•</span>
           <span className="text-foreground/70">{product.unit}</span>
+          {product.stock > 0 && product.stock <= 10 && (
+            <>
+              <span className="mx-1">•</span>
+              <span className="font-semibold text-rose-600">Only {product.stock} left</span>
+            </>
+          )}
         </div>
         <Link
           to="/product/$slug"

@@ -16,10 +16,10 @@ export function Hero() {
             <motion.span
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
-              className="inline-flex items-center gap-1.5 rounded-full bg-white/80 px-3 py-1 text-xs font-semibold text-foreground/80 backdrop-blur"
+              className="inline-flex items-center gap-1.5 rounded-full border border-white/60 bg-white/80 px-3 py-1 text-xs font-semibold text-foreground/80 backdrop-blur"
             >
               <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Now serving Coimbatore · Fast home delivery
+              Coimbatore · Tamil Nadu · Fast home delivery
             </motion.span>
             <motion.h1
               initial={{ opacity: 0, y: 16 }}
@@ -39,8 +39,9 @@ export function Hero() {
               transition={{ delay: 0.1 }}
               className="mt-5 max-w-md text-base text-foreground/70 sm:text-lg"
             >
-              Shop fresh vegetables, fruits, groceries, dairy, bakery, beverages, household
-              essentials and personal care at the best prices — delivered fast across Coimbatore.
+              Fresh vegetables, fruits, dairy, bakery, rice & grocery, snacks, beverages,
+              household essentials and personal care — at the best prices, delivered fast
+              across Coimbatore.
             </motion.p>
             <motion.div
               initial={{ opacity: 0, y: 12 }}

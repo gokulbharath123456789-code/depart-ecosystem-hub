@@ -19,7 +19,8 @@ export function Navbar() {
     <header className="sticky top-0 z-40 w-full border-b border-border/60 glass-strong">
       {/* Promo strip */}
       <div className="hidden bg-foreground py-1.5 text-center text-[11px] font-medium tracking-wide text-background sm:block">
-        Free delivery on orders over ₹499 across Coimbatore · Use code <span className="font-bold text-accent">SREESM50</span> for ₹50 off
+        Free delivery on orders over ₹499 across Coimbatore · Use code{" "}
+        <span className="font-bold text-accent">SREESM50</span> for ₹50 off your first order
       </div>
 
       <div className="mx-auto flex h-16 max-w-7xl items-center gap-3 px-4 sm:gap-6 lg:px-6">
@@ -38,11 +39,11 @@ export function Navbar() {
 
         <button
           onClick={() => setSearchOpen(true)}
-          className="group flex flex-1 items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-left text-sm text-muted-foreground transition hover:border-primary/60 hover:soft-shadow"
+          className="group flex min-w-0 flex-1 items-center gap-2 rounded-full border border-border bg-card px-4 py-2.5 text-left text-sm text-muted-foreground transition hover:border-primary/60 hover:soft-shadow"
         >
-          <Search className="h-4 w-4" />
-          <span className="truncate">Search milk, bread, eggs, organic fruit…</span>
-          <kbd className="ml-auto hidden rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground md:inline">
+          <Search className="h-4 w-4 shrink-0" />
+          <span className="truncate">Search milk, rice, vegetables, snacks…</span>
+          <kbd className="ml-auto hidden shrink-0 rounded bg-muted px-1.5 py-0.5 text-[10px] font-medium text-muted-foreground md:inline">
             ⌘K
           </kbd>
         </button>

@@ -16,8 +16,8 @@ export function Section({
   children: ReactNode;
 }) {
   return (
-    <section className="mx-auto mt-16 max-w-7xl px-4 lg:px-6">
-      <div className="mb-6 flex items-end justify-between gap-4">
+    <section className="mx-auto mt-14 max-w-7xl px-4 sm:mt-20 lg:px-6">
+      <div className="mb-6 flex items-end justify-between gap-4 sm:mb-8">
         <div>
           {eyebrow && (
             <div className="mb-1.5 text-[11px] font-bold uppercase tracking-[0.18em] text-primary">
