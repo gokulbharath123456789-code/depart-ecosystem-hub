@@ -19,7 +19,7 @@ function useCountdown(targetSec = 60 * 60 * 6) {
 function Cell({ n, label }: { n: number; label: string }) {
   return (
     <div className="flex flex-col items-center">
-      <span className="grid h-12 w-12 place-items-center rounded-xl bg-white/15 font-display text-xl font-extrabold tabular-nums text-white">
+      <span className="grid h-11 w-11 place-items-center rounded-xl bg-white/15 font-display text-lg font-extrabold tabular-nums text-white sm:h-12 sm:w-12 sm:text-xl">
         {String(n).padStart(2, "0")}
       </span>
       <span className="mt-1 text-[10px] font-semibold uppercase tracking-wider text-white/70">{label}</span>
@@ -65,7 +65,7 @@ export function FlashSale() {
         </div>
       </div>
 
-      <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-6">
+      <div className="mt-6 grid grid-cols-2 gap-4 sm:grid-cols-3 sm:gap-5 lg:grid-cols-6">
         {items.map((p) => (
           <ProductCard key={p.id} product={p} />
         ))}

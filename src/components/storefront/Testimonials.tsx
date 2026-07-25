@@ -1,4 +1,4 @@
-import { Star } from "lucide-react";
+import { Star, Quote } from "lucide-react";
 import { testimonials } from "@/mock/testimonials";
 
 export function Testimonials() {
@@ -7,15 +7,18 @@ export function Testimonials() {
       {testimonials.map((t) => (
         <div
           key={t.id}
-          className="flex flex-col gap-3 rounded-[20px] border border-border bg-card p-6 soft-shadow"
+          className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-card p-6 soft-shadow transition-shadow hover:lift-shadow"
         >
-          <div className="flex gap-0.5">
-            {Array.from({ length: 5 }).map((_, i) => (
-              <Star
-                key={i}
-                className={`h-4 w-4 ${i < t.rating ? "fill-amber-400 text-amber-400" : "text-muted"}`}
-              />
-            ))}
+          <div className="flex items-center justify-between">
+            <div className="flex gap-0.5">
+              {Array.from({ length: 5 }).map((_, i) => (
+                <Star
+                  key={i}
+                  className={`h-4 w-4 ${i < t.rating ? "fill-amber-400 text-amber-400" : "text-muted-foreground/30"}`}
+                />
+              ))}
+            </div>
+            <Quote className="h-5 w-5 text-primary/20" />
           </div>
           <p className="text-sm leading-relaxed text-foreground/80">"{t.quote}"</p>
           <div className="mt-auto flex items-center gap-3 pt-2">

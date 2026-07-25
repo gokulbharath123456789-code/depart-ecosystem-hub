@@ -2,7 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { toast } from "sonner";
 import { useState } from "react";
-import { Mail } from "lucide-react";
+import { Mail, Send } from "lucide-react";
 
 export function Newsletter() {
   const [email, setEmail] = useState("");
@@ -12,14 +12,15 @@ export function Newsletter() {
       <div className="pointer-events-none absolute -bottom-10 -left-10 h-60 w-60 rounded-full bg-accent/30 blur-3xl" />
       <div className="relative grid items-center gap-6 lg:grid-cols-[1.4fr_1fr]">
         <div>
-          <div className="text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
-            Newsletter
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-primary/15 px-3 py-1 text-[11px] font-bold uppercase tracking-[0.2em] text-primary">
+            <Mail className="h-3.5 w-3.5" /> Newsletter
           </div>
-          <h3 className="mt-2 font-display text-3xl font-extrabold sm:text-4xl">
+          <h3 className="mt-3 font-display text-3xl font-extrabold sm:text-4xl">
             Weekly savings, straight to your inbox.
           </h3>
           <p className="mt-2 max-w-md text-sm text-background/70">
-            Get flash deals, new arrivals and exclusive Coimbatore-only offers from SREE SUPER MART.
+            Get flash deals, new arrivals and exclusive Coimbatore-only offers from SREE SUPER
+            MART — every Saturday morning.
           </p>
         </div>
         <form
@@ -42,7 +43,7 @@ export function Newsletter() {
             />
           </div>
           <Button type="submit" size="lg" className="h-12 rounded-full px-6 font-bold">
-            Subscribe
+            Subscribe <Send className="h-4 w-4" />
           </Button>
         </form>
       </div>

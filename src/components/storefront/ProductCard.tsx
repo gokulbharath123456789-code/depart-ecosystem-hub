@@ -23,14 +23,15 @@ export function ProductCard({ product }: { product: ProductWithImage }) {
   const inCart = items.find((i) => i.productId === product.id);
   const wished = wishIds.includes(product.id);
   const discount = pct(product.mrp, product.price);
-
   const tagBadge = product.tags[0];
+  const lowStock = product.stock > 0 && product.stock <= 10;
+  const outOfStock = product.stock === 0;
 
   return (
     <motion.div
       whileHover={{ y: -6 }}
       transition={{ type: "spring", stiffness: 260, damping: 22 }}
-      className="group relative flex h-full flex-col overflow-hidden rounded-[18px] bg-card soft-shadow ring-1 ring-border/60 transition-shadow hover:lift-shadow"
+      className="group relative flex h-full flex-col overflow-hidden rounded-2xl bg-card ring-1 ring-border/60 transition-shadow hover:lift-shadow"
     >
       <Link
         to="/product/$slug"
@@ -76,10 +77,15 @@ export function ProductCard({ product }: { product: ProductWithImage }) {
           aria-label="Toggle wishlist"
           className="absolute right-3 top-3 grid h-9 w-9 place-items-center rounded-full bg-white/80 text-foreground/70 backdrop-blur transition hover:bg-white hover:text-rose-500"
         >
-          <Heart
-            className={cn("h-4 w-4 transition", wished && "fill-rose-500 text-rose-500")}
-          />
+          <Heart className={cn("h-4 w-4 transition", wished && "fill-rose-500 text-rose-500")} />
         </button>
+        {outOfStock && (
+          <div className="absolute inset-0 grid place-items-center bg-background/60 backdrop-blur-[2px]">
+            <span className="rounded-full bg-foreground/90 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-background">
+              Out of stock
+            </span>
+          </div>
+        )}
       </Link>
 
       <div className="flex flex-1 flex-col gap-2 p-4">
@@ -88,7 +94,7 @@ export function ProductCard({ product }: { product: ProductWithImage }) {
           {product.deliveryMins} mins
           <span className="mx-1">•</span>
           <span className="text-foreground/70">{product.unit}</span>
-          {product.stock > 0 && product.stock <= 10 && (
+          {lowStock && (
             <>
               <span className="mx-1">•</span>
               <span className="font-semibold text-rose-600">Only {product.stock} left</span>
@@ -109,13 +115,11 @@ export function ProductCard({ product }: { product: ProductWithImage }) {
         </div>
         <div className="mt-auto flex items-end justify-between gap-2 pt-2">
           <div className="flex flex-col">
-            <div className="text-base font-bold tracking-tight text-foreground">
+            <div className="font-display text-base font-bold tracking-tight text-foreground">
               {inr(product.price)}
             </div>
             {product.mrp > product.price && (
-              <div className="text-xs text-muted-foreground line-through">
-                {inr(product.mrp)}
-              </div>
+              <div className="text-xs text-muted-foreground line-through">{inr(product.mrp)}</div>
             )}
           </div>
           {inCart ? (
@@ -127,9 +131,7 @@ export function ProductCard({ product }: { product: ProductWithImage }) {
               >
                 <Minus className="h-3.5 w-3.5" />
               </button>
-              <span className="min-w-5 text-center text-sm font-bold tabular-nums">
-                {inCart.qty}
-              </span>
+              <span className="min-w-5 text-center text-sm font-bold tabular-nums">{inCart.qty}</span>
               <button
                 onClick={() => setQty(product.id, inCart.qty + 1)}
                 className="grid h-7 w-7 place-items-center rounded-full transition hover:bg-white/15"
@@ -141,6 +143,7 @@ export function ProductCard({ product }: { product: ProductWithImage }) {
           ) : (
             <Button
               size="sm"
+              disabled={outOfStock}
               onClick={() => {
                 add(product.id);
                 toast.success(`${product.name} added`, { description: product.unit });

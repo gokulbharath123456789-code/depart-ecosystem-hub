@@ -3,7 +3,7 @@ import { brands } from "@/mock/brands";
 export function BrandsMarquee() {
   const list = [...brands, ...brands];
   return (
-    <div className="overflow-hidden rounded-3xl border border-border bg-card p-6">
+    <div className="overflow-hidden rounded-3xl border border-border/60 bg-card p-6 soft-shadow">
       <div className="ticker flex w-max gap-4">
         {list.map((b, i) => (
           <div
@@ -15,7 +15,9 @@ export function BrandsMarquee() {
             </div>
             <div>
               <div className="text-sm font-bold text-foreground">{b.name}</div>
-              <div className="text-[10px] uppercase tracking-wider text-foreground/55">Trusted brand</div>
+              <div className="text-[10px] uppercase tracking-wider text-foreground/55">
+                Trusted brand
+              </div>
             </div>
           </div>
         ))}
