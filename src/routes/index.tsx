@@ -37,12 +37,30 @@ export const Route = createFileRoute("/")({
 function Index() {
   const featured = products.slice(0, 5);
   const bestSellers = products.filter((p) => p.tags.includes("bestseller")).slice(0, 5);
+  const freshArrivals = products.filter((p) => p.tags.includes("new")).slice(0, 5);
 
   return (
     <div className="pb-10">
       <Hero />
 
-      <FlashSale />
+      {/* Trust strip immediately below hero */}
+      <section className="mx-auto -mt-8 max-w-7xl px-4 lg:px-6">
+        <div className="grid gap-3 rounded-3xl border border-border/60 bg-card p-5 soft-shadow sm:grid-cols-3 lg:grid-cols-6">
+          {[
+            { icon: "Leaf", label: "Farm-fresh" },
+            { icon: "Clock", label: "10-min express" },
+            { icon: "IndianRupee", label: "Best prices" },
+            { icon: "ShieldCheck", label: "Quality promise" },
+            { icon: "RotateCcw", label: "Easy returns" },
+            { icon: "Headphones", label: "24/7 support" },
+          ].map((t) => (
+            <div key={t.label} className="flex items-center justify-center gap-2 text-center text-xs font-semibold text-foreground/70">
+              <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+              {t.label}
+            </div>
+          ))}
+        </div>
+      </section>
 
       <Section
         eyebrow="Browse"
@@ -52,6 +70,8 @@ function Index() {
       >
         <CategoryGrid />
       </Section>
+
+      <FlashSale />
 
       <Section
         eyebrow="Featured"
@@ -64,6 +84,15 @@ function Index() {
 
       <Section eyebrow="Seasonal specials" title="Combos & curated boxes">
         <OffersBento />
+      </Section>
+
+      <Section
+        eyebrow="New arrivals"
+        title="Just landed on our shelves"
+        subtitle="The newest additions to the SREE SUPER MART catalogue."
+        to="/shop"
+      >
+        <ProductRail products={freshArrivals.length > 0 ? freshArrivals : featured} />
       </Section>
 
       <Section
@@ -91,7 +120,7 @@ function Index() {
         <Testimonials />
       </Section>
 
-      <section className="mx-auto mt-16 max-w-7xl px-4 lg:px-6">
+      <section className="mx-auto mt-20 max-w-7xl px-4 lg:px-6">
         <Newsletter />
       </section>
     </div>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Link } from "@tanstack/react-router";
-import { Search, X, TrendingUp, Clock, Mic, ScanLine } from "lucide-react";
+import { Search, X, TrendingUp, Clock, Mic, ScanLine, Sparkles } from "lucide-react";
 import { useUI } from "@/store/ui";
 import { products } from "@/mock/products";
 import { ProductMedia } from "@/components/storefront/ProductMedia";
@@ -98,7 +98,7 @@ export function SearchDialog() {
                 </ul>
               ) : q ? (
                 <div className="grid place-items-center py-12 text-center">
-                  <div className="text-sm font-semibold text-foreground">No matches for “{q}”</div>
+                  <div className="text-sm font-semibold text-foreground">No matches for "{q}"</div>
                   <div className="mt-1 text-xs text-muted-foreground">Try a different name, brand or category.</div>
                 </div>
               ) : (
@@ -136,8 +136,8 @@ export function SearchDialog() {
                     </div>
                   </div>
                   <div>
-                    <h4 className="mb-2 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
-                      Popular categories
+                    <h4 className="mb-2 flex items-center gap-1.5 text-[11px] font-bold uppercase tracking-wider text-muted-foreground">
+                      <Sparkles className="h-3 w-3" /> Popular categories
                     </h4>
                     <div className="flex flex-wrap gap-2">
                       {popular.map((t) => (

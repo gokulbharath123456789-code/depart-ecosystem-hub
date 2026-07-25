@@ -1,7 +1,20 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import { ChevronRight, Heart, Minus, Plus, Star, Truck, ShieldCheck, RotateCcw, Clock } from "lucide-react";
+import {
+  ChevronRight,
+  Heart,
+  Minus,
+  Plus,
+  Star,
+  Truck,
+  ShieldCheck,
+  RotateCcw,
+  Clock,
+  Store,
+  Package,
+  Share2,
+} from "lucide-react";
 import { useProduct, useProducts } from "@/features/catalog/hooks";
 import { toUiProduct } from "@/features/catalog/adapters";
 import { Button } from "@/components/ui/button";
@@ -57,11 +70,14 @@ function ProductPage() {
       </div>
     );
   }
+
   if (!product || !dbProduct) {
     return (
       <div className="mx-auto max-w-7xl px-4 py-24 text-center">
         <h1 className="font-display text-2xl font-extrabold">Product not found</h1>
-        <Link to="/shop" className="mt-4 inline-block text-primary underline">Back to shop</Link>
+        <Link to="/shop" className="mt-4 inline-block text-primary underline">
+          Back to shop
+        </Link>
       </div>
     );
   }
@@ -80,7 +96,8 @@ function ProductPage() {
   const gallery = dbImgs.slice(0, 4).map((url, i) => ({ url, gradient: gradients[i] ?? product.gradient }));
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6 lg:px-6">
+    <div className="mx-auto max-w-7xl px-4 py-6 lg:px-6 lg:py-10">
+      {/* Breadcrumb */}
       <nav className="flex items-center gap-1 text-xs text-muted-foreground">
         <Link to="/" className="hover:text-foreground">Home</Link>
         <ChevronRight className="h-3 w-3" />
@@ -93,44 +110,58 @@ function ProductPage() {
 
       <div className="mt-6 grid gap-10 lg:grid-cols-[1.1fr_1fr]">
         {/* Gallery */}
-        <div className="grid gap-4 sm:grid-cols-[80px_1fr]">
-          <div className="order-2 flex gap-2 overflow-x-auto sm:order-1 sm:flex-col">
-            {gallery.map((g, i) => (
-              <button
-                key={i}
-                onClick={() => setActiveImg(i)}
-                className={cn(
-                  "h-16 w-16 shrink-0 overflow-hidden rounded-2xl ring-2 transition",
-                  activeImg === i ? "ring-primary" : "ring-transparent hover:ring-border",
-                )}
-              >
-                <ProductMedia emoji={product.emoji} gradient={g.gradient} size="sm" className="h-full w-full" imageUrl={g.url} alt={product.name} />
-              </button>
-            ))}
+        <div className="lg:sticky lg:top-32 lg:h-fit">
+          <div className="grid gap-4 sm:grid-cols-[80px_1fr]">
+            <div className="order-2 flex gap-2 overflow-x-auto sm:order-1 sm:flex-col">
+              {gallery.map((g, i) => (
+                <button
+                  key={i}
+                  onClick={() => setActiveImg(i)}
+                  className={cn(
+                    "h-16 w-16 shrink-0 overflow-hidden rounded-2xl ring-2 transition",
+                    activeImg === i ? "ring-primary" : "ring-transparent hover:ring-border",
+                  )}
+                >
+                  <ProductMedia emoji={product.emoji} gradient={g.gradient} size="sm" className="h-full w-full" imageUrl={g.url} alt={product.name} />
+                </button>
+              ))}
+            </div>
+            <motion.div
+              key={activeImg}
+              initial={{ opacity: 0, scale: 0.98 }}
+              animate={{ opacity: 1, scale: 1 }}
+              className="order-1 sm:order-2"
+            >
+              <ProductMedia
+                emoji={product.emoji}
+                gradient={gallery[activeImg]?.gradient ?? product.gradient}
+                size="xl"
+                className="aspect-square w-full"
+                imageUrl={gallery[activeImg]?.url ?? null}
+                alt={product.name}
+              />
+            </motion.div>
           </div>
-          <motion.div
-            key={activeImg}
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            className="order-1 sm:order-2"
-          >
-            <ProductMedia
-              emoji={product.emoji}
-              gradient={gallery[activeImg]?.gradient ?? product.gradient}
-              size="xl"
-              className="aspect-square w-full"
-              imageUrl={gallery[activeImg]?.url ?? null}
-              alt={product.name}
-            />
-          </motion.div>
         </div>
 
         {/* Info */}
         <div className="flex flex-col gap-5">
           <div>
-            <div className="text-xs font-semibold uppercase tracking-wider text-primary">{product.brand}</div>
+            <div className="flex items-center justify-between">
+              <div className="text-xs font-semibold uppercase tracking-wider text-primary">{product.brand}</div>
+              <button
+                onClick={() => {
+                  navigator.clipboard?.writeText(window.location.href);
+                  toast.success("Link copied");
+                }}
+                className="grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition hover:bg-muted"
+                aria-label="Share"
+              >
+                <Share2 className="h-4 w-4" />
+              </button>
+            </div>
             <h1 className="mt-1 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">{product.name}</h1>
-            <div className="mt-2 flex items-center gap-3 text-sm">
+            <div className="mt-2.5 flex items-center gap-3 text-sm">
               <div className="flex items-center gap-1">
                 <Star className="h-4 w-4 fill-amber-400 text-amber-400" />
                 <span className="font-bold">{product.rating}</span>
@@ -143,34 +174,45 @@ function ProductPage() {
             </div>
           </div>
 
-          <div className="flex flex-wrap gap-1.5">
-            {product.tags.map((t) => (
-              <Badge key={t} variant="secondary" className="rounded-full capitalize">{t}</Badge>
-            ))}
-          </div>
-
-          <div className="flex items-end gap-3 rounded-2xl bg-muted/60 p-4">
-            <div className="font-display text-4xl font-extrabold">{inr(product.price)}</div>
-            {product.mrp > product.price && (
-              <>
-                <div className="text-lg text-muted-foreground line-through">{inr(product.mrp)}</div>
-                <Badge className="rounded-full bg-destructive text-destructive-foreground">{discount}% OFF</Badge>
-              </>
-            )}
-            <div className="ml-auto text-xs font-semibold text-muted-foreground">
-              Per {product.unit}
+          {product.tags.length > 0 && (
+            <div className="flex flex-wrap gap-1.5">
+              {product.tags.map((t) => (
+                <Badge key={t} variant="secondary" className="rounded-full capitalize">{t}</Badge>
+              ))}
             </div>
+          )}
+
+          {/* Price card */}
+          <div className="rounded-2xl bg-muted/60 p-5">
+            <div className="flex items-end gap-3">
+              <div className="font-display text-4xl font-extrabold">{inr(product.price)}</div>
+              {product.mrp > product.price && (
+                <>
+                  <div className="text-lg text-muted-foreground line-through">{inr(product.mrp)}</div>
+                  <Badge className="rounded-full bg-destructive text-destructive-foreground">{discount}% OFF</Badge>
+                </>
+              )}
+            </div>
+            <div className="mt-1 text-xs font-semibold text-muted-foreground">
+              Per {product.unit} · inclusive of all taxes
+            </div>
+            {product.mrp > product.price && (
+              <div className="mt-2 text-xs font-semibold text-emerald-600">
+                You save {inr(product.mrp - product.price)} on this order
+              </div>
+            )}
           </div>
 
           <p className="text-sm leading-relaxed text-foreground/80">{product.description}</p>
 
+          {/* Quantity + Add to cart */}
           <div className="flex items-center gap-3">
             <div className="flex items-center gap-1 rounded-full bg-muted p-1.5">
-              <button onClick={() => setQty(Math.max(1, qty - 1))} className="grid h-8 w-8 place-items-center rounded-full hover:bg-background" aria-label="Decrease">
+              <button onClick={() => setQty(Math.max(1, qty - 1))} className="grid h-9 w-9 place-items-center rounded-full hover:bg-background" aria-label="Decrease">
                 <Minus className="h-3.5 w-3.5" />
               </button>
-              <span className="min-w-8 text-center text-sm font-bold tabular-nums">{qty}</span>
-              <button onClick={() => setQty(qty + 1)} className="grid h-8 w-8 place-items-center rounded-full hover:bg-background" aria-label="Increase">
+              <span className="min-w-9 text-center text-sm font-bold tabular-nums">{qty}</span>
+              <button onClick={() => setQty(qty + 1)} className="grid h-9 w-9 place-items-center rounded-full hover:bg-background" aria-label="Increase">
                 <Plus className="h-3.5 w-3.5" />
               </button>
             </div>
@@ -196,6 +238,7 @@ function ProductPage() {
             </Button>
           </div>
 
+          {/* Trust badges */}
           <div className="grid gap-3 rounded-2xl border border-border bg-card p-4 sm:grid-cols-3">
             {[
               { icon: Truck, title: "Free delivery", sub: "On orders ₹499+" },
@@ -212,6 +255,24 @@ function ProductPage() {
                 </div>
               </div>
             ))}
+          </div>
+
+          {/* Delivery info */}
+          <div className="grid gap-3 rounded-2xl border border-border bg-card p-4 sm:grid-cols-2">
+            <div className="flex items-start gap-2.5">
+              <Store className="mt-0.5 h-4 w-4 text-primary" />
+              <div>
+                <div className="text-xs font-bold">Pickup available</div>
+                <div className="text-[11px] text-muted-foreground">R.S. Puram outlet · 30 min</div>
+              </div>
+            </div>
+            <div className="flex items-start gap-2.5">
+              <Package className="mt-0.5 h-4 w-4 text-primary" />
+              <div>
+                <div className="text-xs font-bold">In stock</div>
+                <div className="text-[11px] text-muted-foreground">{product.stock} units available</div>
+              </div>
+            </div>
           </div>
 
           {product.nutrition && (

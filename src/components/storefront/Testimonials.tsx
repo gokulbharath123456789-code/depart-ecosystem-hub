@@ -1,20 +1,26 @@
+import { Link } from "@tanstack/react-router";
+import { motion } from "framer-motion";
 import { Star, Quote } from "lucide-react";
 import { testimonials } from "@/mock/testimonials";
 
 export function Testimonials() {
   return (
     <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-      {testimonials.map((t) => (
-        <div
+      {testimonials.map((t, i) => (
+        <motion.div
           key={t.id}
+          initial={{ opacity: 0, y: 16 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true, margin: "-50px" }}
+          transition={{ delay: i * 0.06, duration: 0.35 }}
           className="flex flex-col gap-3 rounded-2xl border border-border/60 bg-card p-6 soft-shadow transition-shadow hover:lift-shadow"
         >
           <div className="flex items-center justify-between">
             <div className="flex gap-0.5">
-              {Array.from({ length: 5 }).map((_, i) => (
+              {Array.from({ length: 5 }).map((_, idx) => (
                 <Star
-                  key={i}
-                  className={`h-4 w-4 ${i < t.rating ? "fill-amber-400 text-amber-400" : "text-muted-foreground/30"}`}
+                  key={idx}
+                  className={`h-4 w-4 ${idx < t.rating ? "fill-amber-400 text-amber-400" : "text-muted-foreground/30"}`}
                 />
               ))}
             </div>
@@ -30,7 +36,7 @@ export function Testimonials() {
               <div className="text-xs text-muted-foreground">{t.role}</div>
             </div>
           </div>
-        </div>
+        </motion.div>
       ))}
     </div>
   );

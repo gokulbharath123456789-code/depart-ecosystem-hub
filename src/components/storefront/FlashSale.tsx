@@ -32,7 +32,7 @@ export function FlashSale() {
   const items = products.filter((p) => p.mrp > p.price).slice(0, 6);
 
   return (
-    <section className="mx-auto mt-16 max-w-7xl px-4 lg:px-6">
+    <section className="mx-auto mt-20 max-w-7xl px-4 lg:px-6">
       <div className="overflow-hidden rounded-[24px] bg-gradient-to-br from-rose-600 via-red-600 to-orange-500 p-6 sm:p-8">
         <div className="flex flex-wrap items-center justify-between gap-6">
           <div className="flex items-center gap-3">

@@ -1,6 +1,6 @@
 import { Link } from "@tanstack/react-router";
 import { motion, AnimatePresence } from "framer-motion";
-import { X, Plus, Minus, ShoppingBag, Trash2 } from "lucide-react";
+import { X, Plus, Minus, ShoppingBag, Trash2, ArrowRight, Truck } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useCart } from "@/store/cart";
 import { useUI } from "@/store/ui";
@@ -22,6 +22,7 @@ export function CartDrawer() {
   const subtotal = detailed.reduce((s, x) => s + x.product.price * x.item.qty, 0);
   const delivery = subtotal >= 499 || subtotal === 0 ? 0 : 39;
   const total = subtotal + delivery;
+  const remaining = Math.max(0, 499 - subtotal);
 
   return (
     <AnimatePresence>
@@ -39,18 +40,21 @@ export function CartDrawer() {
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 32 }}
-            className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-background"
+            className="fixed inset-y-0 right-0 z-50 flex w-full max-w-md flex-col bg-background shadow-2xl"
           >
             <header className="flex items-center justify-between border-b border-border px-5 py-4">
-              <div>
-                <h2 className="font-display text-lg font-bold">Your Cart</h2>
-                <p className="text-xs text-muted-foreground">
-                  {detailed.length === 0 ? "Empty" : `${detailed.length} item${detailed.length > 1 ? "s" : ""}`}
-                </p>
+              <div className="flex items-center gap-2">
+                <ShoppingBag className="h-5 w-5 text-primary" />
+                <div>
+                  <h2 className="font-display text-lg font-bold">Your cart</h2>
+                  <p className="text-xs text-muted-foreground">
+                    {detailed.length === 0 ? "Empty" : `${detailed.length} item${detailed.length > 1 ? "s" : ""}`}
+                  </p>
+                </div>
               </div>
               <button
                 onClick={() => setOpen(false)}
-                className="grid h-9 w-9 place-items-center rounded-full hover:bg-muted"
+                className="grid h-9 w-9 place-items-center rounded-full text-muted-foreground transition hover:bg-muted"
                 aria-label="Close"
               >
                 <X className="h-4 w-4" />
@@ -59,23 +63,50 @@ export function CartDrawer() {
 
             {detailed.length === 0 ? (
               <div className="flex flex-1 flex-col items-center justify-center px-5 text-center">
-                <div className="grid h-20 w-20 place-items-center rounded-full bg-muted">
+                <motion.div
+                  initial={{ scale: 0.8, opacity: 0 }}
+                  animate={{ scale: 1, opacity: 1 }}
+                  className="grid h-20 w-20 place-items-center rounded-full bg-muted"
+                >
                   <ShoppingBag className="h-9 w-9 text-muted-foreground" />
-                </div>
-                <h3 className="mt-4 font-display text-lg font-semibold">Cart's empty</h3>
-                <p className="mt-1 text-sm text-muted-foreground">Find something delicious.</p>
+                </motion.div>
+                <h3 className="mt-4 font-display text-lg font-semibold">Your cart is empty</h3>
+                <p className="mt-1 text-sm text-muted-foreground">Find something fresh to add.</p>
                 <Button asChild className="mt-6 rounded-full">
-                  <Link to="/shop" onClick={() => setOpen(false)}>Start shopping</Link>
+                  <Link to="/shop" onClick={() => setOpen(false)}>
+                    Start shopping <ArrowRight className="h-4 w-4" />
+                  </Link>
                 </Button>
               </div>
             ) : (
               <>
+                {/* Free delivery progress */}
+                {remaining > 0 && (
+                  <div className="border-b border-border bg-primary/5 px-5 py-3">
+                    <div className="flex items-center gap-2 text-xs font-semibold text-primary">
+                      <Truck className="h-3.5 w-3.5" />
+                      Add {inr(remaining)} more for FREE delivery
+                    </div>
+                    <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-primary/20">
+                      <div
+                        className="h-full rounded-full bg-primary transition-all"
+                        style={{ width: `${Math.min(100, (subtotal / 499) * 100)}%` }}
+                      />
+                    </div>
+                  </div>
+                )}
+                {remaining === 0 && (
+                  <div className="flex items-center gap-2 border-b border-border bg-emerald-50 px-5 py-3 text-xs font-semibold text-emerald-700">
+                    <Truck className="h-3.5 w-3.5" /> You've unlocked FREE delivery!
+                  </div>
+                )}
+
                 <div className="flex-1 overflow-y-auto px-5 py-4">
                   <ul className="space-y-3">
                     {detailed.map(({ item, product }) => (
                       <li
                         key={product.id}
-                        className="flex gap-3 rounded-2xl border border-border bg-card p-3"
+                        className="flex gap-3 rounded-2xl border border-border/60 bg-card p-3 transition-shadow hover:soft-shadow"
                       >
                         <ProductMedia
                           emoji={product.emoji}
@@ -91,10 +122,10 @@ export function CartDrawer() {
                             </div>
                             <button
                               onClick={() => remove(product.id)}
-                              className="text-muted-foreground hover:text-destructive"
+                              className="grid h-7 w-7 shrink-0 place-items-center rounded-full text-muted-foreground transition hover:bg-rose-50 hover:text-destructive"
                               aria-label="Remove"
                             >
-                              <Trash2 className="h-4 w-4" />
+                              <Trash2 className="h-3.5 w-3.5" />
                             </button>
                           </div>
                           <div className="mt-auto flex items-center justify-between">
@@ -144,7 +175,7 @@ export function CartDrawer() {
                   </div>
                   <Button asChild size="lg" className="w-full rounded-full font-semibold">
                     <Link to="/checkout" onClick={() => setOpen(false)}>
-                      Proceed to checkout · {inr(total)}
+                      Checkout · {inr(total)}
                     </Link>
                   </Button>
                 </div>
