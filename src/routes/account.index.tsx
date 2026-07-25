@@ -1,6 +1,21 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { ShoppingBag, CircleCheck as CheckCircle2, Heart, Wallet, Sparkles, Ticket, MapPin, Bell, ArrowRight, Crown, Plus, RotateCcw, LifeBuoy, Package } from "lucide-react";
+import {
+  ShoppingBag,
+  CheckCircle2,
+  Heart,
+  Wallet,
+  Sparkles,
+  Ticket,
+  MapPin,
+  Bell,
+  ArrowRight,
+  Crown,
+  Plus,
+  RotateCcw,
+  LifeBuoy,
+  Package,
+} from "lucide-react";
 import { StatCard, PanelCard } from "@/components/dashboard/cards";
 import {
   orders,
@@ -34,25 +49,20 @@ function AccountHome() {
 
   return (
     <div className="space-y-6">
-      {/* Welcome banner */}
+      {/* Welcome */}
       <motion.div
         initial={{ opacity: 0, y: 8 }}
         animate={{ opacity: 1, y: 0 }}
-        className="relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-primary/15 via-card to-accent/10 p-6 soft-shadow lg:p-8"
+        className="relative overflow-hidden rounded-3xl border border-border/60 bg-gradient-to-br from-primary/15 via-card to-accent/10 p-6 soft-shadow"
       >
-        <div className="pointer-events-none absolute -right-16 -top-16 h-64 w-64 rounded-full bg-primary/10 blur-3xl" />
-        <div className="pointer-events-none absolute -bottom-16 -left-12 h-64 w-64 rounded-full bg-accent/15 blur-3xl" />
-
-        <div className="relative flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+        <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <div className="inline-flex items-center gap-1.5 rounded-full bg-primary/15 px-3 py-1 text-[11px] font-bold uppercase tracking-wider text-primary">
-              <Sparkles className="h-3 w-3" /> Welcome back
-            </div>
-            <h2 className="mt-3 font-display text-2xl font-extrabold tracking-tight sm:text-3xl">
-              Hi, {user.name.split(" ")[0]}
+            <p className="text-xs font-medium uppercase tracking-wider text-primary">Welcome back</p>
+            <h2 className="mt-1 font-display text-2xl font-extrabold tracking-tight sm:text-3xl">
+              Hi, {user.name.split(" ")[0]} 👋
             </h2>
-            <p className="mt-1.5 text-sm text-muted-foreground">
-              You've saved <span className="font-bold text-primary">{inr(2340)}</span> this month
+            <p className="mt-1 text-sm text-muted-foreground">
+              You've saved <span className="font-semibold text-foreground">{inr(2340)}</span> this month
               with SREE SUPER MART.
             </p>
           </div>
@@ -79,7 +89,7 @@ function AccountHome() {
       </div>
 
       <div className="grid gap-6 lg:grid-cols-3">
-        {/* Left column */}
+        {/* Profile / Membership */}
         <div className="space-y-6">
           <PanelCard title="Profile">
             <div className="flex items-center gap-3">
@@ -106,7 +116,10 @@ function AccountHome() {
               <p className="mt-1 text-xs text-foreground/70">
                 {loyalty.pointsToNext} pts to {loyalty.nextTier}
               </p>
-              <Progress value={((user.points % 6000) / 6000) * 100} className="mt-3 h-2" />
+              <Progress
+                value={((user.points % 6000) / 6000) * 100}
+                className="mt-3 h-2"
+              />
               <ul className="mt-3 space-y-1 text-xs text-foreground/80">
                 {loyalty.perks.slice(0, 3).map((p) => (
                   <li key={p}>· {p}</li>
@@ -141,7 +154,7 @@ function AccountHome() {
           </PanelCard>
         </div>
 
-        {/* Right column */}
+        {/* Middle / Right */}
         <div className="space-y-6 lg:col-span-2">
           <PanelCard
             title="Recent Orders"
@@ -159,7 +172,10 @@ function AccountHome() {
                 <li key={o.id} className="flex items-center gap-3 py-3 first:pt-0 last:pb-0">
                   <div className="flex -space-x-2">
                     {o.items.slice(0, 3).map((it, idx) => (
-                      <div key={idx} className="ring-2 ring-card">
+                      <div
+                        key={idx}
+                        className="ring-2 ring-card"
+                      >
                         <ProductMedia
                           emoji={it.product.emoji}
                           gradient={it.product.gradient}

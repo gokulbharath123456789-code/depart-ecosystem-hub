@@ -1,9 +1,7 @@
 import { createFileRoute, Link, useNavigate, useRouter } from "@tanstack/react-router";
 import { useEffect, useMemo, useState } from "react";
 import { motion } from "framer-motion";
-import {
-  Check, MapPin, Clock, CreditCard, Wallet, Banknote, Smartphone, ShieldCheck, PartyPopper, Plus, ChevronRight, ArrowRight, Truck,
-} from "lucide-react";
+import { Check, MapPin, Clock, CreditCard, Wallet, Banknote, Smartphone, ShieldCheck, PartyPopper, Plus } from "lucide-react";
 import { useCart } from "@/store/cart";
 import { useProducts } from "@/features/catalog/hooks";
 import { useAddresses, useUpsertAddress } from "@/features/addresses/hooks";
@@ -162,49 +160,40 @@ function Checkout() {
   }
 
   return (
-    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-6 lg:py-12">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-1 text-xs text-muted-foreground">
-        <Link to="/" className="hover:text-foreground">Home</Link>
-        <ChevronRight className="h-3 w-3" />
-        <Link to="/cart" className="hover:text-foreground">Cart</Link>
-        <ChevronRight className="h-3 w-3" />
-        <span className="text-foreground">Checkout</span>
-      </nav>
-
-      <div className="mt-4 flex items-center justify-between gap-4">
-        <h1 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">Checkout</h1>
+    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-6">
+      <div className="mb-8 flex items-center justify-between gap-4">
+        <h1 className="font-display text-3xl font-extrabold">Checkout</h1>
         <button onClick={() => router.history.back()} className="text-sm text-muted-foreground hover:text-foreground">
           ← Back
         </button>
       </div>
 
       {/* Stepper */}
-      <div className="mt-6 flex items-center gap-2 overflow-x-auto pb-2 [&::-webkit-scrollbar]:hidden">
+      <div className="mb-8 flex items-center gap-2 overflow-x-auto">
         {steps.map((s, i) => (
           <div key={s} className="flex items-center gap-2">
             <div
               className={cn(
-                "grid h-9 w-9 shrink-0 place-items-center rounded-full font-bold transition",
+                "grid h-9 w-9 place-items-center rounded-full font-bold transition",
                 i < step && "bg-primary text-primary-foreground",
-                i === step && "bg-foreground text-background ring-4 ring-foreground/10",
+                i === step && "bg-foreground text-background",
                 i > step && "bg-muted text-muted-foreground",
               )}
             >
               {i < step ? <Check className="h-4 w-4" /> : i + 1}
             </div>
-            <span className={cn("whitespace-nowrap text-sm font-semibold", i === step ? "text-foreground" : "text-muted-foreground")}>{s}</span>
+            <span className={cn("text-sm font-semibold", i === step ? "text-foreground" : "text-muted-foreground")}>{s}</span>
             {i < steps.length - 1 && <div className="mx-2 h-px w-6 bg-border sm:w-12" />}
           </div>
         ))}
       </div>
 
-      <div className="mt-8 grid gap-8 lg:grid-cols-[1.5fr_1fr]">
+      <div className="grid gap-8 lg:grid-cols-[1.5fr_1fr]">
         <motion.div
           key={step}
           initial={{ opacity: 0, y: 12 }}
           animate={{ opacity: 1, y: 0 }}
-          className="rounded-2xl border border-border/60 bg-card p-6 soft-shadow"
+          className="rounded-2xl border border-border bg-card p-6"
         >
           {step === 0 && (
             <AddressStep
@@ -362,8 +351,7 @@ function Checkout() {
           </div>
         </motion.div>
 
-        {/* Summary */}
-        <aside className="h-fit space-y-4 rounded-2xl border border-border/60 bg-card p-5 lg:sticky lg:top-32">
+        <aside className="h-fit space-y-3 rounded-2xl border border-border bg-card p-5 lg:sticky lg:top-32">
           <h3 className="font-display text-lg font-bold">Summary</h3>
           <ul className="space-y-2 text-sm">
             <li className="flex justify-between text-muted-foreground"><span>Subtotal</span><span className="text-foreground">{inr(subtotal)}</span></li>
@@ -374,16 +362,6 @@ function Checkout() {
             )}
             <li className="flex justify-between border-t border-border pt-2 text-base font-bold"><span>Total</span><span>{inr(total)}</span></li>
           </ul>
-
-          <div className="flex items-center gap-2 rounded-xl bg-muted/50 p-3 text-xs text-muted-foreground">
-            <Truck className="h-4 w-4 text-primary" />
-            {delivery === 0 ? "Free delivery applied" : `Add ${inr(499 - subtotal)} more for free delivery`}
-          </div>
-
-          <div className="flex items-center gap-2 text-xs text-muted-foreground">
-            <ShieldCheck className="h-3.5 w-3.5 text-primary" />
-            100% secure payment · Encrypted checkout
-          </div>
         </aside>
       </div>
     </div>

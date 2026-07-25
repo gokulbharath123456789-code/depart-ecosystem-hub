@@ -1,16 +1,7 @@
 import { useMemo, useState } from "react";
-import { createFileRoute, Link } from "@tanstack/react-router";
+import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import {
-  SlidersHorizontal,
-  LayoutGrid,
-  List,
-  X,
-  SearchX,
-  ChevronRight,
-  Sparkles,
-  TrendingUp,
-} from "lucide-react";
+import { SlidersHorizontal, LayoutGrid, List, X, SearchX } from "lucide-react";
 import { useProducts, useCategories } from "@/features/catalog/hooks";
 import { toUiProduct } from "@/features/catalog/adapters";
 import { ProductCard } from "@/components/storefront/ProductCard";
@@ -20,10 +11,6 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
-import { categories as uiCategories } from "@/mock/categories";
-import { cn } from "@/lib/utils";
-
-const TAGS = ["organic", "bestseller", "new", "vegan", "imported", "low-fat"] as const;
 
 type FilterPanelProps = {
   categories: { id: string; name: string; slug: string }[];
@@ -37,71 +24,37 @@ type FilterPanelProps = {
   onClear: () => void;
 };
 
-function FilterPanel({
-  categories,
-  selectedCats,
-  toggle,
-  setSelectedCats,
-  price,
-  setPrice,
-  tagFilter,
-  setTagFilter,
-  onClear,
-}: FilterPanelProps) {
-  const activeCount = selectedCats.length + tagFilter.length + (price[0] > 0 || price[1] < 1200 ? 1 : 0);
-
+function FilterPanel({ categories, selectedCats, toggle, setSelectedCats, price, setPrice, tagFilter, setTagFilter, onClear }: FilterPanelProps) {
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
-        <h3 className="flex items-center gap-2 font-display text-base font-bold">
-          <SlidersHorizontal className="h-4 w-4 text-primary" /> Filters
-          {activeCount > 0 && (
-            <span className="grid h-5 min-w-5 place-items-center rounded-full bg-primary px-1 text-[10px] font-bold text-primary-foreground">
-              {activeCount}
-            </span>
-          )}
+        <h3 className="flex items-center gap-2 font-display font-bold">
+          <SlidersHorizontal className="h-4 w-4" /> Filters
         </h3>
-        {activeCount > 0 && (
+        {(selectedCats.length || tagFilter.length) > 0 && (
           <button onClick={onClear} className="text-xs font-semibold text-primary hover:underline">
-            Clear all
+            Clear
           </button>
         )}
       </div>
 
-      {/* Quick category links */}
       <div>
-        <h4 className="mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
-          Category
-        </h4>
-        <div className="space-y-1">
-          {categories.map((c) => {
-            const uiCat = uiCategories.find((uc) => uc.slug === c.slug);
-            const Icon = uiCat?.icon;
-            const checked = selectedCats.includes(c.slug);
-            return (
-              <button
-                key={c.id}
-                onClick={() => toggle(selectedCats, c.slug, setSelectedCats)}
-                className={cn(
-                  "flex w-full items-center gap-2.5 rounded-xl px-2.5 py-2 text-sm transition",
-                  checked ? "bg-primary/10 font-semibold text-primary" : "text-foreground/80 hover:bg-muted",
-                )}
-              >
-                {Icon && <Icon className="h-4 w-4 shrink-0" strokeWidth={2} />}
-                <span className="flex-1 text-left">{c.name}</span>
-                {checked && <X className="h-3.5 w-3.5" />}
-              </button>
-            );
-          })}
+        <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Category</h4>
+        <div className="space-y-2">
+          {categories.map((c) => (
+            <label key={c.id} className="flex cursor-pointer items-center gap-2 text-sm">
+              <Checkbox
+                checked={selectedCats.includes(c.slug)}
+                onCheckedChange={() => toggle(selectedCats, c.slug, setSelectedCats)}
+              />
+              <span>{c.name}</span>
+            </label>
+          ))}
         </div>
       </div>
 
-      <div className="h-px bg-border" />
-
       <div>
-        <h4 className="mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
-          Price range
-        </h4>
+        <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Price (₹)</h4>
         <Slider
           value={price}
           min={0}
@@ -109,30 +62,24 @@ function FilterPanel({
           step={50}
           onValueChange={(v) => setPrice(v as [number, number])}
         />
-        <div className="mt-3 flex items-center justify-between">
-          <span className="rounded-lg bg-muted px-2.5 py-1 text-xs font-bold tabular-nums">₹{price[0]}</span>
-          <span className="text-xs text-muted-foreground">to</span>
-          <span className="rounded-lg bg-muted px-2.5 py-1 text-xs font-bold tabular-nums">₹{price[1]}</span>
+        <div className="mt-2 flex justify-between text-xs font-medium text-foreground/70">
+          <span>₹{price[0]}</span>
+          <span>₹{price[1]}</span>
         </div>
       </div>
 
-      <div className="h-px bg-border" />
-
       <div>
-        <h4 className="mb-3 text-[11px] font-bold uppercase tracking-[0.15em] text-muted-foreground">
-          Quick filters
-        </h4>
+        <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Tags</h4>
         <div className="flex flex-wrap gap-1.5">
-          {TAGS.map((t) => (
+          {["organic", "bestseller", "new", "vegan", "imported", "low-fat"].map((t) => (
             <button
               key={t}
               onClick={() => toggle(tagFilter, t, setTagFilter)}
-              className={cn(
-                "rounded-full px-3 py-1.5 text-xs font-semibold capitalize transition",
+              className={`rounded-full px-3 py-1 text-xs font-semibold capitalize transition ${
                 tagFilter.includes(t)
                   ? "bg-primary text-primary-foreground"
-                  : "bg-muted text-foreground/70 hover:bg-muted/70",
-              )}
+                  : "bg-muted text-foreground/70 hover:bg-muted/70"
+              }`}
             >
               {t}
             </button>
@@ -144,12 +91,7 @@ function FilterPanel({
 }
 
 export const Route = createFileRoute("/shop")({
-  head: () => ({
-    meta: [
-      { title: "Shop all — SREE SUPER MART" },
-      { name: "description", content: "Browse 12,000+ products across fresh produce, pantry, dairy, snacks and more." },
-    ],
-  }),
+  head: () => ({ meta: [{ title: "Shop all — SREE SUPER MART" }, { name: "description", content: "Browse 12,000+ products across fresh produce, pantry, dairy, snacks and more." }] }),
   component: Shop,
 });
 
@@ -183,33 +125,16 @@ function Shop() {
   const toggle = (arr: string[], v: string, setter: (x: string[]) => void) =>
     setter(arr.includes(v) ? arr.filter((x) => x !== v) : [...arr, v]);
 
-  const clearAll = () => {
-    setSelectedCats([]);
-    setTagFilter([]);
-    setPrice([0, 1200]);
-  };
-
   return (
-    <div className="mx-auto max-w-7xl px-4 py-6 lg:px-6 lg:py-10">
-      {/* Breadcrumb */}
-      <nav className="flex items-center gap-1 text-xs text-muted-foreground">
-        <Link to="/" className="hover:text-foreground">Home</Link>
-        <ChevronRight className="h-3 w-3" />
-        <span className="text-foreground">Shop</span>
-      </nav>
-
-      {/* Page header */}
-      <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <div className="mx-auto max-w-7xl px-4 py-8 lg:px-6">
+      <div className="mb-6 flex flex-wrap items-end justify-between gap-3">
         <div>
           <h1 className="font-display text-3xl font-extrabold tracking-tight sm:text-4xl">All products</h1>
-          <p className="mt-1.5 text-sm text-muted-foreground">
-            {filtered.length} {filtered.length === 1 ? "product" : "products"}
-            {selectedCats.length > 0 && ` in ${categories.find((c) => c.slug === selectedCats[0])?.name ?? "selected categories"}`}
-          </p>
+          <p className="mt-1 text-sm text-muted-foreground">{filtered.length} results</p>
         </div>
         <div className="flex items-center gap-2">
           <Select value={sort} onValueChange={setSort}>
-            <SelectTrigger className="h-10 w-44 rounded-full bg-card">
+            <SelectTrigger className="h-10 w-44 rounded-full">
               <SelectValue />
             </SelectTrigger>
             <SelectContent>
@@ -220,23 +145,21 @@ function Shop() {
               <SelectItem value="discount">Biggest discount</SelectItem>
             </SelectContent>
           </Select>
-          <div className="flex items-center rounded-full border border-border bg-card p-1">
+          <div className="flex items-center rounded-full border border-border p-1">
             <button
               onClick={() => setView("grid")}
-              className={cn(
-                "grid h-8 w-8 place-items-center rounded-full transition",
-                view === "grid" ? "bg-foreground text-background" : "text-muted-foreground",
-              )}
+              className={`grid h-8 w-8 place-items-center rounded-full transition ${
+                view === "grid" ? "bg-foreground text-background" : "text-muted-foreground"
+              }`}
               aria-label="Grid view"
             >
               <LayoutGrid className="h-4 w-4" />
             </button>
             <button
               onClick={() => setView("list")}
-              className={cn(
-                "grid h-8 w-8 place-items-center rounded-full transition",
-                view === "list" ? "bg-foreground text-background" : "text-muted-foreground",
-              )}
+              className={`grid h-8 w-8 place-items-center rounded-full transition ${
+                view === "list" ? "bg-foreground text-background" : "text-muted-foreground"
+              }`}
               aria-label="List view"
             >
               <List className="h-4 w-4" />
@@ -246,20 +169,21 @@ function Shop() {
       </div>
 
       {/* Mobile filter trigger */}
-      <div className="mt-4 flex items-center gap-2 lg:hidden">
+      <div className="mb-4 flex items-center gap-2 lg:hidden">
         <Sheet>
           <SheetTrigger asChild>
             <Button variant="outline" size="sm" className="rounded-full">
               <SlidersHorizontal className="mr-1.5 h-4 w-4" /> Filters
               {(selectedCats.length + tagFilter.length) > 0 && (
-                <Badge className="ml-1.5 h-5 min-w-5 rounded-full px-1 text-[10px]">
-                  {selectedCats.length + tagFilter.length}
-                </Badge>
+                <Badge className="ml-1.5 h-5 min-w-5 rounded-full px-1 text-[10px]">{selectedCats.length + tagFilter.length}</Badge>
               )}
             </Button>
           </SheetTrigger>
           {(selectedCats.length || tagFilter.length) > 0 && (
-            <button onClick={clearAll} className="text-xs font-semibold text-primary hover:underline">
+            <button
+              onClick={() => { setSelectedCats([]); setTagFilter([]); setPrice([0, 1200]); }}
+              className="text-xs font-semibold text-primary hover:underline"
+            >
               Clear all
             </button>
           )}
@@ -269,26 +193,23 @@ function Shop() {
                 <SlidersHorizontal className="h-4 w-4" /> Filters
               </SheetTitle>
             </SheetHeader>
-            <div className="px-4 pb-6">
-              <FilterPanel
-                categories={categories}
-                selectedCats={selectedCats}
-                toggle={toggle}
-                setSelectedCats={setSelectedCats}
-                price={price}
-                setPrice={setPrice}
-                tagFilter={tagFilter}
-                setTagFilter={setTagFilter}
-                onClear={clearAll}
-              />
-            </div>
+            <FilterPanel
+              categories={categories}
+              selectedCats={selectedCats}
+              toggle={toggle}
+              setSelectedCats={setSelectedCats}
+              price={price}
+              setPrice={setPrice}
+              tagFilter={tagFilter}
+              setTagFilter={setTagFilter}
+              onClear={() => { setSelectedCats([]); setTagFilter([]); setPrice([0, 1200]); }}
+            />
           </SheetContent>
         </Sheet>
       </div>
 
-      <div className="mt-6 grid gap-6 lg:grid-cols-[260px_1fr]">
-        {/* Desktop sidebar */}
-        <aside className="hidden h-fit rounded-3xl border border-border/60 bg-card p-5 lg:sticky lg:top-32 lg:block">
+      <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
+        <aside className="hidden h-fit space-y-6 rounded-3xl border border-border bg-card p-5 lg:block">
           <FilterPanel
             categories={categories}
             selectedCats={selectedCats}
@@ -298,38 +219,29 @@ function Shop() {
             setPrice={setPrice}
             tagFilter={tagFilter}
             setTagFilter={setTagFilter}
-            onClear={clearAll}
+            onClear={() => { setSelectedCats([]); setTagFilter([]); setPrice([0, 1200]); }}
           />
         </aside>
 
         <div>
-          {/* Active filter chips */}
-          {(selectedCats.length > 0 || tagFilter.length > 0 || price[0] > 0 || price[1] < 1200) && (
-            <div className="mb-4 flex flex-wrap items-center gap-1.5">
+          {(selectedCats.length > 0 || tagFilter.length > 0) && (
+            <div className="mb-3 flex flex-wrap gap-1.5">
               {selectedCats.map((s) => (
-                <Badge key={s} variant="secondary" className="rounded-full py-1.5 pl-3 pr-1.5">
+                <Badge key={s} variant="secondary" className="rounded-full">
                   {categories.find((c) => c.slug === s)?.name}
-                  <button onClick={() => toggle(selectedCats, s, setSelectedCats)} className="ml-1.5 grid h-5 w-5 place-items-center rounded-full hover:bg-foreground/10">
+                  <button onClick={() => toggle(selectedCats, s, setSelectedCats)} className="ml-1.5">
                     <X className="h-3 w-3" />
                   </button>
                 </Badge>
               ))}
               {tagFilter.map((t) => (
-                <Badge key={t} variant="secondary" className="rounded-full py-1.5 pl-3 pr-1.5 capitalize">
+                <Badge key={t} variant="secondary" className="rounded-full capitalize">
                   {t}
-                  <button onClick={() => toggle(tagFilter, t, setTagFilter)} className="ml-1.5 grid h-5 w-5 place-items-center rounded-full hover:bg-foreground/10">
+                  <button onClick={() => toggle(tagFilter, t, setTagFilter)} className="ml-1.5">
                     <X className="h-3 w-3" />
                   </button>
                 </Badge>
               ))}
-              {(price[0] > 0 || price[1] < 1200) && (
-                <Badge variant="secondary" className="rounded-full py-1.5 pl-3 pr-1.5">
-                  ₹{price[0]} – ₹{price[1]}
-                  <button onClick={() => setPrice([0, 1200])} className="ml-1.5 grid h-5 w-5 place-items-center rounded-full hover:bg-foreground/10">
-                    <X className="h-3 w-3" />
-                  </button>
-                </Badge>
-              )}
             </div>
           )}
 
@@ -346,31 +258,23 @@ function Shop() {
               </div>
               <h3 className="mt-4 font-display text-xl font-bold">No products match</h3>
               <p className="mt-1 text-sm text-muted-foreground">Try clearing some filters.</p>
-              <Button onClick={clearAll} className="mt-5 rounded-full">
+              <Button onClick={() => { setSelectedCats([]); setTagFilter([]); setPrice([0, 1200]); }} className="mt-5 rounded-full">
                 Reset filters
               </Button>
             </div>
           ) : (
             <motion.div
               layout
-              className={cn(
+              className={
                 view === "grid"
                   ? "grid grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-4"
-                  : "flex flex-col gap-3",
-              )}
+                  : "flex flex-col gap-3"
+              }
             >
               {filtered.map((p) => (
                 <ProductCard key={p.id} product={p} />
               ))}
             </motion.div>
-          )}
-
-          {/* Bottom info */}
-          {!isLoading && filtered.length > 0 && (
-            <div className="mt-8 flex items-center justify-center gap-2 text-xs text-muted-foreground">
-              <Sparkles className="h-3.5 w-3.5 text-primary" />
-              Showing {filtered.length} products · Fresh stock updated daily
-            </div>
           )}
         </div>
       </div>
