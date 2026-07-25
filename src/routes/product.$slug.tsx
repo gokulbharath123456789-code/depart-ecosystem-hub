@@ -188,7 +188,7 @@ function ProductPage() {
             <Button
               variant="outline"
               size="lg"
-              className="rounded-full"
+              className="hidden rounded-full sm:inline-flex"
               onClick={() => toggleWish(product.id)}
               aria-label="Wishlist"
             >

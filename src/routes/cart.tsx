@@ -1,5 +1,5 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Tag } from "lucide-react";
+import { Minus, Plus, Trash2, ShoppingBag, ArrowRight, Tag, Truck } from "lucide-react";
 import { useCart } from "@/store/cart";
 import { productById } from "@/mock/products";
 import { ProductMedia } from "@/components/storefront/ProductMedia";
@@ -92,6 +92,25 @@ function CartPage() {
 
         <aside className="h-fit space-y-4 rounded-2xl border border-border bg-card p-5 lg:sticky lg:top-32">
           <h3 className="font-display text-lg font-bold">Order summary</h3>
+
+          {subtotal > 0 && subtotal < 499 && (
+            <div className="rounded-xl bg-primary/10 p-3 text-xs text-foreground/80">
+              <p className="font-semibold text-primary">
+                Add {inr(499 - subtotal)} more for FREE delivery
+              </p>
+              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-primary/20">
+                <div
+                  className="h-full rounded-full bg-primary transition-all"
+                  style={{ width: `${Math.min(100, (subtotal / 499) * 100)}%` }}
+                />
+              </div>
+            </div>
+          )}
+          {subtotal >= 499 && (
+            <div className="flex items-center gap-2 rounded-xl bg-emerald-50 p-3 text-xs font-semibold text-emerald-700">
+              <Truck className="h-4 w-4" /> You've unlocked FREE delivery!
+            </div>
+          )}
           <div className="space-y-2 text-sm">
             <div className="flex justify-between text-muted-foreground">
               <span>Subtotal</span><span className="text-foreground">{inr(subtotal)}</span>

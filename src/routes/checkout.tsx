@@ -108,22 +108,43 @@ function Checkout() {
 
   if (placedNumber) {
     return (
-      <div className="mx-auto grid max-w-xl place-items-center px-4 py-24 text-center">
+      <div className="mx-auto grid max-w-2xl place-items-center px-4 py-20 text-center">
         <motion.div
           initial={{ scale: 0.6, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
           transition={{ type: "spring", stiffness: 220, damping: 18 }}
-          className="grid h-24 w-24 place-items-center rounded-full bg-primary/15 text-primary"
+          className="grid h-28 w-28 place-items-center rounded-full bg-primary/15 text-primary"
         >
-          <PartyPopper className="h-12 w-12" />
+          <PartyPopper className="h-14 w-14" />
         </motion.div>
-        <h1 className="mt-6 font-display text-3xl font-extrabold">Order placed!</h1>
-        <p className="mt-2 text-muted-foreground">
-          Your order <span className="font-bold text-foreground">{placedNumber}</span> is on its way. ETA ~{slot === "express" ? "10" : "60"} mins.
+        <h1 className="mt-6 font-display text-3xl font-extrabold tracking-tight sm:text-4xl">
+          Order placed!
+        </h1>
+        <p className="mt-2 max-w-md text-muted-foreground">
+          Thank you for shopping with SREE SUPER MART. Your order{" "}
+          <span className="font-bold text-foreground">{placedNumber}</span> is confirmed and on its
+          way. Estimated arrival in ~{slot === "express" ? "10" : "60"} minutes.
         </p>
-        <div className="mt-6 flex gap-3">
-          <Button asChild size="lg" className="rounded-full"><Link to="/account/orders">My orders</Link></Button>
-          <Button asChild size="lg" variant="outline" className="rounded-full"><Link to="/">Continue shopping</Link></Button>
+        <div className="mt-6 flex flex-col gap-3 sm:flex-row">
+          <Button asChild size="lg" className="rounded-full px-7">
+            <Link to="/account/orders">Track my order</Link>
+          </Button>
+          <Button asChild size="lg" variant="outline" className="rounded-full px-7">
+            <Link to="/">Continue shopping</Link>
+          </Button>
+        </div>
+        <div className="mt-10 grid w-full max-w-md grid-cols-3 gap-3 text-left">
+          {[
+            { icon: MapPin, label: "Delivering to", value: addressesQ.data?.find((a) => a.id === addressId)?.label ?? "Saved address" },
+            { icon: Clock, label: "Slot", value: slot === "express" ? "Express · 10 min" : slot === "standard" ? "Standard · 60 min" : slot === "evening" ? "Evening · 6-9 PM" : "Tomorrow · 9-12 PM" },
+            { icon: CreditCard, label: "Payment", value: pay.toUpperCase() },
+          ].map((x) => (
+            <div key={x.label} className="rounded-2xl border border-border bg-card p-4">
+              <x.icon className="h-4 w-4 text-primary" />
+              <p className="mt-2 text-[11px] uppercase tracking-wider text-muted-foreground">{x.label}</p>
+              <p className="text-sm font-bold">{x.value}</p>
+            </div>
+          ))}
         </div>
       </div>
     );

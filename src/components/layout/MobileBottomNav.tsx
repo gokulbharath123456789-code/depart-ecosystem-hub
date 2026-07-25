@@ -1,11 +1,11 @@
 import { Link, useRouterState } from "@tanstack/react-router";
-import { Home, Search, Heart, ShoppingBag, User } from "lucide-react";
+import { Hop as Home, Search, Heart, ShoppingBag, User } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { useCartCount } from "@/store/cart";
 import { useUI } from "@/store/ui";
 
 type NavItem = {
-  to: "/" | "/shop" | "/wishlist" | "/cart";
+  to: "/" | "/shop" | "/wishlist" | "/cart" | "/account";
   label: string;
   icon: typeof Home;
   badge?: boolean;
@@ -16,7 +16,7 @@ const items: NavItem[] = [
   { to: "/shop", label: "Shop", icon: Search },
   { to: "/wishlist", label: "Saved", icon: Heart },
   { to: "/cart", label: "Cart", icon: ShoppingBag, badge: true },
-  { to: "/", label: "Account", icon: User },
+  { to: "/account", label: "Account", icon: User },
 ];
 
 export function MobileBottomNav() {

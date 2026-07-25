@@ -1,7 +1,7 @@
 import { useMemo, useState } from "react";
 import { createFileRoute } from "@tanstack/react-router";
 import { motion } from "framer-motion";
-import { SlidersHorizontal, LayoutGrid, List, X } from "lucide-react";
+import { SlidersHorizontal, LayoutGrid, List, X, SearchX } from "lucide-react";
 import { useProducts, useCategories } from "@/features/catalog/hooks";
 import { toUiProduct } from "@/features/catalog/adapters";
 import { ProductCard } from "@/components/storefront/ProductCard";
@@ -10,6 +10,85 @@ import { Slider } from "@/components/ui/slider";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
+import { Sheet, SheetContent, SheetHeader, SheetTitle, SheetTrigger } from "@/components/ui/sheet";
+
+type FilterPanelProps = {
+  categories: { id: string; name: string; slug: string }[];
+  selectedCats: string[];
+  toggle: (arr: string[], v: string, setter: (x: string[]) => void) => void;
+  setSelectedCats: (x: string[]) => void;
+  price: [number, number];
+  setPrice: (v: [number, number]) => void;
+  tagFilter: string[];
+  setTagFilter: (x: string[]) => void;
+  onClear: () => void;
+};
+
+function FilterPanel({ categories, selectedCats, toggle, setSelectedCats, price, setPrice, tagFilter, setTagFilter, onClear }: FilterPanelProps) {
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <h3 className="flex items-center gap-2 font-display font-bold">
+          <SlidersHorizontal className="h-4 w-4" /> Filters
+        </h3>
+        {(selectedCats.length || tagFilter.length) > 0 && (
+          <button onClick={onClear} className="text-xs font-semibold text-primary hover:underline">
+            Clear
+          </button>
+        )}
+      </div>
+
+      <div>
+        <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Category</h4>
+        <div className="space-y-2">
+          {categories.map((c) => (
+            <label key={c.id} className="flex cursor-pointer items-center gap-2 text-sm">
+              <Checkbox
+                checked={selectedCats.includes(c.slug)}
+                onCheckedChange={() => toggle(selectedCats, c.slug, setSelectedCats)}
+              />
+              <span>{c.name}</span>
+            </label>
+          ))}
+        </div>
+      </div>
+
+      <div>
+        <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Price (₹)</h4>
+        <Slider
+          value={price}
+          min={0}
+          max={1200}
+          step={50}
+          onValueChange={(v) => setPrice(v as [number, number])}
+        />
+        <div className="mt-2 flex justify-between text-xs font-medium text-foreground/70">
+          <span>₹{price[0]}</span>
+          <span>₹{price[1]}</span>
+        </div>
+      </div>
+
+      <div>
+        <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Tags</h4>
+        <div className="flex flex-wrap gap-1.5">
+          {["organic", "bestseller", "new", "vegan", "imported", "low-fat"].map((t) => (
+            <button
+              key={t}
+              onClick={() => toggle(tagFilter, t, setTagFilter)}
+              className={`rounded-full px-3 py-1 text-xs font-semibold capitalize transition ${
+                tagFilter.includes(t)
+                  ? "bg-primary text-primary-foreground"
+                  : "bg-muted text-foreground/70 hover:bg-muted/70"
+              }`}
+            >
+              {t}
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  );
+}
 
 export const Route = createFileRoute("/shop")({
   head: () => ({ meta: [{ title: "Shop all — SREE SUPER MART" }, { name: "description", content: "Browse 12,000+ products across fresh produce, pantry, dairy, snacks and more." }] }),
@@ -89,70 +168,59 @@ function Shop() {
         </div>
       </div>
 
+      {/* Mobile filter trigger */}
+      <div className="mb-4 flex items-center gap-2 lg:hidden">
+        <Sheet>
+          <SheetTrigger asChild>
+            <Button variant="outline" size="sm" className="rounded-full">
+              <SlidersHorizontal className="mr-1.5 h-4 w-4" /> Filters
+              {(selectedCats.length + tagFilter.length) > 0 && (
+                <Badge className="ml-1.5 h-5 min-w-5 rounded-full px-1 text-[10px]">{selectedCats.length + tagFilter.length}</Badge>
+              )}
+            </Button>
+          </SheetTrigger>
+          {(selectedCats.length || tagFilter.length) > 0 && (
+            <button
+              onClick={() => { setSelectedCats([]); setTagFilter([]); setPrice([0, 1200]); }}
+              className="text-xs font-semibold text-primary hover:underline"
+            >
+              Clear all
+            </button>
+          )}
+          <SheetContent side="left" className="w-full overflow-y-auto sm:max-w-sm">
+            <SheetHeader>
+              <SheetTitle className="flex items-center gap-2">
+                <SlidersHorizontal className="h-4 w-4" /> Filters
+              </SheetTitle>
+            </SheetHeader>
+            <FilterPanel
+              categories={categories}
+              selectedCats={selectedCats}
+              toggle={toggle}
+              setSelectedCats={setSelectedCats}
+              price={price}
+              setPrice={setPrice}
+              tagFilter={tagFilter}
+              setTagFilter={setTagFilter}
+              onClear={() => { setSelectedCats([]); setTagFilter([]); setPrice([0, 1200]); }}
+            />
+          </SheetContent>
+        </Sheet>
+      </div>
+
       <div className="grid gap-6 lg:grid-cols-[260px_1fr]">
         <aside className="hidden h-fit space-y-6 rounded-3xl border border-border bg-card p-5 lg:block">
-          <div className="flex items-center justify-between">
-            <h3 className="flex items-center gap-2 font-display font-bold">
-              <SlidersHorizontal className="h-4 w-4" /> Filters
-            </h3>
-            {(selectedCats.length || tagFilter.length) > 0 && (
-              <button
-                onClick={() => { setSelectedCats([]); setTagFilter([]); }}
-                className="text-xs font-semibold text-primary hover:underline"
-              >
-                Clear
-              </button>
-            )}
-          </div>
-
-          <div>
-            <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Category</h4>
-            <div className="space-y-2">
-              {categories.map((c) => (
-                <label key={c.id} className="flex cursor-pointer items-center gap-2 text-sm">
-                  <Checkbox
-                    checked={selectedCats.includes(c.slug)}
-                    onCheckedChange={() => toggle(selectedCats, c.slug, setSelectedCats)}
-                  />
-                  <span>{c.name}</span>
-                </label>
-              ))}
-            </div>
-          </div>
-
-          <div>
-            <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Price (₹)</h4>
-            <Slider
-              value={price}
-              min={0}
-              max={1200}
-              step={50}
-              onValueChange={(v) => setPrice(v as [number, number])}
-            />
-            <div className="mt-2 flex justify-between text-xs font-medium text-foreground/70">
-              <span>₹{price[0]}</span>
-              <span>₹{price[1]}</span>
-            </div>
-          </div>
-
-          <div>
-            <h4 className="mb-3 text-xs font-bold uppercase tracking-wider text-muted-foreground">Tags</h4>
-            <div className="flex flex-wrap gap-1.5">
-              {["organic", "bestseller", "new", "vegan", "imported", "low-fat"].map((t) => (
-                <button
-                  key={t}
-                  onClick={() => toggle(tagFilter, t, setTagFilter)}
-                  className={`rounded-full px-3 py-1 text-xs font-semibold capitalize transition ${
-                    tagFilter.includes(t)
-                      ? "bg-primary text-primary-foreground"
-                      : "bg-muted text-foreground/70 hover:bg-muted/70"
-                  }`}
-                >
-                  {t}
-                </button>
-              ))}
-            </div>
-          </div>
+          <FilterPanel
+            categories={categories}
+            selectedCats={selectedCats}
+            toggle={toggle}
+            setSelectedCats={setSelectedCats}
+            price={price}
+            setPrice={setPrice}
+            tagFilter={tagFilter}
+            setTagFilter={setTagFilter}
+            onClear={() => { setSelectedCats([]); setTagFilter([]); setPrice([0, 1200]); }}
+          />
         </aside>
 
         <div>
@@ -185,10 +253,12 @@ function Shop() {
             </div>
           ) : filtered.length === 0 ? (
             <div className="grid place-items-center rounded-3xl border border-dashed border-border bg-card py-24 text-center">
-              <div className="text-5xl">🤷</div>
-              <h3 className="mt-3 font-display text-xl font-bold">No products match</h3>
+              <div className="grid h-20 w-20 place-items-center rounded-full bg-muted">
+                <SearchX className="h-9 w-9 text-muted-foreground" />
+              </div>
+              <h3 className="mt-4 font-display text-xl font-bold">No products match</h3>
               <p className="mt-1 text-sm text-muted-foreground">Try clearing some filters.</p>
-              <Button onClick={() => { setSelectedCats([]); setTagFilter([]); setPrice([0, 1200]); }} className="mt-4 rounded-full">
+              <Button onClick={() => { setSelectedCats([]); setTagFilter([]); setPrice([0, 1200]); }} className="mt-5 rounded-full">
                 Reset filters
               </Button>
             </div>

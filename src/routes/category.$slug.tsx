@@ -70,9 +70,12 @@ function CategoryPage() {
           <ProductRail products={products} />
         ) : (
           <div className="grid place-items-center rounded-3xl border border-dashed border-border bg-card py-24 text-center">
-            <div className="text-5xl">🛒</div>
-            <h3 className="mt-3 font-display text-xl font-bold">More coming soon</h3>
+            <div className="grid h-20 w-20 place-items-center rounded-full bg-muted">
+              <ShoppingBasket className="h-9 w-9 text-muted-foreground" />
+            </div>
+            <h3 className="mt-4 font-display text-xl font-bold">More coming soon</h3>
             <p className="mt-1 text-sm text-muted-foreground">We're stocking this shelf right now.</p>
+            <Button asChild className="mt-5 rounded-full"><Link to="/shop">Browse other categories</Link></Button>
           </div>
         )}
       </div>
